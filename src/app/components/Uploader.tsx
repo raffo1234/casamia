@@ -1,4 +1,4 @@
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import React, { useCallback, useState, type ChangeEvent } from "react";
 import { v4 as uuidv4 } from "uuid";
 import PrimaryButton from "./PrimaryButton";
@@ -48,7 +48,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     const filePath = `${propertyId}/${fileName}`;
 
     try {
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from(bucketName)
         .upload(filePath, file, {
           cacheControl: "3600",
@@ -93,7 +93,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     setError(null);
     setMessage(null);
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
       "image/*": [],

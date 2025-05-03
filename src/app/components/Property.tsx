@@ -1,13 +1,12 @@
-import hero from "@assets/hero.jpg";
-import { useState } from "react";
 import Typologies from "./Typologies";
 import { Icon } from "@iconify/react";
-import { PropertyPhase } from "@types/propertyState";
+import { PropertyPhase } from "@/types/propertyState";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import Like from "./Like";
 import GetInTouch from "./GetInTouch";
 import PropertyImages from "./PropertyImages";
+import Image from "next/image";
 
 type Typology = {
   name: string;
@@ -76,7 +75,13 @@ export default function Property({
             title={company.name}
             className="flex items-center gap-2"
           >
-            <img src={company.logo_url} alt={company.name} className="w-24" />
+            <Image
+              src={company.logo_url}
+              alt={company.name}
+              className="w-24"
+              height="96"
+              width="96"
+            />
             <span>{company.name}</span>
           </a>
           <div className="flex gap-3">
@@ -171,7 +176,7 @@ export default function Property({
             title={company.name}
             className="left-1/2 -translate-x-1/2 absolute top-1/2 -translate-y-1/2 p-3 bg-white"
           >
-            <img src={company.logo_url} alt={company.name} className="h-20" />
+            <Image src={company.logo_url} alt={company.name} className="h-20" />
           </a>
         </div>
         <div className="flex flex-col items-center gap-2">

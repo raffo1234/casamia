@@ -1,6 +1,7 @@
-import DeleteUser from "@components//DeleteUser";
-import EditUser from "@components/EditUser";
+import DeleteUser from "@/components/DeleteUser";
+import EditUser from "@/components/EditUser";
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 type Role = {
   id: string;
@@ -47,7 +48,7 @@ export default function UsersTable({ users }: { users: User[] }) {
               key={id}
               className="border bg-white border-gray-200 hover:bg-gray-50 rounded-2xl p-4"
             >
-              <img
+              <Image
                 src={image_url}
                 className="w-11 h-11 rounded-full mb-3 mx-auto"
                 alt={name}

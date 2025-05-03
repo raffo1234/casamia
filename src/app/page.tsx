@@ -1,4 +1,3 @@
-import Header from "./components/Header";
 import PropertiesList from "./components/PropertiesList";
 import { auth } from "@/lib/auth";
 import { propertyQuery } from "./queries/property";
