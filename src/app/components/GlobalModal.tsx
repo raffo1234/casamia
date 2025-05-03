@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
-import { useGlobalState } from "@lib/globalState";
-import { useEffect, useState } from "react";
+import { useGlobalState } from "@/lib/globalState";
+import { useEffect } from "react";
 
 export default function GlobalModal() {
   const { isModalOpen, modalContent, setModalOpen } = useGlobalState();

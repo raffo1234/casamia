@@ -1,7 +1,7 @@
 import EditPropertyInformation from "./EditPropertyInformation";
 import PropertyTypes from "./PropertyTypologies";
 import { Icon } from "@iconify/react";
-import { useGlobalState } from "@lib/globalState";
+import { useGlobalState } from "@/lib/globalState";
 import Tabs from "./Tabs";
 
 export default function EditProperty({

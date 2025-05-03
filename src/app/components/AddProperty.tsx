@@ -1,13 +1,12 @@
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { mutate } from "swr";
-import { useState } from "react";
 import {
   PropertyCurrency,
   PropertyPhase,
   PropertyState,
   PropertyType,
-} from "@types/propertyState";
+} from "@/types/propertyState";
 import { Icon } from "@iconify/react";
 
 type Inputs = {
@@ -25,19 +24,7 @@ type Inputs = {
   state: string;
 };
 
-interface Property {
-  state: string;
-  title: string;
-  description: string;
-  location: string;
-  password?: string;
-  created_at?: string;
-  user_id: string;
-  image: string;
-}
-
 export default function AddProperty({ userId }: { userId: string }) {
-  const [newPropertyId, setNewPropertyId] = useState("");
   const { reset, register, handleSubmit } = useForm<Inputs>({
     mode: "onBlur",
   });
@@ -51,7 +38,7 @@ export default function AddProperty({ userId }: { userId: string }) {
         .single();
 
       await mutate(createdProperty.id, createdProperty);
-      setNewPropertyId(createdProperty.id);
+
       reset();
       window.location.href = "/admin/property";
     } catch (error) {

@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { mutate } from "swr";
 import { Icon } from "@iconify/react";
 

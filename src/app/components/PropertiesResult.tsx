@@ -5,6 +5,7 @@ import getLastSlashValueFromCurrentUrl from "@/utils/getLastSlashValueFromCurren
 import { PropertyState, PropertyType } from "@/types/propertyState";
 import PropertiesGrid from "./PropertiesGrid";
 import { Icon } from "@iconify/react";
+import Link from "next/link";
 
 const columnsToSearch = [
   "title",
@@ -95,14 +96,14 @@ export default function PropertiesResult({
           />
         </div>
         <h1 className="text-center">Prueba con otra búsqueda diferente.</h1>
-        <a
+        <Link
           href="/"
           title="Ir al Inicio"
           className="text-lg flex items-center gap-2 px-6 pb-4 pt-3 bg-black text-white rounded-full transition-colors duration-700 hover:bg-gray-800 active:bg-gray-900"
         >
           <Icon icon="solar:home-smile-angle-broken" fontSize={24}></Icon>
           <span>Ir al Inicio</span>
-        </a>
+        </Link>
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import useSWR, { mutate } from "swr";
 import { Button, Skeleton } from "antd";
 import { useForm } from "react-hook-form";

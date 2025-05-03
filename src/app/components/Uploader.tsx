@@ -80,6 +80,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       if (onUploadSuccess) {
         onUploadSuccess(publicUrl);
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(`Upload failed: ${err.message}`);
       console.error("Upload Error:", err);
@@ -87,8 +88,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       setUploading(false);
     }
   };
-
-  const onDrop = useCallback((acceptedFiles) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onDrop = useCallback((acceptedFiles: any[]) => {
     setFile(acceptedFiles[0] || null);
     setError(null);
     setMessage(null);

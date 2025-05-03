@@ -1,15 +1,13 @@
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
-import { Skeleton } from "antd";
-import { useState } from "react";
-import EditProperty from "@components/EditProperty";
-import DeleteProperty from "@components/DeleteProperty";
-import { PropertyState, Permissions } from "@types/propertyState";
+import EditProperty from "@/components/EditProperty";
+import DeleteProperty from "@/components/DeleteProperty";
+import { PropertyState, Permissions } from "@/types/propertyState";
 import { Icon } from "@iconify/react";
-import CheckPermission from "@components/CheckPermission";
+import CheckPermission from "@/components/CheckPermission";
 import EditPropertyModal from "./EditPropertyModal";
 import PropertyFirstImage from "./PropertyFirstImage";
-import { getAdminPropertiesUserKey } from "src/constants";
+import { getAdminPropertiesUserKey } from "@/constants";
 
 type Props = {
   id: string;
@@ -64,7 +62,7 @@ const fetcher = async (userId: string) => {
       phase,
       created_at,
       property_image(image_url)
-    `,
+    `
     )
     .eq("user_id", userId)
     .order("created_at", { ascending: false });

@@ -3,9 +3,9 @@ import PropertyItem from "./PropertyItem";
 import PropertiesGrid from "./PropertiesGrid";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { propertyQuery } from "@queries/property";
-import { PropertyState } from "@types/propertyState";
-import { supabase } from "@lib/supabase";
+import { propertyQuery } from "@/queries/property";
+import { PropertyState } from "@/types/propertyState";
+import { supabase } from "@/lib/supabase";
 import InfiniteScrollSentinel from "./InfiniteScrollSentinel";
 
 type Property = {
@@ -27,7 +27,7 @@ const fetcherAllByCompany = async (companyId: string) => {
 const fetcher = async (
   index: number,
   pageSize: number,
-  companyId: string,
+  companyId: string
 ): Promise<Property[]> => {
   const { data, error } = await supabase
     .from("property")
@@ -56,7 +56,7 @@ function Page({
 }) {
   const { data: properties, isLoading } = useSWR(
     `properties-${page}-home`,
-    async () => await fetcher(page, pageSize, companyId),
+    async () => await fetcher(page, pageSize, companyId)
   );
 
   useEffect(() => {
@@ -81,7 +81,7 @@ export default function PropertiesListByCompany({
   const [page, setPage] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const { data: total } = useSWR("total-properties-home-page", () =>
-    fetcherAllByCompany(companyId),
+    fetcherAllByCompany(companyId)
   );
   const totalPages = total ? Math.ceil((total - pageSize) / pageSize) : 0;
   const pages = [];
@@ -95,7 +95,7 @@ export default function PropertiesListByCompany({
         setIsLoadingMore={setIsLoadingMore}
         userEmail={userEmail}
         companyId={companyId}
-      />,
+      />
     );
   }
 

@@ -1,12 +1,12 @@
-import FormSkeleton from "@components/FormSkeleton";
-import { supabase } from "@lib/supabase";
+import FormSkeleton from "@/components/FormSkeleton";
+import { supabase } from "@/lib/supabase";
 import useSWR, { mutate } from "swr";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { message } from "antd";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { Icon } from "@iconify/react";
-import { useGlobalState } from "@lib/globalState";
+import { useGlobalState } from "@/lib/globalState";
 
 async function fetcher(userId: string) {
   const { data, error } = await supabase
@@ -36,9 +36,7 @@ const rolesFetcher = async () => {
 
 export default function EditUser({ userId }: { userId: string }) {
   const { setModalContent, setModalOpen } = useGlobalState();
-  const [isUpdating, setIsUpdating] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const [open, setOpen] = useState(false);
 
   const { data: roles, error, isLoading } = useSWR("admin-roles", rolesFetcher);
 
@@ -63,7 +61,6 @@ export default function EditUser({ userId }: { userId: string }) {
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    setIsUpdating(true);
     try {
       const { data: updatedUser } = await supabase
         .from("user")
@@ -78,7 +75,6 @@ export default function EditUser({ userId }: { userId: string }) {
       console.error(error);
     } finally {
       hideModal();
-      setIsUpdating(false);
     }
   };
 
@@ -179,7 +175,7 @@ export default function EditUser({ userId }: { userId: string }) {
             </form>
           </>
         )}
-      </>,
+      </>
     );
     setModalOpen(true);
   };

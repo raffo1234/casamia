@@ -1,4 +1,4 @@
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { Skeleton } from "antd";
 import hero from "@assets/hero.jpg";
 import useSWR from "swr";

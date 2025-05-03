@@ -1,20 +1,18 @@
 import { useEffect, useMemo } from "react";
-import useSWR, { mutate } from "swr";
-import { supabase } from "@lib/supabase";
+import useSWR from "swr";
+import { supabase } from "@/lib/supabase";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import {
   PropertyCurrency,
   PropertyPhase,
   PropertyState,
   PropertyType,
-} from "@types/propertyState";
+} from "@/types/propertyState";
 import { message } from "antd";
 import FormSkeleton from "./FormSkeleton";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import Uploader from "./Uploader";
 import { Icon } from "@iconify/react";
-import { getAdminPropertiesUserKey } from "src/constants";
+import { getAdminPropertiesUserKey } from "@/constants";
 import PropertyImagesEdition from "./PropertyImagesEdition";
 
 type Inputs = {
@@ -65,7 +63,7 @@ export default function EditPropertyInformation({
 }) {
   const [messageApi, contextHolder] = message.useMessage();
   const { data: companies } = useSWR(`${userId}-companies`, () =>
-    fetcherCompany(userId),
+    fetcherCompany(userId)
   );
   const { data, error, isLoading, mutate } = useSWR(id, () => fetcher(id));
 

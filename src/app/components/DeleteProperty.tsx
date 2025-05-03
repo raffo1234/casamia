@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
-import { supabase } from "@lib/supabase";
-import { getAdminPropertiesUserKey } from "src/constants";
+import { supabase } from "@/lib/supabase";
+import { getAdminPropertiesUserKey } from "@/constants";
 import { mutate } from "swr";
 
 export default function DeleteProperty({
@@ -12,7 +12,7 @@ export default function DeleteProperty({
 }) {
   const onDelete = async (id: string) => {
     const confirmationMessage = confirm(
-      "Esta acción es irreversible. Esta seguro?",
+      "Esta acción es irreversible. Esta seguro?"
     );
     if (!confirmationMessage) return;
 

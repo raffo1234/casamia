@@ -1,5 +1,5 @@
-import { supabase } from "@lib/supabase";
-import { PropertyState } from "@types/propertyState";
+import { supabase } from "@/lib/supabase";
+import { PropertyState } from "@/types/propertyState";
 import { Button, message, Modal } from "antd";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -16,7 +16,7 @@ const fetcher = async (companyId: string) => {
       `
       id,
       title
-    `,
+    `
     )
     .eq("company_id", companyId)
     .eq("state", PropertyState.ACTIVE)
@@ -52,8 +52,8 @@ type Inputs = {
   last_name: string;
   email: string;
   phone: string;
-  dni: number;
-  message: number;
+  dni: string;
+  message: string;
   property_id?: string;
 };
 
@@ -79,13 +79,6 @@ export default function GetInTouch({
         "Hemos recibido tu mensaje correctamente. Gracias por contactarnos.",
     });
   };
-  const error = () => {
-    messageApi.open({
-      type: "error",
-      content:
-        "Lo sentimos, hubo un problema. Por favor, inténtalo de nuevo en unos instantes.",
-    });
-  };
 
   const {
     reset,
@@ -99,7 +92,7 @@ export default function GetInTouch({
 
   const { data: properties = [], isLoading } = useSWR(
     `${companyId || propertyId}-get-in-touch-company`,
-    () => (companyId ? fetcher(companyId) : null),
+    () => (companyId ? fetcher(companyId) : null)
   );
 
   const showModal = () => {

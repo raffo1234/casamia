@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { useGlobalState } from "@lib/globalState";
+import { useGlobalState } from "@/lib/globalState";
 
 export default function GlobalModal() {
   const { isEditModalOpen, editModalContent, setEditModalOpen } =

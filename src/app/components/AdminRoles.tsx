@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Switch } from "antd";
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { Skeleton } from "antd";
 import { useState } from "react";
 import useSWR from "swr";
@@ -39,11 +39,10 @@ export function Permission({
 
   const {
     data: count,
-    error,
     isLoading,
     mutate,
   } = useSWR(`${roleId}-${permission.id}-admin-role-permission`, () =>
-    rolePermissionFetcher(roleId, permission.id),
+    rolePermissionFetcher(roleId, permission.id)
   );
 
   const onChange = async (checked: boolean) => {

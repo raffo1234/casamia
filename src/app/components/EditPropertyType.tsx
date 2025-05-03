@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { PropertyPhase, PropertyState } from "@types/propertyState";
 import { Button, message } from "antd";
 import FormSkeleton from "./FormSkeleton";
 import { format } from "date-fns";

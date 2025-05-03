@@ -1,5 +1,4 @@
-import { Icon } from "@iconify/react";
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
 
 const permissionFetcher = async (slug: string) => {
@@ -35,12 +34,12 @@ export default function CheckPermission({
 }) {
   const { data: permission, isLoading: isLoadingPermission } = useSWR(
     `permission-${requiredPermission}`,
-    () => permissionFetcher(requiredPermission),
+    () => permissionFetcher(requiredPermission)
   );
 
   const { data: permissionsCount, isLoading: isLoadingPermissionsCount } =
     useSWR(`role-permission-${userRoleId}-${permission?.id}`, () =>
-      permission ? rolePermissionFetcher(userRoleId, permission.id) : null,
+      permission ? rolePermissionFetcher(userRoleId, permission.id) : null
     );
 
   if (isLoadingPermission || isLoadingPermissionsCount)

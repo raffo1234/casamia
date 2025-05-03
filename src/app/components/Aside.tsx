@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import { signOut } from "auth-astro/client";
 
 export default function Aside({
   currentPath,
@@ -56,10 +55,7 @@ export default function Aside({
           </ul>
           <ul className="flex flex-col gap-1 text-sm mt-2 pt-2 border-t border-gray-100">
             <li>
-              <button
-                onClick={() => signOut()}
-                className="rounded-xl w-full text-left py-2 px-4 gap-3.5 flex items-center hover:bg-gray-100 hover:text-red-500"
-              >
+              <button className="rounded-xl w-full text-left py-2 px-4 gap-3.5 flex items-center hover:bg-gray-100 hover:text-red-500">
                 <Icon
                   icon="solar:inbox-out-linear"
                   fontSize={17}

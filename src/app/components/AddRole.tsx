@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { mutate } from "swr";

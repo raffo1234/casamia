@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import Property from "./Property";
-import { useGlobalState } from "@lib/globalState";
+import { useGlobalState } from "@/lib/globalState";
 import useSWR from "swr";
-import { PropertyState } from "@types/propertyState";
-import { supabase } from "@lib/supabase";
+import { PropertyState } from "@/types/propertyState";
+import { supabase } from "@/lib/supabase";
 import { Icon } from "@iconify/react";
 
 const fetcher = async (propertyId: string) => {
@@ -45,7 +45,7 @@ const fetcher = async (propertyId: string) => {
         bathroom_count,
         bedroom_count
       )
-    `,
+    `
     )
     .eq("state", PropertyState.ACTIVE)
     .eq("id", propertyId)
@@ -96,7 +96,7 @@ export default function PropertyPreview({
   const { propertyId, hide, isDisplayed } = useGlobalState();
 
   const { data: property } = useSWR(propertyId, () =>
-    propertyId ? fetcher(propertyId) : null,
+    propertyId ? fetcher(propertyId) : null
   );
   const onClose = (event?: React.MouseEvent<HTMLElement>) => {
     if (!isDisplayed) return;

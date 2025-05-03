@@ -1,4 +1,4 @@
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
 import TypologiesGrid from "./TypologiesGrid";
 import { Icon } from "@iconify/react";
@@ -29,7 +29,7 @@ const fetcher = async (propertyId: string) => {
 };
 
 function Typology({ typology }: { typology: Typology }) {
-  const { name, id, size, bedroom_count, bathroom_count, price, floor, stock } =
+  const { name, id, size, bedroom_count, bathroom_count, price, floor } =
     typology;
   return (
     <div key={id}>
@@ -105,7 +105,7 @@ function Typology({ typology }: { typology: Typology }) {
 
 export default function Typologies({ propertyId }: { propertyId: string }) {
   const { data: typologies = [] } = useSWR(`${propertyId}-typologies`, () =>
-    fetcher(propertyId),
+    fetcher(propertyId)
   );
 
   return typologies.length > 0 ? (

@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-interface ImageWithSkeletonProps
-  extends React.ImgHTMLAttributes<HTMLImageElement> {}
-
-const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
-  src,
-  alt,
-  className,
-  onLoad,
-  onError,
-  ...rest
-}) => {
+const ImageWithSkeleton: React.FC<
+  React.ImgHTMLAttributes<HTMLImageElement>
+> = ({ src, alt, className, onLoad, onError, ...rest }) => {
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
 
   const handleImageLoad = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>,
+    event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     setImageLoaded(true);
     if (onLoad) {
@@ -24,7 +16,7 @@ const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
   };
 
   const handleImageError = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>,
+    event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
     setImageError(true);
     setImageLoaded(false);
@@ -50,7 +42,6 @@ const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
           Error
         </div>
       )}
-
       <img
         src={src}
         alt={alt}

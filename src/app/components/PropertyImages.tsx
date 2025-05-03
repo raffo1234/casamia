@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { supabase } from "@lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { Carousel } from "antd";
 import useSWR from "swr";
 
@@ -21,7 +21,7 @@ export default function PropertyImages({
   propertyTitle: string;
 }) {
   const { data: images, isLoading } = useSWR(`${propertyId}-images`, () =>
-    fetcher(propertyId),
+    fetcher(propertyId)
   );
 
   return (
