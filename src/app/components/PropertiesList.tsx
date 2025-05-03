@@ -2,7 +2,6 @@
 
 import Property from "./Property";
 import PropertyItem from "./PropertyItem";
-import PropertiesGrid from "./PropertiesGrid";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { PropertyState } from "@/types/propertyState";
@@ -84,14 +83,11 @@ export default function PropertiesList({
 }: {
   userEmail: string | undefined | null;
 }) {
-  const initPage = 0;
-  const pageSize = 6;
+  const initPage = 1;
+  const pageSize = 4;
   const [page, setPage] = useState(initPage);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const { data: total, isLoading } = useSWR(
-    "total-properties-home-page",
-    fetcherAll
-  );
+  const { data: total } = useSWR("total-properties-home-page", fetcherAll);
   const totalPages = total ? Math.ceil((total - pageSize) / pageSize) : 0;
   const pages = [];
 
@@ -107,19 +103,9 @@ export default function PropertiesList({
     );
   }
 
-  if (isLoading)
-    return (
-      <PropertiesGrid>
-        <div className="bg-gray-100 rounded-xl aspect-5/4"></div>
-        <div className="bg-gray-100 rounded-xl aspect-5/4"></div>
-        <div className="bg-gray-100 rounded-xl aspect-5/4"></div>
-        <div className="bg-gray-100 rounded-xl aspect-5/4"></div>
-      </PropertiesGrid>
-    );
-
   return (
     <>
-      <PropertiesGrid>{pages.map((page) => page)}</PropertiesGrid>
+      {pages.map((page) => page)}
       {!isLoadingMore && page <= totalPages ? (
         <InfiniteScrollSentinel
           onElementVisible={() => setPage((prev) => prev + 1)}

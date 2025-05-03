@@ -1,12 +1,27 @@
 import Header from "./components/Header";
 import PropertiesList from "./components/PropertiesList";
+import { auth } from "@/lib/auth";
+import { propertyQuery } from "./queries/property";
+import { PropertyState } from "./types/propertyState";
+import { supabase } from "./lib/supabase";
+import PropertiesGrid from "./components/PropertiesGrid";
+import PropertyItem from "./components/PropertyItem";
+import SearchForm from "./components/SearchForm";
+import HightLightSelect from "./components/HighLightSelect";
 
-const userEmail = "rhmcord@gmail.com";
+export default async function Index() {
+  const session = await auth();
+  const userEmail = session?.user?.email;
 
-export default function Home() {
+  const { data: properties } = await supabase
+    .from("property")
+    .select(propertyQuery)
+    .eq("state", PropertyState.ACTIVE)
+    .order("created_at", { ascending: false })
+    .limit(4);
+
   return (
     <>
-      <Header />
       <h2
         style={{
           fontSize: "clamp(16px, 6vw + .5rem, 50px)",
@@ -15,7 +30,20 @@ export default function Home() {
       >
         Encuentra tu próximo <br /> hogar
       </h2>
-      <PropertiesList userEmail={userEmail} />
+      <SearchForm />
+      <HightLightSelect />
+      <PropertiesGrid>
+        {properties?.map((property) => {
+          return (
+            <PropertyItem
+              key={property.id}
+              userEmail={userEmail}
+              property={property}
+            />
+          );
+        })}
+        <PropertiesList userEmail={userEmail} />
+      </PropertiesGrid>
     </>
   );
 }

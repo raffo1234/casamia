@@ -1,13 +1,16 @@
+"use client";
+
 import Property from "./Property";
 import PropertyItem from "./PropertyItem";
 import PropertiesGrid from "./PropertiesGrid";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { favoriteQuery } from "@queries/property";
-import { supabase } from "@lib/supabase";
-import { PropertyState } from "@types/propertyState";
+import { favoriteQuery } from "@/queries/property";
+import { supabase } from "@/lib/supabase";
+import { PropertyState } from "@/types/propertyState";
 import InfiniteScrollSentinel from "./InfiniteScrollSentinel";
+import Link from "next/link";
 
 type Property = {
   id: string;
@@ -40,7 +43,7 @@ const fetcherAllFavorites = async (userId: string) => {
 const fetcher = async (
   index: number,
   pageSize: number,
-  userId: string,
+  userId: string
 ): Promise<Property[]> => {
   const { data, error } = await supabase
     .from("like")
@@ -69,12 +72,12 @@ function Page({
 }) {
   const { data: likes, isLoading } = useSWR(
     `properties-${page}-favorites`,
-    async () => await fetcher(page, pageSize, userId),
+    async () => await fetcher(page, pageSize, userId)
   );
 
   useEffect(() => {
     setIsLoadingMore(isLoading);
-  }, [likes?.length]);
+  }, [likes?.length, isLoading, setIsLoadingMore]);
 
   return likes?.map(({ property }) => (
     <PropertyItem key={property.id} userEmail={userEmail} property={property} />
@@ -90,16 +93,17 @@ export default function PropertiesFavorite({
   userId: string;
   likes: { property: Property[] }[];
 }) {
+  const initPage = 1;
   const pageSize = 4;
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initPage);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const { data: total } = useSWR("total-properties-favorites-page", () =>
-    fetcherAllFavorites(userId),
+    fetcherAllFavorites(userId)
   );
   const totalPages = total ? Math.ceil((total - pageSize) / pageSize) : 0;
   const pages = [];
 
-  for (let i = 1; i < page; i++) {
+  for (let i = initPage; i < page; i++) {
     pages.push(
       <Page
         key={i}
@@ -108,7 +112,7 @@ export default function PropertiesFavorite({
         setIsLoadingMore={setIsLoadingMore}
         userEmail={userEmail}
         userId={userId}
-      />,
+      />
     );
   }
 
@@ -116,23 +120,20 @@ export default function PropertiesFavorite({
     return (
       <div className="max-w-md mx-auto items-center flex flex-col gap-10">
         <div className="flex justify-center w-[300px] rounded-full items-center mx-auto bg-cyan-500 aspect-square bg-opacity-5">
-          <Icon
-            icon="solar:gallery-favourite-bold"
-            className="text-[200px] text-cyan-500"
-          />
+          <Icon icon="solar:home-smile-bold" className="text-3xl text-white" />
         </div>
         <h1 className="text-center">
           Tu próxima propiedad ideal podría estar esperándote. Explora nuestra
           selección y guarda las que capturen tu interés.
         </h1>
-        <a
+        <Link
           href="/"
           title="Ir al Inicio"
           className="text-lg flex items-center gap-2 px-6 pb-4 pt-3 bg-black text-white rounded-full transition-colors duration-700 hover:bg-gray-800 active:bg-gray-900"
         >
           <Icon icon="solar:home-smile-angle-broken" fontSize={24}></Icon>
           <span>Ir al Inicio</span>
-        </a>
+        </Link>
       </div>
     );
   }

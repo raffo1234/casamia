@@ -5,7 +5,7 @@ import { signIn, signOut, auth } from "@/lib/auth";
 
 export default async function ProfilePopover() {
   const session = await auth();
-  console.log(session);
+
   return (
     <>
       {session ? (
@@ -31,7 +31,9 @@ export default async function ProfilePopover() {
                       src={session.user.image}
                       className="rounded-full object-cover w-full h-full"
                       alt={session.user.name}
-                      layout="fill"
+                      width={48}
+                      height={48}
+                      sizes="48"
                     />
                   ) : null}
                   <div className="w-3 h-3 absolute top-9 right-0 rounded-full bg-green-400 border-2 border-white" />
@@ -60,13 +62,13 @@ export default async function ProfilePopover() {
                 </a>
               </li>
               <li>
-                <a
+                <Link
                   href="/admin/property"
                   className="flex gap-3.5 items-center py-2 px-6 hover:bg-gray-50"
                 >
                   <Icon icon="solar:settings-minimalistic-broken" />
                   <span>Admin</span>
-                </a>
+                </Link>
               </li>
               <li className="border-t border-gray-100">
                 <form

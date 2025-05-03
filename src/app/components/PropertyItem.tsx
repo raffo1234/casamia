@@ -1,10 +1,12 @@
+"use client";
+
 import Like from "./Like";
 import { useGlobalState } from "@/lib/globalState";
 import PropertyFirstImage from "./PropertyFirstImage";
 import Image from "next/image";
 import Link from "next/link";
 
-interface Property {
+type Property = {
   id: string;
   title: string;
   user_id: string;
@@ -23,7 +25,7 @@ interface Property {
     id: string;
     image_url: string;
   }[];
-}
+};
 
 export default function PropertyItem({
   userEmail,

@@ -1,5 +1,7 @@
+"use client";
+
 import { Icon } from "@iconify/react";
-import { PropertyType } from "@types/propertyState";
+import { PropertyType } from "@/types/propertyState";
 import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
@@ -16,7 +18,7 @@ export default function SearchForm({
   const [isOpen, setIsOpen] = useState(false);
   const [typeInput, setTypeInput] = useState<string>(
     (pathnameArray?.at(0)?.toUpperCase() as PropertyType) ||
-      PropertyType.APARTMENT,
+      PropertyType.APARTMENT
   );
   const { register, reset, handleSubmit } = useForm<Inputs>();
 

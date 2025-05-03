@@ -11,7 +11,7 @@ export default function Header() {
           title="Inicio | Inmobiliaria"
           className="flex items-center gap-2 text-sm font-semibold uppercase"
         >
-          <span className="p-2 rounded-xl bg-cyan-500 block">
+          <span className="p-2 rounded-xl bg-cyan-500 block w-[46px] h-[46px]">
             <Icon
               icon="solar:home-smile-bold"
               className="text-3xl text-white"
