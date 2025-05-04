@@ -9,7 +9,7 @@ export default async function ProfilePopover() {
   return (
     <>
       {session ? (
-        <div className="flex items-center gap-4 relative group z-30">
+        <div className="flex items-center gap-4 relative group z-30 dropdown-parent">
           <button type="button" className="relative">
             {session?.user?.image ? (
               <Image
@@ -22,7 +22,7 @@ export default async function ProfilePopover() {
             ) : null}
             <div className="w-3 h-3 absolute top-9 right-0 rounded-full bg-green-400 border-2 border-white" />
           </button>
-          <div className="opacity-0 pt-2 invisible translate-y-2 group-hover:translate-y-0 group-hover:visible group-hover:opacity-100 transition-all duration-500 ease-in-out absolute top-full -right-3">
+          <div className="dropdown-child opacity-0 pt-2 transition-all duration-300 invisible translate-y-2 group-hover:translate-y-0 group-hover:visible group-hover:opacity-100 absolute top-full -right-3">
             <ul className="bg-white shadow-lg rounded-lg w-[300px] border border-gray-100">
               <li className="py-6 text-center">
                 <div className="relative w-12 h-12 mb-4 mx-auto">
