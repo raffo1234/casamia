@@ -1,3 +1,5 @@
+"use client";
+
 import { supabase } from "@/lib/supabase";
 import { PropertyState } from "@/types/propertyState";
 import { Button, message, Modal } from "antd";

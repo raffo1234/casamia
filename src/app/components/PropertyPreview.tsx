@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import Property from "./Property";
 import { useGlobalState } from "@/lib/globalState";
@@ -93,7 +95,7 @@ export default function PropertyPreview({
   userEmail,
 }: {
   currentHref: string;
-  userEmail: string;
+  userEmail: string | undefined | null;
 }) {
   const { propertyId, hide, isDisplayed } = useGlobalState();
 

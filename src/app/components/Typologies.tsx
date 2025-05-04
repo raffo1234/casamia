@@ -1,8 +1,9 @@
+"use client";
+
 import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
 import TypologiesGrid from "./TypologiesGrid";
 import { Icon } from "@iconify/react";
-import hero from "@assets/hero.jpg";
 import { Button } from "antd";
 
 type Typology = {
@@ -36,7 +37,7 @@ function Typology({ typology }: { typology: Typology }) {
       <div className="relative mb-4">
         <button className="relative group block">
           <img
-            src={hero.src}
+            src="/"
             className="block w-full aspect-[4/3] object-cover rounded-lg z-10 relative"
             alt={name}
           />

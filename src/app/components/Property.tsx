@@ -175,7 +175,13 @@ export default function Property({
             title={company.name}
             className="left-1/2 -translate-x-1/2 absolute top-1/2 -translate-y-1/2 p-3 bg-white"
           >
-            <Image src={company.logo_url} alt={company.name} className="h-20" />
+            <Image
+              src={company.logo_url}
+              alt={company.name}
+              width={80}
+              height={80}
+              className="h-20"
+            />
           </a>
         </div>
         <div className="flex flex-col items-center gap-2">
