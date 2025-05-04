@@ -3,11 +3,13 @@ export const propertyQuery = `
   title,
   user_id,
   property_image (
+    id,
     image_url
   ),
   user!property_user_id_fkey (
     id,
     name,
+    email,
     image_url
   ),
   company!property_company_id_fkey (
@@ -23,11 +25,13 @@ export const favoriteQuery = `
     title,
     user_id,
     property_image (
+      id,
       image_url
     ),
     user!property_user_id_fkey (
       id,
       name,
+      email,
       image_url
     ),
     company!property_company_id_fkey (

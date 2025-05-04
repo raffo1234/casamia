@@ -36,7 +36,7 @@ export const useGlobalState = create<GlobalState>((set) => ({
   isModalOpen: false,
   setModalOpen: (isOpen: boolean) => set(() => ({ isModalOpen: isOpen })),
 
-  editPropertyId: null,
+  editPropertyId: "",
   setEditPropertyId: (editPropertyId: string) =>
     set(() => ({ editPropertyId })),
   editModalContent: null,

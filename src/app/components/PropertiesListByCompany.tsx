@@ -1,4 +1,3 @@
-import Property from "./Property";
 import PropertyItem from "./PropertyItem";
 import PropertiesGrid from "./PropertiesGrid";
 import { useEffect, useState } from "react";
@@ -7,12 +6,7 @@ import { propertyQuery } from "@/queries/property";
 import { PropertyState } from "@/types/propertyState";
 import { supabase } from "@/lib/supabase";
 import InfiniteScrollSentinel from "./InfiniteScrollSentinel";
-
-type Property = {
-  id: string;
-  title: string;
-  description: string;
-};
+import { PropertyType } from "@/types/propertyType";
 
 const fetcherAllByCompany = async (companyId: string) => {
   const { count, error } = await supabase
@@ -24,20 +18,17 @@ const fetcherAllByCompany = async (companyId: string) => {
   return count;
 };
 
-const fetcher = async (
-  index: number,
-  pageSize: number,
-  companyId: string
-): Promise<Property[]> => {
-  const { data, error } = await supabase
+const fetcher = async (index: number, pageSize: number, companyId: string) => {
+  const { data } = (await supabase
     .from("property")
     .select(propertyQuery)
     .eq("company_id", companyId)
     .eq("state", PropertyState.ACTIVE)
     .order("created_at", { ascending: false })
-    .range(index * pageSize, index * pageSize + pageSize - 1);
+    .range(index * pageSize, index * pageSize + pageSize - 1)) as {
+    data: PropertyType[] | null;
+  };
 
-  if (error) throw error;
   return data;
 };
 
@@ -74,7 +65,7 @@ export default function PropertiesListByCompany({
   companyId,
 }: {
   userEmail: string | null | undefined;
-  properties: Property[];
+  properties: PropertyType[];
   companyId: string;
 }) {
   const pageSize = 4;
@@ -108,7 +99,6 @@ export default function PropertiesListByCompany({
               key={property.id}
               userEmail={userEmail}
               property={property}
-              isLoading={false}
             />
           );
         })}

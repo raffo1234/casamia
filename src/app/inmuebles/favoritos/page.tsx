@@ -4,6 +4,7 @@ import { auth, signIn } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { favoriteQuery } from "@/queries/property";
 import { PropertyState } from "@/types/propertyState";
+import { PropertyType } from "@/types/propertyType";
 import { Icon } from "@iconify/react";
 
 export default async function Page() {
@@ -18,13 +19,15 @@ export default async function Page() {
 
   const userId = user?.id;
 
-  const { data: likes } = await supabase
+  const { data: likes } = (await supabase
     .from("like")
     .select(favoriteQuery)
     .eq("property.state", PropertyState.ACTIVE)
     .eq("user_id", userId)
     .order("created_at", { ascending: false })
-    .limit(4);
+    .limit(4)) as {
+    data: { property: PropertyType }[] | null;
+  };
 
   return (
     <>

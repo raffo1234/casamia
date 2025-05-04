@@ -1,7 +1,7 @@
 import type { FormEvent } from "react";
 import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
-import FormSkeleton from "@components/FormSkeleton";
+import FormSkeleton from "@/components/FormSkeleton";
 
 interface User {
   id?: string;

@@ -22,7 +22,6 @@ type Company = {
   id: string;
   name: string;
   logo_url: string;
-  image_url: string;
 };
 
 type Property = {
@@ -45,7 +44,7 @@ export default function Property({
   property,
   userEmail,
 }: {
-  property: Property | undefined;
+  property: Property | null | undefined;
   userEmail: string | undefined | null;
 }) {
   if (!property) return null;

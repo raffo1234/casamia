@@ -1,6 +1,5 @@
 "use client";
 
-import Property from "./Property";
 import PropertyItem from "./PropertyItem";
 import PropertiesGrid from "./PropertiesGrid";
 import { Icon } from "@iconify/react";
@@ -11,24 +10,7 @@ import { supabase } from "@/lib/supabase";
 import { PropertyState } from "@/types/propertyState";
 import InfiniteScrollSentinel from "./InfiniteScrollSentinel";
 import Link from "next/link";
-
-type Property = {
-  id: string;
-  title: string;
-  user_id: string;
-  company: {
-    id: string;
-    name: string;
-  };
-  user: {
-    id: string;
-    name: string;
-    image_url: string;
-  };
-  property_image: {
-    image_url: string;
-  }[];
-};
+import type { PropertyType } from "@/types/propertyType";
 
 const fetcherAllFavorites = async (userId: string) => {
   const { count, error } = await supabase
@@ -40,20 +22,17 @@ const fetcherAllFavorites = async (userId: string) => {
   return count;
 };
 
-const fetcher = async (
-  index: number,
-  pageSize: number,
-  userId: string
-): Promise<Property[]> => {
-  const { data, error } = await supabase
+const fetcher = async (index: number, pageSize: number, userId: string) => {
+  const { data } = (await supabase
     .from("like")
     .select(favoriteQuery)
     .eq("property.state", PropertyState.ACTIVE)
     .eq("user_id", userId)
     .order("created_at", { ascending: false })
-    .range(index * pageSize, index * pageSize + pageSize - 1);
+    .range(index * pageSize, index * pageSize + pageSize - 1)) as {
+    data: { property: PropertyType }[] | null;
+  };
 
-  if (error) throw error;
   return data;
 };
 
@@ -79,9 +58,15 @@ function Page({
     setIsLoadingMore(isLoading);
   }, [likes?.length, isLoading, setIsLoadingMore]);
 
-  return likes?.map(({ property }) => (
-    <PropertyItem key={property.id} userEmail={userEmail} property={property} />
-  ));
+  return likes?.map(({ property }) => {
+    return (
+      <PropertyItem
+        key={property.id}
+        userEmail={userEmail}
+        property={property}
+      />
+    );
+  });
 }
 
 export default function PropertiesFavorite({
@@ -91,7 +76,7 @@ export default function PropertiesFavorite({
 }: {
   userEmail: string;
   userId: string;
-  likes: { property: Property[] }[];
+  likes: { property: PropertyType }[] | null;
 }) {
   const initPage = 1;
   const pageSize = 4;

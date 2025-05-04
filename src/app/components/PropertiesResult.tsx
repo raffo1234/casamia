@@ -6,6 +6,7 @@ import { PropertyState, PropertyType } from "@/types/propertyState";
 import PropertiesGrid from "./PropertiesGrid";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { PropertyType as PropertyTypeDb } from "@/types/propertyType";
 
 const columnsToSearch = [
   "title",
@@ -52,24 +53,23 @@ const fetcher = async (searchTerms: string, pathnameArray: string[]) => {
     (pathnameArray?.at(0)?.toUpperCase() as PropertyType) ||
     PropertyType.APARTMENT;
 
-  const { data, error } = searchTerms
-    ? await supabase
+  const { data } = searchTerms
+    ? ((await supabase
         .from("property")
         .select(query)
         .eq("state", PropertyState.ACTIVE)
         .eq("type", propertyType)
         .or(orConditions)
         .order("created_at", { ascending: false })
-        .limit(4)
-    : await supabase
+        .limit(4)) as { data: PropertyTypeDb[] | null })
+    : ((await supabase
         .from("property")
         .select(query)
         .eq("type", propertyType)
         .eq("state", PropertyState.ACTIVE)
         .order("created_at", { ascending: false })
-        .limit(4);
+        .limit(4)) as { data: PropertyTypeDb[] | null });
 
-  if (error) throw error;
   return data;
 };
 

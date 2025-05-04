@@ -1,6 +1,5 @@
 "use client";
 
-import Property from "./Property";
 import PropertyItem from "./PropertyItem";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -8,26 +7,7 @@ import { PropertyState } from "@/types/propertyState";
 import useSWR from "swr";
 import InfiniteScrollSentinel from "./InfiniteScrollSentinel";
 import { propertyQuery } from "@/queries/property";
-
-interface Property {
-  id: string;
-  title: string;
-  user_id: string;
-  company: {
-    id: string;
-    name: string;
-    logo_url: string;
-  };
-  user?: {
-    id: string;
-    email: string;
-    name: string;
-    image_url: string;
-  };
-  property_image?: {
-    image_url: string;
-  }[];
-}
+import { PropertyType } from "@/types/propertyType";
 
 const fetcherAll = async () => {
   const { count, error } = await supabase
@@ -38,18 +18,16 @@ const fetcherAll = async () => {
   return count;
 };
 
-const fetcher = async (
-  index: number,
-  pageSize: number
-): Promise<Property[]> => {
-  const { data, error } = await supabase
+const fetcher = async (index: number, pageSize: number) => {
+  const { data } = (await supabase
     .from("property")
     .select(propertyQuery)
     .eq("state", PropertyState.ACTIVE)
     .order("created_at", { ascending: false })
-    .range(index * pageSize, index * pageSize + pageSize - 1);
+    .range(index * pageSize, index * pageSize + pageSize - 1)) as {
+    data: PropertyType[] | null;
+  };
 
-  if (error) throw error;
   return data;
 };
 

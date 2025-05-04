@@ -7,17 +7,18 @@ import PropertiesGrid from "./components/PropertiesGrid";
 import PropertyItem from "./components/PropertyItem";
 import SearchForm from "./components/SearchForm";
 import HightLightSelect from "./components/HighLightSelect";
+import { PropertyType } from "./types/propertyType";
 
 export default async function Index() {
   const session = await auth();
   const userEmail = session?.user?.email;
 
-  const { data: properties } = await supabase
+  const { data: properties } = (await supabase
     .from("property")
     .select(propertyQuery)
     .eq("state", PropertyState.ACTIVE)
     .order("created_at", { ascending: false })
-    .limit(4);
+    .limit(4)) as { data: PropertyType[] | null };
 
   return (
     <>

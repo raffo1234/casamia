@@ -5,33 +5,13 @@ import { useGlobalState } from "@/lib/globalState";
 import PropertyFirstImage from "./PropertyFirstImage";
 import Image from "next/image";
 import Link from "next/link";
-
-type Property = {
-  id: string;
-  title: string;
-  user_id: string;
-  company: {
-    id: string;
-    name: string;
-    logo_url: string;
-  };
-  user?: {
-    id: string;
-    email: string;
-    name: string;
-    image_url: string;
-  };
-  property_image?: {
-    id: string;
-    image_url: string;
-  }[];
-};
+import { PropertyType } from "@/types/propertyType";
 
 export default function PropertyItem({
-  userEmail,
   property,
+  userEmail,
 }: {
-  property: Property;
+  property: PropertyType;
   userEmail: string | undefined | null;
 }) {
   const { id, title, company } = property;
