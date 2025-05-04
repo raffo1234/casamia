@@ -7,44 +7,13 @@ import Like from "./Like";
 import GetInTouch from "./GetInTouch";
 import PropertyImages from "./PropertyImages";
 import Image from "next/image";
-
-type Typology = {
-  name: string;
-  description: string;
-  price: string;
-  size: string;
-  stock: string;
-  bathroom_count: string;
-  bedroom_count: string;
-};
-
-type Company = {
-  id: string;
-  name: string;
-  logo_url: string;
-};
-
-type Property = {
-  id: string;
-  title: string;
-  description: string;
-  price: string;
-  bathroom_count: string;
-  bedroom_count: string;
-  state: string;
-  size: string;
-  typologies?: Typology[];
-  delivery_at: string;
-  phase: string;
-  company: Company;
-  location: string;
-};
+import { PropertyType } from "@/types/propertyType";
 
 export default function Property({
   property,
   userEmail,
 }: {
-  property: Property | null | undefined;
+  property: PropertyType | null | undefined;
   userEmail: string | undefined | null;
 }) {
   if (!property) return null;
@@ -69,28 +38,32 @@ export default function Property({
           {location ? <p className="text-sm">{location}</p> : null}
         </div>
         <div className="flex items-center gap-3 w-full justify-between mb-4">
-          <a
-            href={`/empresa/${company.id}`}
-            title={company.name}
-            className="flex items-center gap-2"
-          >
-            <Image
-              src={company.logo_url}
-              alt={company.name}
-              className="w-24"
-              height="96"
-              width="96"
-            />
-            <span>{company.name}</span>
-          </a>
+          {company ? (
+            <a
+              href={`/empresa/${company.id}`}
+              title={company.name}
+              className="flex items-center gap-2"
+            >
+              <Image
+                src={company.logo_url}
+                alt={company.name}
+                className="w-24"
+                height="96"
+                width="96"
+              />
+              <span>{company.name}</span>
+            </a>
+          ) : null}
           <div className="flex gap-3">
             <Like propertyId={id} userEmail={userEmail} />
-            <GetInTouch
-              propertyId={id}
-              companyName={company.name}
-              companyLogo={company.logo_url}
-              propertyTitle={property.title}
-            />
+            {company ? (
+              <GetInTouch
+                propertyId={id}
+                companyName={company.name}
+                companyLogo={company.logo_url}
+                propertyTitle={property.title}
+              />
+            ) : null}
           </div>
         </div>
         <div className="lg:flex items-start gap-3">
@@ -119,9 +92,10 @@ export default function Property({
                 <div className="text-sm">
                   <span className="text-xs">Entrega:</span>{" "}
                   <span className="font-semibold">
-                    {format(new Date(delivery_at), "dd MMMM, yyyy", {
-                      locale: es,
-                    })}
+                    {delivery_at &&
+                      format(new Date(delivery_at), "dd MMMM, yyyy", {
+                        locale: es,
+                      })}
                   </span>
                 </div>
               ) : null}
@@ -168,35 +142,39 @@ export default function Property({
         </>
       ) : null}
       <div className="py-20">
-        <div className="relative w-full py-12">
-          <div className="absolute top-1/2 -translate-y-1/2 w-full h-[2px] bg-gray-100" />
-          <a
-            href={`/empresa/${company.id}`}
-            title={company.name}
-            className="left-1/2 -translate-x-1/2 absolute top-1/2 -translate-y-1/2 p-3 bg-white"
-          >
-            <Image
-              src={company.logo_url}
-              alt={company.name}
-              width={80}
-              height={80}
-              className="h-20"
-            />
-          </a>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <a href={`/empresa/${company.id}`} title={company.name}>
-            {company.name}
-          </a>
-          <div>
-            <GetInTouch
-              propertyId={id}
-              companyName={company.name}
-              companyLogo={company.logo_url}
-              propertyTitle={property.title}
-            />
-          </div>
-        </div>
+        {company ? (
+          <>
+            <div className="relative w-full py-12">
+              <div className="absolute top-1/2 -translate-y-1/2 w-full h-[2px] bg-gray-100" />
+              <a
+                href={`/empresa/${company.id}`}
+                title={company.name}
+                className="left-1/2 -translate-x-1/2 absolute top-1/2 -translate-y-1/2 p-3 bg-white"
+              >
+                <Image
+                  src={company.logo_url}
+                  alt={company.name}
+                  width={80}
+                  height={80}
+                  className="h-20"
+                />
+              </a>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <a href={`/empresa/${company.id}`} title={company.name}>
+                {company.name}
+              </a>
+              <div>
+                <GetInTouch
+                  propertyId={id}
+                  companyName={company.name}
+                  companyLogo={company.logo_url}
+                  propertyTitle={property.title}
+                />
+              </div>
+            </div>
+          </>
+        ) : null}
       </div>
       <Typologies propertyId={property.id} />
     </>

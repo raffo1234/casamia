@@ -10,14 +10,19 @@ export default async function ProfilePopover() {
     <>
       {session ? (
         <div className="flex items-center gap-4 relative group z-30 dropdown-parent">
-          <button type="button" className="relative">
+          <button
+            type="button"
+            className="relative w-12 h-12 bg-gray-100 rounded-full"
+          >
             {session?.user?.image ? (
               <Image
                 src={session.user.image}
                 className="w-12 h-12 rounded-full object-cover"
                 width={48}
-                alt="Profile"
                 height={48}
+                alt={session.user.image}
+                priority={false}
+                quality={70}
               />
             ) : null}
             <div className="w-3 h-3 absolute top-9 right-0 rounded-full bg-green-400 border-2 border-white" />
@@ -33,7 +38,7 @@ export default async function ProfilePopover() {
                       alt={session.user.name}
                       width={48}
                       height={48}
-                      sizes="48"
+                      priority={false}
                     />
                   ) : null}
                   <div className="w-3 h-3 absolute top-9 right-0 rounded-full bg-green-400 border-2 border-white" />
@@ -52,14 +57,14 @@ export default async function ProfilePopover() {
                 </Link>
               </li>
               <li>
-                <a
-                  title="Favoritos"
+                <Link
                   href="/inmuebles/favoritos"
+                  title="Favoritos"
                   className="flex items-center gap-3.5 py-2 px-6 hover:bg-gray-50"
                 >
                   <Icon icon="solar:clipboard-heart-broken" />
                   <span>Favoritos</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <Link

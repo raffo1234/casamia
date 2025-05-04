@@ -1,7 +1,10 @@
+"use client";
+
 import { Icon } from "@iconify/react";
 import { supabase } from "@/lib/supabase";
 import { Carousel } from "antd";
 import useSWR from "swr";
+import Image from "next/image";
 
 const fetcher = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -27,12 +30,15 @@ export default function PropertyImages({
   return (
     <div className="relative w-full aspect-[5/4]">
       {images?.length === 1 ? (
-        <img
+        <Image
           src={images[0].image_url}
           alt={propertyTitle}
           title={propertyTitle}
           loading="lazy"
           className="w-full aspect-[5/4] object-cover rounded-lg"
+          priority={false}
+          quality={70}
+          fill
         />
       ) : (
         <Carousel

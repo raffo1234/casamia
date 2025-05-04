@@ -55,20 +55,22 @@ export default function PropertyItem({
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <Link
-          href={`/empresa/${company.id}`}
-          title={company.name}
-          className="flex-shrink-0"
-        >
-          <Image
-            src={company.logo_url}
-            className="w-8 h-8 object-cover rounded-full bg-gray-100"
-            alt={company.name}
+        {company ? (
+          <Link
+            href={`/empresa/${company.id}`}
             title={company.name}
-            width={32}
-            height={32}
-          />
-        </Link>
+            className="flex-shrink-0"
+          >
+            <Image
+              src={company.logo_url}
+              className="w-8 h-8 object-cover rounded-full bg-gray-100"
+              alt={company.name}
+              title={company.name}
+              width={32}
+              height={32}
+            />
+          </Link>
+        ) : null}
         <div className="flex items-center justify-between w-full gap-4">
           <h2>
             <a

@@ -7,39 +7,7 @@ import useSWR from "swr";
 import { PropertyState } from "@/types/propertyState";
 import { supabase } from "@/lib/supabase";
 import { Icon } from "@iconify/react";
-
-interface Property {
-  id: string;
-  title: string;
-  description: string;
-  price: string;
-  bathroom_count: string;
-  bedroom_count: string;
-  state: string;
-  size: string;
-  delivery_at: string;
-  phase: string;
-  location: string;
-  like?: {
-    user_id: string;
-  }[];
-  user_id?: string;
-  user?: {
-    id: string;
-    email: string;
-    name: string;
-    image_url: string;
-  };
-  company: {
-    id: string;
-    name: string;
-    logo_url: string;
-  };
-  typology: {
-    id: string;
-    name: string;
-  };
-}
+import { PropertyType } from "@/types/propertyType";
 
 const fetcher = async (propertyId: string) => {
   const { data } = (await supabase
@@ -85,7 +53,7 @@ const fetcher = async (propertyId: string) => {
     .eq("state", PropertyState.ACTIVE)
     .eq("id", propertyId)
     .order("created_at", { ascending: false })
-    .single()) as { data: Property | null };
+    .single()) as { data: PropertyType | null };
 
   return data;
 };
