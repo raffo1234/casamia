@@ -1,3 +1,5 @@
+"use client";
+
 import PropertyItem from "./PropertyItem";
 import PropertiesGrid from "./PropertiesGrid";
 import { useEffect, useState } from "react";
@@ -65,7 +67,7 @@ export default function PropertiesListByCompany({
   companyId,
 }: {
   userEmail: string | null | undefined;
-  properties: PropertyType[];
+  properties: PropertyType[] | null;
   companyId: string;
 }) {
   const pageSize = 4;
@@ -93,7 +95,7 @@ export default function PropertiesListByCompany({
   return (
     <>
       <PropertiesGrid>
-        {properties.map((property) => {
+        {properties?.map((property) => {
           return (
             <PropertyItem
               key={property.id}

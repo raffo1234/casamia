@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 
 export default function InfiniteScrollSentinel({
@@ -26,7 +28,7 @@ export default function InfiniteScrollSentinel({
         root: null,
         rootMargin: "0px",
         threshold: 1.0,
-      },
+      }
     );
 
     observer.observe(sentinelRef.current);
