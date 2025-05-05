@@ -1,3 +1,5 @@
+"use client";
+
 import { Fragment, useState } from "react";
 
 export default function Tabs({

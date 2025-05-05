@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon } from "@iconify/react";
 import { useGlobalState } from "@/lib/globalState";
 import { useEffect } from "react";

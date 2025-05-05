@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";

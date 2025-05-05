@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo } from "react";
 import useSWR from "swr";
 import { supabase } from "@/lib/supabase";

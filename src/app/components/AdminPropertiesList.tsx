@@ -1,3 +1,5 @@
+"use client";
+
 import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
 import EditProperty from "@/components/EditProperty";

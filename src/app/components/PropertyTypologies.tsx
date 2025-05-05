@@ -1,6 +1,8 @@
+"use client";
+
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "antd";
-import hero from "@assets/hero.jpg";
+// import hero from "@assets/hero.jpg";
 import useSWR from "swr";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
@@ -72,11 +74,11 @@ export default function PropertyTypologies({
               return (
                 <div key={id}>
                   <div className="relative">
-                    <img
+                    {/* <img
                       src={hero.src}
                       className="w-full h-[260px] object-cover object-top rounded-lg mb-4 z-10 relative"
                       alt={name}
-                    />
+                    /> */}
                     <div className="flex gap-1 item-center absolute left-0 bottom-0 w-full z-20 text-white p-2">
                       <button>A</button>
                       <DeletePropertyType propertyId={propertyId} id={id} />
