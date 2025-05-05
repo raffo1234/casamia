@@ -2,7 +2,7 @@
 
 import FormSkeleton from "@/components/FormSkeleton";
 import { supabase } from "@/lib/supabase";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { useEffect, useMemo } from "react";
 import { message } from "antd";
 import { useForm } from "react-hook-form";

@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon } from "@iconify/react";
 import { supabase } from "@/lib/supabase";
 import { useState } from "react";

@@ -16,7 +16,7 @@ export default function PropertyImagesEdition({
         gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
       }}
     >
-      {propertyImages.map(({ image_url }) => {
+      {propertyImages?.map(({ image_url }) => {
         return (
           <div key={image_url}>
             <img
