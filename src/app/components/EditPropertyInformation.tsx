@@ -1,9 +1,10 @@
 "use client";
 
+import { NumericFormat } from "react-number-format";
 import { useEffect } from "react";
 import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import {
   PropertyCurrency,
   PropertyPhase,
@@ -18,6 +19,7 @@ import { getAdminPropertiesUserKey } from "@/constants";
 import PropertyImagesEdition from "./PropertyImagesEdition";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { createNumberMask } from "text-mask-addons";
 
 type Inputs = {
   title: string;
@@ -75,7 +77,7 @@ export default function EditPropertyInformation({
     isLoading,
     mutate: mutateProperty,
   } = useSWR(id, () => fetcher(id));
-  const { reset, register, handleSubmit } = useForm<Inputs>({
+  const { reset, register, handleSubmit, control } = useForm<Inputs>({
     mode: "onBlur",
   });
 
@@ -88,7 +90,6 @@ export default function EditPropertyInformation({
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { property_image, ...rest } = data;
-
     try {
       await supabase
         .from("property")
@@ -535,27 +536,43 @@ export default function EditPropertyInformation({
               <h2 className="font-semibold">Detalles</h2>
               <div className="flex gap-5 items-center">
                 <fieldset>
-                  <div className="flex items-center">
-                    <div className="w-30">
-                      <label
-                        htmlFor="currency"
-                        className="inline-block mb-2 text-sm"
-                      >
+                  <div className="flex gap-5 items-center">
+                    <div>
+                      <label className="inline-block mb-2 text-sm">
                         Moneda
                       </label>
-                      <select
-                        id="currency"
-                        defaultValue={PropertyCurrency.SOLES}
-                        {...register("currency")}
-                        className="w-full focus:z-10 px-3 py-2.5 rounded-l-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
-                      >
-                        <option value={PropertyCurrency.SOLES}>
-                          S/. Soles
-                        </option>
-                        <option value={PropertyCurrency.DOLARES}>
-                          USD Dolares
-                        </option>
-                      </select>
+                      <div className="flex items-center">
+                        <div className="w-1/2">
+                          <input
+                            {...register("currency")}
+                            value={PropertyCurrency.SOLES}
+                            type="radio"
+                            id="currency_soles"
+                            className="peer hidden"
+                          />
+                          <label
+                            htmlFor="currency_soles"
+                            className="relative flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-l-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:z-10 peer-checked:bg-cyan-50"
+                          >
+                            Soles
+                          </label>
+                        </div>
+                        <div className="w-1/2 -ml-[1px]">
+                          <input
+                            {...register("currency")}
+                            value={PropertyCurrency.DOLARES}
+                            type="radio"
+                            id="currency_dolares"
+                            className="peer hidden"
+                          />
+                          <label
+                            htmlFor="currency_dolares"
+                            className="flex relative items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-r-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:z-10 peer-checked:bg-cyan-50"
+                          >
+                            Dolares
+                          </label>
+                        </div>
+                      </div>
                     </div>
                     <div>
                       <label
@@ -564,12 +581,25 @@ export default function EditPropertyInformation({
                       >
                         Precio
                       </label>
-                      <input
-                        type="text"
-                        id="price"
-                        {...register("price")}
-                        required
-                        className="w-full -m-[1px] px-3 py-2.5 focus:z-10 rounded-r-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                      <Controller
+                        name="price"
+                        control={control}
+                        render={({ field }) => (
+                          <NumericFormat
+                            type="text"
+                            id="price"
+                            required
+                            thousandSeparator=","
+                            decimalSeparator="."
+                            decimalScale={2}
+                            value={field.value}
+                            onValueChange={(values) => {
+                              field.onChange(values.floatValue);
+                            }}
+                            inputMode="numeric"
+                            className="w-full -m-[1px] px-3 py-2.5 focus:z-10 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                          />
+                        )}
                       />
                     </div>
                   </div>

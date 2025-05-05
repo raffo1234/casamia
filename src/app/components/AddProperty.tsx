@@ -1,7 +1,7 @@
 "use client";
 
 import { supabase } from "@/lib/supabase";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { mutate } from "swr";
 import {
   PropertyCurrency,
@@ -10,6 +10,8 @@ import {
   PropertyType,
 } from "@/types/propertyState";
 import { Icon } from "@iconify/react";
+import { NumericFormat } from "react-number-format";
+import Link from "next/link";
 
 type Inputs = {
   title: string;
@@ -27,7 +29,7 @@ type Inputs = {
 };
 
 export default function AddProperty({ userId }: { userId: string }) {
-  const { reset, register, handleSubmit } = useForm<Inputs>({
+  const { reset, register, handleSubmit, control } = useForm<Inputs>({
     mode: "onBlur",
   });
 
@@ -52,9 +54,9 @@ export default function AddProperty({ userId }: { userId: string }) {
     <>
       <div className="w-full mb-8 flex justify-between items-center">
         <h1 className="font-semibold text-lg block">Agregar Inmueble</h1>
-        <a href="/admin/property" type="button" className="mb-4">
-          <Icon icon="solar:square-alt-arrow-left-broken" fontSize="42" />
-        </a>
+        <Link href="/admin/property" title="Volver" className="mb-4">
+          <Icon icon="solar:square-alt-arrow-left-broken" fontSize="32" />
+        </Link>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start gap-6">
@@ -439,27 +441,43 @@ export default function AddProperty({ userId }: { userId: string }) {
               <h2 className="font-semibold">Detalles</h2>
               <div className="flex gap-5 items-center">
                 <fieldset>
-                  <div className="flex items-center">
-                    <div className="w-30">
-                      <label
-                        htmlFor="currency"
-                        className="inline-block mb-2 text-sm"
-                      >
+                  <div className="flex gap-5 items-center">
+                    <div>
+                      <label className="inline-block mb-2 text-sm">
                         Moneda
                       </label>
-                      <select
-                        id="currency"
-                        defaultValue={PropertyCurrency.SOLES}
-                        {...register("currency")}
-                        className="w-full focus:z-10 px-3 py-2.5 rounded-l-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
-                      >
-                        <option value={PropertyCurrency.SOLES}>
-                          S/. Soles
-                        </option>
-                        <option value={PropertyCurrency.DOLARES}>
-                          USD Dolares
-                        </option>
-                      </select>
+                      <div className="flex items-center">
+                        <div className="w-1/2">
+                          <input
+                            {...register("currency")}
+                            value={PropertyCurrency.SOLES}
+                            type="radio"
+                            id="currency_soles"
+                            className="peer hidden"
+                          />
+                          <label
+                            htmlFor="currency_soles"
+                            className="relative flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-l-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:z-10 peer-checked:bg-cyan-50"
+                          >
+                            Soles
+                          </label>
+                        </div>
+                        <div className="w-1/2 -ml-[1px]">
+                          <input
+                            {...register("currency")}
+                            value={PropertyCurrency.DOLARES}
+                            type="radio"
+                            id="currency_dolares"
+                            className="peer hidden"
+                          />
+                          <label
+                            htmlFor="currency_dolares"
+                            className="flex relative items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-r-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:z-10 peer-checked:bg-cyan-50"
+                          >
+                            Dolares
+                          </label>
+                        </div>
+                      </div>
                     </div>
                     <div>
                       <label
@@ -468,12 +486,25 @@ export default function AddProperty({ userId }: { userId: string }) {
                       >
                         Precio
                       </label>
-                      <input
-                        type="text"
-                        id="price"
-                        {...register("price")}
-                        required
-                        className="w-full -m-[1px] px-3 py-2.5 focus:z-10 rounded-r-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                      <Controller
+                        name="price"
+                        control={control}
+                        render={({ field }) => (
+                          <NumericFormat
+                            type="text"
+                            id="price"
+                            required
+                            thousandSeparator=","
+                            decimalSeparator="."
+                            decimalScale={2}
+                            value={field.value}
+                            onValueChange={(values) => {
+                              field.onChange(values.floatValue);
+                            }}
+                            inputMode="numeric"
+                            className="w-full -m-[1px] px-3 py-2.5 focus:z-10 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                          />
+                        )}
                       />
                     </div>
                   </div>

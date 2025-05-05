@@ -34,11 +34,8 @@ export default async function Page({ params }: { params: Params }) {
     <>
       <div className="flex items-center justify-between">
         <h1 className="mb-6 font-semibold text-lg block">Edit Inmueble</h1>
-        <Link
-          href="/admin/property"
-          className="p-2 hover:text-cyan-400 transition-colors duration-300"
-        >
-          <Icon icon="solar:backspace-broken" fontSize={32}></Icon>
+        <Link href="/admin/property" title="Volver" className="mb-4">
+          <Icon icon="solar:square-alt-arrow-left-broken" fontSize="32" />
         </Link>
       </div>
       <Tabs items={items} />;
