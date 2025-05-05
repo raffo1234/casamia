@@ -1,3 +1,5 @@
+"use client";
+
 import { supabase } from "../lib/supabase";
 import useSWR from "swr";
 import PropertyItem from "./PropertyItem";
@@ -7,6 +9,7 @@ import PropertiesGrid from "./PropertiesGrid";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { PropertyType as PropertyTypeDb } from "@/types/propertyType";
+import { usePathname } from "next/navigation";
 
 const columnsToSearch = [
   "title",
@@ -75,11 +78,14 @@ const fetcher = async (searchTerms: string, pathnameArray: string[]) => {
 
 export default function PropertiesResult({
   userEmail,
-  pathnameArray,
 }: {
-  pathnameArray: string[];
   userEmail: string | null | undefined;
 }) {
+  const pathname = usePathname();
+  const pathnameArray = pathname
+    .split("/")
+    .filter((segment: string) => segment !== "");
+
   const searchTerms = getLastSlashValueFromCurrentUrl() || "";
   const { data: properties } = useSWR(
     `${userEmail}-${searchTerms}-result-properties`,

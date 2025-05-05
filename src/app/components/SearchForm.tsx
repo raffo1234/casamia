@@ -4,32 +4,40 @@ import { Icon } from "@iconify/react";
 import { PropertyType } from "@/types/propertyState";
 import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 type Inputs = {
   type: string;
   keywords: string;
 };
 
-export default function SearchForm({
-  pathnameArray,
-}: {
-  pathnameArray?: string[];
-}) {
+export default function SearchForm() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const pathnameArray = pathname
+    .split("/")
+    .filter((segment: string) => segment !== "");
+
   const [isOpen, setIsOpen] = useState(false);
   const [typeInput, setTypeInput] = useState<string>(
-    (pathnameArray?.at(0)?.toUpperCase() as PropertyType) ||
-      PropertyType.APARTMENT
+    pathnameArray.length === 0
+      ? PropertyType.APARTMENT
+      : (pathnameArray?.at(0)?.toUpperCase() as PropertyType)
   );
   const { register, reset, handleSubmit } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     const keywords = encodeURIComponent(formData.keywords);
-    window.location.href = `/${typeInput?.toLowerCase()}/${keywords}`;
+    router.push(`/${typeInput?.toLowerCase()}/${keywords}`);
   };
 
   useEffect(() => {
-    if (pathnameArray) {
-      setTypeInput(pathnameArray.at(0)?.toUpperCase() as PropertyType);
+    if (pathnameArray.length > 0) {
+      setTypeInput(
+        pathnameArray.length === 0
+          ? PropertyType.APARTMENT
+          : (pathnameArray?.at(0)?.toUpperCase() as PropertyType)
+      );
       if (pathnameArray[1]) {
         reset({ keywords: decodeURI(pathnameArray[1]) });
       }
