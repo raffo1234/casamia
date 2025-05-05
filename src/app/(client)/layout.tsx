@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Main from "./components/Main";
-import "./globals.css";
-import Header from "./components/Header";
-import PropertyPreview from "./components/PropertyPreview";
-import { auth } from "./lib/auth";
+import Main from "@/components/Main";
+import "../globals.css";
+import Header from "@/components/Header";
+import PropertyPreview from "@/components/PropertyPreview";
+import { auth } from "@/lib/auth";
 
 export const metadata: Metadata = {
-  title: "Casamina",
+  title: "Casamia",
   description: "Casamia",
 };
 

@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import ProfilePopover from "./ProfilePopover";
+import ProfilePopover from "@/components/ProfilePopover";
 
 export default function Header() {
   return (

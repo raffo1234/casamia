@@ -1,13 +1,13 @@
-import PropertiesList from "./components/PropertiesList";
+import PropertiesList from "@/components/PropertiesList";
 import { auth } from "@/lib/auth";
-import { propertyQuery } from "./queries/property";
-import { PropertyState } from "./types/propertyState";
-import { supabase } from "./lib/supabase";
-import PropertiesGrid from "./components/PropertiesGrid";
-import PropertyItem from "./components/PropertyItem";
-import SearchForm from "./components/SearchForm";
-import HightLightSelect from "./components/HighLightSelect";
-import { PropertyType } from "./types/propertyType";
+import { propertyQuery } from "@/queries/property";
+import { PropertyState } from "@/types/propertyState";
+import { supabase } from "@/lib/supabase";
+import PropertiesGrid from "@/components/PropertiesGrid";
+import PropertyItem from "@/components/PropertyItem";
+import SearchForm from "@/components/SearchForm";
+import HightLightSelect from "@/components/HighLightSelect";
+import { PropertyType } from "@/types/propertyType";
 
 export default async function Index() {
   const session = await auth();
