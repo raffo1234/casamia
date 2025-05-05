@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const pages = [
   {
@@ -36,7 +37,7 @@ export default function Aside({
   userImage: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const currentPath = "/";
+  const currentPath = usePathname();
 
   return (
     <div className="flex-shrink-0">
@@ -67,13 +68,13 @@ export default function Aside({
           </div>
         </header>
         <nav>
-          <ul className="flex flex-col gap-1 text-sm">
+          <ul className="flex flex-col text-sm">
             {pages.map(({ href, title, iconName }) => (
               <li key={href}>
                 <Link
                   href={href}
                   title={title}
-                  className={`${href === currentPath ? "bg-gray-100" : ""} hover:bg-gray-100 rounded-xl py-2 px-4 gap-3.5 flex items-center`}
+                  className={`${href === currentPath ? "bg-gray-100" : ""} hover:bg-gray-50 rounded-xl py-3 px-4 gap-3.5 flex items-center transition-colors duration-300 `}
                 >
                   <Icon icon={iconName} fontSize={17} />
                   <span>{title}</span>
@@ -83,7 +84,7 @@ export default function Aside({
           </ul>
           <ul className="flex flex-col gap-1 text-sm mt-2 pt-2 border-t border-gray-100">
             <li>
-              <button className="rounded-xl w-full text-left py-2 px-4 gap-3.5 flex items-center hover:bg-gray-100 hover:text-red-500">
+              <button className="rounded-xl w-full text-left py-3 px-4 gap-3.5 flex items-center hover:bg-gray-100 hover:text-red-500 transition-colors duration-300">
                 <Icon
                   icon="solar:inbox-out-linear"
                   fontSize={17}
