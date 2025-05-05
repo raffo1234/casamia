@@ -21,7 +21,7 @@ type Inputs = {
   title: string;
   description: string;
   location: string;
-  state: boolean;
+  state: string;
   phase: boolean;
   type: boolean;
   area: boolean;
@@ -68,12 +68,12 @@ export default function EditPropertyInformation({
     fetcherCompany(userId)
   );
   const { data, error, isLoading, mutate } = useSWR(id, () => fetcher(id));
-
   const { reset, register, handleSubmit } = useForm<Inputs>({
     mode: "onBlur",
     defaultValues: useMemo(() => {
+      if (data?.property_image) delete data?.property_image;
       return data;
-    }, [data, companies]),
+    }, [data]),
   });
 
   const success = () => {
@@ -107,7 +107,7 @@ export default function EditPropertyInformation({
 
   useEffect(() => {
     reset(data);
-  }, [data, companies]);
+  }, [data]);
 
   if (error) return <div>Error cargando datos ...</div>;
 
