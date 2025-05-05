@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
-import useSWR from "swr";
+import { useEffect } from "react";
+import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import {
@@ -16,15 +16,16 @@ import Uploader from "./Uploader";
 import { Icon } from "@iconify/react";
 import { getAdminPropertiesUserKey } from "@/constants";
 import PropertyImagesEdition from "./PropertyImagesEdition";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 type Inputs = {
   title: string;
   description: string;
   location: string;
   state: string;
-  phase: boolean;
-  type: boolean;
-  area: boolean;
+  phase: string;
+  type: string;
   bathroom_count: string;
   bedroom_count: string;
   company_id: string;
@@ -33,6 +34,9 @@ type Inputs = {
   created_at: string;
   delivery_at: string;
   currency: string;
+  property_image?: {
+    image_url: string;
+  }[];
 };
 
 async function fetcher(id: string) {
@@ -57,23 +61,22 @@ async function fetcherCompany(userId: string) {
 export default function EditPropertyInformation({
   id,
   userId,
-  hideModal,
 }: {
   id: string;
   userId: string;
-  hideModal: () => void;
 }) {
   const [messageApi, contextHolder] = message.useMessage();
   const { data: companies } = useSWR(`${userId}-companies`, () =>
     fetcherCompany(userId)
   );
-  const { data, error, isLoading, mutate } = useSWR(id, () => fetcher(id));
+  const {
+    data,
+    error,
+    isLoading,
+    mutate: mutateProperty,
+  } = useSWR(id, () => fetcher(id));
   const { reset, register, handleSubmit } = useForm<Inputs>({
     mode: "onBlur",
-    defaultValues: useMemo(() => {
-      if (data?.property_image) delete data?.property_image;
-      return data;
-    }, [data]),
   });
 
   const success = () => {
@@ -84,30 +87,33 @@ export default function EditPropertyInformation({
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const { property_image, ...rest } = data;
+
     try {
       await supabase
         .from("property")
-        .update(data)
+        .update(rest)
         .eq("id", id)
         .select()
         .single();
-      await mutate();
-      await mutate(getAdminPropertiesUserKey(userId));
+      await mutateProperty();
+      await mutate(() => getAdminPropertiesUserKey(userId));
       success();
     } catch {
       console.error(error);
+      console.error({ property_image });
     } finally {
-      hideModal();
+      redirect("/admin/property");
     }
   };
 
   const mutatePropertyImages = () => {
-    mutate();
+    mutate(() => getAdminPropertiesUserKey(userId));
   };
 
   useEffect(() => {
     reset(data);
-  }, [data]);
+  }, [data, reset]);
 
   if (error) return <div>Error cargando datos ...</div>;
 
@@ -624,13 +630,12 @@ export default function EditPropertyInformation({
               </fieldset>
             </div>
             <footer className="justify-end flex items-center gap-2">
-              <button
-                type="button"
-                onClick={hideModal}
+              <Link
+                href={`/admin/property`}
                 className="font-semibold disabled:border-gray-100 disabled:bg-gray-100 inline-block py-3 px-10 bg-white text-sm border border-gray-100 rounded-lg transition-colors hover:border-gray-200 duration-500 active:border-gray-300"
               >
                 Cancelar
-              </button>
+              </Link>
               <button
                 type="submit"
                 className="text-white font-semibold disabled:border-gray-100 disabled:bg-gray-100 inline-block py-3 px-10 text-sm bg-cyan-500 hover:bg-cyan-400 transition-colors duration-500 rounded-lg"

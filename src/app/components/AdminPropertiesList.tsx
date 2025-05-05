@@ -10,6 +10,7 @@ import CheckPermission from "@/components/CheckPermission";
 import EditPropertyModal from "./EditPropertyModal";
 import PropertyFirstImage from "./PropertyFirstImage";
 import { getAdminPropertiesUserKey } from "@/constants";
+import Link from "next/link";
 
 type Props = {
   id: string;
@@ -30,7 +31,12 @@ const AdminPropertyItem = ({
 }: Props) => {
   return (
     <article className="bg-white rounded-xl relative">
-      <PropertyFirstImage title={title} src={propertyImage?.at(0)?.image_url} />
+      <Link href={`/admin/property/edit/${id}`}>
+        <PropertyFirstImage
+          title={title}
+          src={propertyImage?.at(0)?.image_url}
+        />
+      </Link>
       <div
         className={`rounded-xl absolute right-3 top-3 text-sm py-1 px-2 
             ${state === PropertyState.DRAFT ? "bg-gray-600 text-white" : ""}
@@ -43,7 +49,7 @@ const AdminPropertyItem = ({
       <div className="border-x px-4 border-b rounded-b-xl -mt-3 pt-6 pb-4 border-gray-100">
         <h3 className="mb-3 font-semibold line-clamp-1">{title}</h3>
         <div className="flex gap-2 justify-center">
-          <EditProperty id={id} userId={userId} />
+          <EditProperty id={id} />
           <DeleteProperty id={id} userId={userId} />
         </div>
       </div>
