@@ -1,3 +1,5 @@
+"use client";
+
 import { supabase } from "@/lib/supabase";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { mutate } from "swr";

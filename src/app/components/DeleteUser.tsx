@@ -1,3 +1,5 @@
+"use client";
+
 import { message } from "antd";
 import { supabase } from "@/lib/supabase";
 import { mutate } from "swr";

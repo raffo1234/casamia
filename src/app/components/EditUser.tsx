@@ -1,3 +1,5 @@
+"use client";
+
 import FormSkeleton from "@/components/FormSkeleton";
 import { supabase } from "@/lib/supabase";
 import useSWR, { mutate } from "swr";
@@ -68,9 +70,7 @@ export default function EditUser({ userId }: { userId: string }) {
         .eq("id", userId)
         .select()
         .single();
-      await mutate(userId, updatedUser);
-      await mutate("users");
-      success();
+      if (updatedUser) success();
     } catch (error) {
       console.error(error);
     } finally {
@@ -93,7 +93,6 @@ export default function EditUser({ userId }: { userId: string }) {
                     Nombre
                   </label>
                   <input
-                    disabled
                     type="text"
                     id="name"
                     {...register("name")}
