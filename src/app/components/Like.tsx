@@ -139,19 +139,29 @@ export default function Like({
   return (
     <button
       onClick={() => handleLike(propertyId, userEmail)}
-      className={`${size === "medium" && countByUser ? "bg-cyan-50 text-cyan-300" : "bg-gray-50 hover:text-gray-500"} 
-          ${isLoadingByUser || isLoadingUser ? "opacity-0" : "opacity-100"}          
+      className={`${
+        size === "medium" && countByUser
+          ? "bg-cyan-50 text-cyan-300"
+          : "bg-gray-50 hover:text-gray-500"
+      } 
+          ${
+            isLoadingByUser || isLoadingUser ? "opacity-0" : "opacity-100"
+          }          
           transition-all p-3 rounded-full duration-300 flex gap-1 items-center`}
     >
       {isLiking ? (
         <Icon
           icon="line-md:loading-twotone-loop"
-          className={`${size === "small" ? "text-lg text-gray-500" : "text-2xl"}`}
+          className={`${
+            size === "small" ? "text-lg text-gray-500" : "text-2xl"
+          }`}
         />
       ) : (
         <Icon
           icon="solar:heart-bold"
-          className={`${size === "small" ? "text-lg text-gray-500" : "text-2xl"}`}
+          className={`${
+            size === "small" ? "text-lg text-gray-500" : "text-2xl"
+          }`}
         />
       )}
       {hasCounter ? (
