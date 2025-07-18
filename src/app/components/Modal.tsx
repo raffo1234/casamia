@@ -10,7 +10,7 @@ export default function Modal({
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const modalRoot = document.getElementById("dashboard") as HTMLElement;
+  const modalRoot = document.getElementById("app") as HTMLElement;
 
   const close = () => {
     setOpen(false);

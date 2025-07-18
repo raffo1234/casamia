@@ -20,13 +20,10 @@ export default async function RootLayout({
   const userEmail = session?.user?.email;
 
   return (
-    <html lang="es">
-      <body id="app">
-        <Header />
-        <Main>{children}</Main>
-        <PropertyPreview userEmail={userEmail} currentHref="/" />
-        <GlobalModal />
-      </body>
-    </html>
+    <>
+      <Header />
+      <Main>{children}</Main>
+      <PropertyPreview userEmail={userEmail} currentHref="/" />
+    </>
   );
 }
