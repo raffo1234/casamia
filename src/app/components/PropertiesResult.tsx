@@ -95,10 +95,10 @@ export default function PropertiesResult({
   if (properties?.length === 0) {
     return (
       <div className="max-w-md mx-auto items-center flex flex-col gap-10">
-        <div className="flex justify-center w-[300px] rounded-full items-center mx-auto bg-cyan-500 aspect-square bg-opacity-5">
+        <div className="flex justify-center w-[300px] rounded-full items-center mx-auto bg-cyan-400 aspect-square bg-opacity-5">
           <Icon
             icon="solar:album-broken"
-            className="text-[200px] text-cyan-500"
+            className="text-[200px] text-white"
           />
         </div>
         <h1 className="text-center">Prueba con otra búsqueda diferente.</h1>
