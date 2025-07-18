@@ -35,7 +35,7 @@ export default function GlobalModal() {
         isModalOpen
           ? "bg-opacity-40 visible"
           : "opacity-0 bg-opacity-0 invisible"
-      } transition-all duration-300 md:pt-10 fixed top-0 left-0 bg-black w-full h-lvh z-50 overflow-auto`}
+      } transition-all duration-300 md:pt-10 fixed top-0 left-0 bg-black/50 w-full h-lvh z-50 overflow-auto`}
     >
       <div
         className={`${
