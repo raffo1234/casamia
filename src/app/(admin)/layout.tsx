@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import { auth } from "@/lib/auth";
-import GlobalModal from "@/components/GlobalModal";
 import Aside from "@/components/Aside";
 import Link from "next/link";
 import { Icon } from "@iconify/react";

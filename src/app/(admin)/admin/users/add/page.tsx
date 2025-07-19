@@ -1,28 +1,6 @@
-import { supabase } from "@/lib/supabase";
-import { UserType } from "@/types/userType";
 import Link from "next/link";
 
 export default async function Page() {
-  async function insertData(data: UserType) {
-    const { error } = await supabase.from("user").insert([data]);
-    if (error) {
-      console.error("Error inserting data:", error);
-      return { success: false, error: error.message };
-    }
-    return { success: true };
-  }
-
-  let insertResult;
-
-  //   const formData = await Astro.request.formData();
-  //   const newUser: User = {
-  //     username: formData.get("username") as string,
-  //     email: formData.get("email") as string,
-  //     password: formData.get("password") as string,
-  //   };
-
-  //   insertResult = await insertData(newUser);
-
   return (
     <>
       <h1 className="mb-8 font-semibold text-lg block">Agregar Usuario</h1>

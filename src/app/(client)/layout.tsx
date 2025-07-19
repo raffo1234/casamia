@@ -4,7 +4,6 @@ import "../globals.css";
 import Header from "@/components/Header";
 import PropertyPreview from "@/components/PropertyPreview";
 import { auth } from "@/lib/auth";
-import GlobalModal from "@/components/GlobalModal";
 
 export const metadata: Metadata = {
   title: "Casamia",
