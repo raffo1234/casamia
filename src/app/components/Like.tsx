@@ -4,7 +4,6 @@ import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import getLastSlashValueFromCurrentUrl from "@/utils/getLastSlashValueFromCurrentUrl";
 import useSWR, { mutate } from "swr";
-import { Icon } from "@iconify/react";
 // import { signIn } from "auth-astro/client";
 import { useGlobalState } from "@/lib/globalState";
 import Logo from "./Logo";
@@ -150,19 +149,68 @@ export default function Like({
           transition-all p-3 rounded-full duration-300 flex gap-1 items-center`}
     >
       {isLiking ? (
-        <Icon
-          icon="line-md:loading-twotone-loop"
+        <svg
           className={`${
             size === "small" ? "text-lg text-gray-500" : "text-2xl"
           }`}
-        />
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <g
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+          >
+            <path
+              strokeDasharray="16"
+              strokeDashoffset="16"
+              d="M12 3c4.97 0 9 4.03 9 9"
+            >
+              <animate
+                fill="freeze"
+                attributeName="stroke-dashoffset"
+                dur="0.3s"
+                values="16;0"
+              />
+              <animateTransform
+                attributeName="transform"
+                dur="1.5s"
+                repeatCount="indefinite"
+                type="rotate"
+                values="0 12 12;360 12 12"
+              />
+            </path>
+            <path
+              stroke-dasharray="64"
+              stroke-dashoffset="64"
+              stroke-opacity="0.3"
+              d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9Z"
+            >
+              <animate
+                fill="freeze"
+                attributeName="stroke-dashoffset"
+                dur="1.2s"
+                values="64;0"
+              />
+            </path>
+          </g>
+        </svg>
       ) : (
-        <Icon
-          icon="solar:heart-bold"
-          className={`${
-            size === "small" ? "text-lg text-gray-500" : "text-2xl"
-          }`}
-        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={`${size === "small" ? "19" : "24"}`}
+          height={`${size === "small" ? "19" : "24"}`}
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M2 9.137C2 14 6.02 16.591 8.962 18.911C10 19.729 11 20.5 12 20.5s2-.77 3.038-1.59C17.981 16.592 22 14 22 9.138S16.5.825 12 5.501C7.5.825 2 4.274 2 9.137"
+          />
+        </svg>
       )}
       {hasCounter ? (
         <span className="text-xs min-w-2 block">{countByProperty}</span>
