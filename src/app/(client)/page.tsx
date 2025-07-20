@@ -4,21 +4,21 @@ import { propertyQuery } from "@/queries/property";
 import { PropertyState } from "@/types/propertyState";
 import { supabase } from "@/lib/supabase";
 import PropertiesGrid from "@/components/PropertiesGrid";
-import PropertyItem from "@/components/PropertyItem";
 import SearchForm from "@/components/SearchForm";
 import HightLightSelect from "@/components/HighLightSelect";
-import { PropertyType } from "@/types/propertyType";
+import { Suspense } from "react";
+import Home from "@/components/Home";
 
 export default async function Index() {
   const session = await auth();
   const userEmail = session?.user?.email;
 
-  const { data: properties } = (await supabase
+  const propertiesPromise = supabase
     .from("property")
     .select(propertyQuery)
     .eq("state", PropertyState.ACTIVE)
     .order("created_at", { ascending: false })
-    .limit(4)) as { data: PropertyType[] | null };
+    .limit(4);
 
   return (
     <>
@@ -33,15 +33,9 @@ export default async function Index() {
       <SearchForm />
       <HightLightSelect />
       <PropertiesGrid>
-        {properties?.map((property) => {
-          return (
-            <PropertyItem
-              key={property.id}
-              userEmail={userEmail}
-              property={property}
-            />
-          );
-        })}
+        <Suspense>
+          <Home propertiesPromise={propertiesPromise} />
+        </Suspense>
         <PropertiesList userEmail={userEmail} />
       </PropertiesGrid>
     </>
