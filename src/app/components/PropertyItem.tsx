@@ -48,9 +48,6 @@ export default function PropertyItem({
           />
         </Link>
         <div className="absolute right-0 top-0 p-4 gap-2 flex items-center">
-          {/* <button className="p-3 hover:text-gray-500 bg-white rounded-full transition-colors duration-700 ease-in-out">
-            <Icon icon="material-symbols:bookmark" className="text-2xl" />
-          </button> */}
           <Like propertyId={id} userEmail={userEmail} />
         </div>
       </div>
