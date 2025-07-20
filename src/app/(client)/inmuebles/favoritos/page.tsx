@@ -1,3 +1,4 @@
+import FavoritesWrapper from "@/components/FavoritesWrapper";
 import PropertiesFavorite from "@/components/PropertiesFavorite";
 import SearchForm from "@/components/SearchForm";
 import { auth, signIn } from "@/lib/auth";
@@ -13,28 +14,12 @@ export default function Page() {
   const userId = session?.user?.id;
   const userEmail = session?.user?.email;
 
-  const { data: likes } = use(
-    supabase
-      .from("like")
-      .select(favoriteQuery)
-      .eq("property.state", PropertyState.ACTIVE)
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false })
-      .limit(4)
-  ) as {
-    data: { property: PropertyType }[] | null;
-  };
-
   return (
     <>
       <SearchForm />
       {userId && userEmail ? (
         <Suspense>
-          <PropertiesFavorite
-            likes={likes}
-            userId={userId}
-            userEmail={userEmail}
-          />
+          <FavoritesWrapper userId={userId} userEmail={userEmail} />
         </Suspense>
       ) : (
         <div className="max-w-md mx-auto items-center flex flex-col gap-10">
