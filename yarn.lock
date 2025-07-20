@@ -184,6 +184,16 @@
     "@eslint/core" "^0.13.0"
     levn "^0.4.1"
 
+"@fontsource-variable/urbanist@^5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/urbanist/-/urbanist-5.2.6.tgz#2f361bb42b60ee685d81bb91a9ae97cda5e92525"
+  integrity sha512-Nbsl4I8Tw547BA61PX1EtSpuaTgtejRT/CzNUTWHp2RE+8P5iGouvsvOOigukkTDIU/znKAplQysGB3NwhsYzA==
+
+"@fontsource/manrope@^5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@fontsource/manrope/-/manrope-5.2.6.tgz#bd39e24aad1b6c1b972a723b20362f8f82b01448"
+  integrity sha512-tboCPLGXWWkNORL7gRhA1m16FJj2QuObk2lhBvkNrpjW0911pGawvHwxuierKHojPtXptfMJo7CUWxXGkKN5zA==
+
 "@hookform/resolvers@^5.0.1":
   version "5.0.1"
   resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-5.0.1.tgz"
