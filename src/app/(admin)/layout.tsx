@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { auth } from "@/lib/auth";
 import Aside from "@/components/Aside";
-import Link from "next/link";
-import { Icon } from "@iconify/react";
 import ProfilePopover from "@/components/ProfilePopover";
 import Logo from "@/components/Logo";
 

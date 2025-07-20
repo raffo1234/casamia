@@ -1,11 +1,6 @@
 import FavoritesWrapper from "@/components/FavoritesWrapper";
-import PropertiesFavorite from "@/components/PropertiesFavorite";
 import SearchForm from "@/components/SearchForm";
 import { auth, signIn } from "@/lib/auth";
-import { supabase } from "@/lib/supabase";
-import { favoriteQuery } from "@/queries/property";
-import { PropertyState } from "@/types/propertyState";
-import { PropertyType } from "@/types/propertyType";
 import { Icon } from "@iconify/react";
 import { Suspense, use } from "react";
 

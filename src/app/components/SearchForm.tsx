@@ -1,6 +1,5 @@
 "use client";
 
-import { Icon } from "@iconify/react";
 import { PropertyType } from "@/types/propertyState";
 import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";

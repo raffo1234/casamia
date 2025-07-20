@@ -8,19 +8,18 @@ import SearchForm from "@/components/SearchForm";
 import HightLightSelect from "@/components/HighLightSelect";
 import { Suspense } from "react";
 import Home from "@/components/Home";
+import { PropertyType } from "@/types/propertyType";
 
 export default async function Index() {
   const session = await auth();
   const userEmail = session?.user?.email;
 
-  const propertiesPromise = Promise.resolve(
-    supabase
-      .from("property")
-      .select(propertyQuery)
-      .eq("state", PropertyState.ACTIVE)
-      .order("created_at", { ascending: false })
-      .limit(4)
-  );
+  const { data: properties } = (await supabase
+    .from("property")
+    .select(propertyQuery)
+    .eq("state", PropertyState.ACTIVE)
+    .order("created_at", { ascending: false })
+    .limit(4)) as { data: PropertyType[] | null };
 
   return (
     <>
@@ -36,7 +35,7 @@ export default async function Index() {
       <HightLightSelect />
       <PropertiesGrid>
         <Suspense>
-          <Home propertiesPromise={propertiesPromise} userEmail={userEmail} />
+          <Home properties={properties} userEmail={userEmail} />
         </Suspense>
         <PropertiesList userEmail={userEmail} />
       </PropertiesGrid>
