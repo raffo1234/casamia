@@ -13,12 +13,14 @@ export default async function Index() {
   const session = await auth();
   const userEmail = session?.user?.email;
 
-  const propertiesPromise = supabase
-    .from("property")
-    .select(propertyQuery)
-    .eq("state", PropertyState.ACTIVE)
-    .order("created_at", { ascending: false })
-    .limit(4);
+  const propertiesPromise = Promise.resolve(
+    supabase
+      .from("property")
+      .select(propertyQuery)
+      .eq("state", PropertyState.ACTIVE)
+      .order("created_at", { ascending: false })
+      .limit(4)
+  );
 
   return (
     <>
@@ -26,7 +28,7 @@ export default async function Index() {
         style={{
           fontSize: "clamp(16px, 6vw + .5rem, 50px)",
         }}
-        className="mb-10 leading-tight w-full text-center"
+        className="w-full mb-10 leading-tight text-center"
       >
         Encuentra tu próximo <br /> hogar
       </h1>
@@ -34,7 +36,7 @@ export default async function Index() {
       <HightLightSelect />
       <PropertiesGrid>
         <Suspense>
-          <Home propertiesPromise={propertiesPromise} />
+          <Home propertiesPromise={propertiesPromise} userEmail={userEmail} />
         </Suspense>
         <PropertiesList userEmail={userEmail} />
       </PropertiesGrid>

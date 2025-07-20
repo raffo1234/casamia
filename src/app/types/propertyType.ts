@@ -23,13 +23,13 @@ export type PropertyType = {
     id: string;
     image_url: string;
   }[];
-  user: {
+  user?: {
     id: string;
     name: string;
     email: string;
     image_url: string;
   };
-  company: {
+  company?: {
     id: string;
     name: string;
     logo_url: string;
