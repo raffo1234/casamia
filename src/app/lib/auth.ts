@@ -1,6 +1,8 @@
 // auth.ts
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { supabase } from "./supabase";
+import syncUserWithDatabase from "./syncUserWithDatabase";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -17,12 +19,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  // Optional: Add callbacks (jwt, session, signIn, redirect) for customization
   callbacks: {
     async jwt({ token, account, profile }) {
-      // Data from Google profile is available here on initial sign-in
       if (account) {
-        token.accessToken = account.access_token; // Example: save access token
+        token.accessToken = account.access_token;
       }
       if (profile) {
         token.googleId = profile.sub;
@@ -30,23 +30,55 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      // Add data from the token to the session
       if (token) {
-        session.user.id = token.id as string; // Assuming you set user.id in jwt callback
-        // session.accessToken = token.accessToken; // Example: expose access token to session
+        session.user.id = token.id as string;
       }
       return session;
     },
   },
-  // Optional: Specify session strategy (jwt is default)
   session: {
     strategy: "jwt",
   },
-  // Optional: Specify custom pages (like a custom sign-in page)
-  // pages: {
-  //   signIn: "/login", // Redirect to /login if not authenticated
-  //   // error: '/auth/error',
-  // },
-  // Optional: Enable debug mode in development
-  // debug: process.env.NODE_ENV === "development",
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      if (user && account?.provider === "google" && profile) {
+        await syncUserWithDatabase(user, profile);
+      } else if (user && account?.provider === "credentials") {
+        console.log("Credentials sign-in successful for user:", user);
+      }
+
+      return true;
+    },
+    async jwt({ token }) {
+      if (!token.user_id) {
+        try {
+          const { data: dbUser, error } = await supabase
+            .from("user")
+            .select("id, role_id")
+            .eq("email", token.email)
+            .single();
+
+          if (error) {
+            console.error("Error fetching user role in JWT callback:", error);
+          } else if (dbUser?.id) {
+            token.user_id = dbUser.id;
+            token.user_role_id = dbUser.role_id;
+          }
+        } catch (error) {
+          console.error("Error fetching user role in JWT callback:", error);
+        }
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token?.user_id) {
+        session.user.id = token.user_id as string;
+      }
+      return session;
+    },
+    async redirect({ baseUrl }) {
+      return baseUrl;
+    },
+  },
 });

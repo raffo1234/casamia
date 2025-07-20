@@ -10,13 +10,8 @@ import { Suspense, use } from "react";
 
 export default function Page() {
   const session = use(auth());
+  const userId = session?.user?.id;
   const userEmail = session?.user?.email;
-
-  const { data: user } = use(
-    supabase.from("user").select("id").eq("email", userEmail).single()
-  );
-
-  const userId = user?.id;
 
   const { data: likes } = use(
     supabase
@@ -33,7 +28,7 @@ export default function Page() {
   return (
     <>
       <SearchForm />
-      {userEmail ? (
+      {userId && userEmail ? (
         <Suspense>
           <PropertiesFavorite
             likes={likes}
