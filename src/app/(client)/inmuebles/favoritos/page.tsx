@@ -6,26 +6,27 @@ import { favoriteQuery } from "@/queries/property";
 import { PropertyState } from "@/types/propertyState";
 import { PropertyType } from "@/types/propertyType";
 import { Icon } from "@iconify/react";
+import { Suspense, use } from "react";
 
-export default async function Page() {
-  const session = await auth();
+export default function Page() {
+  const session = use(auth());
   const userEmail = session?.user?.email;
 
-  const { data: user } = await supabase
-    .from("user")
-    .select("id")
-    .eq("email", userEmail)
-    .single();
+  const { data: user } = use(
+    supabase.from("user").select("id").eq("email", userEmail).single()
+  );
 
   const userId = user?.id;
 
-  const { data: likes } = (await supabase
-    .from("like")
-    .select(favoriteQuery)
-    .eq("property.state", PropertyState.ACTIVE)
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false })
-    .limit(4)) as {
+  const { data: likes } = use(
+    supabase
+      .from("like")
+      .select(favoriteQuery)
+      .eq("property.state", PropertyState.ACTIVE)
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(4)
+  ) as {
     data: { property: PropertyType }[] | null;
   };
 
@@ -33,11 +34,13 @@ export default async function Page() {
     <>
       <SearchForm />
       {userEmail ? (
-        <PropertiesFavorite
-          likes={likes}
-          userId={userId}
-          userEmail={userEmail}
-        />
+        <Suspense>
+          <PropertiesFavorite
+            likes={likes}
+            userId={userId}
+            userEmail={userEmail}
+          />
+        </Suspense>
       ) : (
         <div className="max-w-md mx-auto items-center flex flex-col gap-10">
           <div className="flex justify-center w-[300px] rounded-full items-center mx-auto bg-cyan-500 aspect-square bg-opacity-5">
