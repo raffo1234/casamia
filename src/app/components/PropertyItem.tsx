@@ -38,7 +38,7 @@ export default function PropertyItem({
   return (
     <article>
       <div className="relative mb-1">
-        <a
+        <Link
           href={`/inmueble/${id}`}
           onClick={(event) => onDisplayPropertyDetail(event, id)}
         >
@@ -46,7 +46,7 @@ export default function PropertyItem({
             title={property.title}
             src={property.property_image?.at(0)?.image_url}
           />
-        </a>
+        </Link>
         <div className="absolute right-0 top-0 p-4 gap-2 flex items-center">
           {/* <button className="p-3 hover:text-gray-500 bg-white rounded-full transition-colors duration-700 ease-in-out">
             <Icon icon="material-symbols:bookmark" className="text-2xl" />

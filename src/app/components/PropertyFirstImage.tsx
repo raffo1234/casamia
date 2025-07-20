@@ -21,8 +21,8 @@ export default function PropertyFirstImage({
       alt={title}
       title={title}
       loading="lazy"
-      width={100}
-      height={100}
+      width={400}
+      height={400}
       className="w-full aspect-[5/4] object-cover rounded-xl bg-gray-100"
     />
   );
