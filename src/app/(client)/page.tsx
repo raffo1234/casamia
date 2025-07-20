@@ -22,14 +22,14 @@ export default async function Index() {
 
   return (
     <>
-      <h2
+      <h1
         style={{
           fontSize: "clamp(16px, 6vw + .5rem, 50px)",
         }}
-        className="mb-10 leading-relaxed w-full text-center"
+        className="mb-10 leading-tight w-full text-center"
       >
         Encuentra tu próximo <br /> hogar
-      </h2>
+      </h1>
       <SearchForm />
       <HightLightSelect />
       <PropertiesGrid>
