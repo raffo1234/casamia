@@ -30,7 +30,7 @@ export default async function AdminLayout({
           <ProfilePopover />
         </div>
       </header>
-      <main className="flex items-start max-w-[1360px] mx-auto w-full z-10 min-h-lvh relative">
+      <main className="flex items-start w-full z-10 min-h-lvh relative">
         {user && user?.name && user?.image ? (
           <Aside userName={user.name} userImage={user.image} />
         ) : null}
