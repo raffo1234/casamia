@@ -9,13 +9,17 @@ import InfiniteScrollSentinel from "./InfiniteScrollSentinel";
 import { propertyQuery } from "@/queries/property";
 import { PropertyType } from "@/types/propertyType";
 
-const fetcherAll = async () => {
+const fetchTotalProperties = async (): Promise<number> => {
   const { count, error } = await supabase
     .from("property")
     .select("id", { count: "exact", head: true })
     .eq("state", PropertyState.ACTIVE);
-  if (error) throw error;
-  return count;
+
+  if (error) {
+    console.error("Error fetching total property count:", error);
+    throw new Error("Failed to fetch total property count.");
+  }
+  return count || 0;
 };
 
 const fetcher = async (index: number, pageSize: number) => {
@@ -65,7 +69,10 @@ export default function PropertiesList({
   const pageSize = 4;
   const [page, setPage] = useState(initPage);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const { data: total } = useSWR("total-properties-home-page", fetcherAll);
+  const { data: total } = useSWR(
+    "total-properties-home-page",
+    fetchTotalProperties
+  );
   const totalPages = total ? Math.ceil((total - pageSize) / pageSize) : 0;
   const pages = [];
 

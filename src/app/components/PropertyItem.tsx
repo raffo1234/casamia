@@ -6,6 +6,7 @@ import PropertyFirstImage from "./PropertyFirstImage";
 import Image from "next/image";
 import Link from "next/link";
 import { PropertyType } from "@/types/propertyType";
+import { Suspense } from "react";
 
 export default function PropertyItem({
   property,
@@ -79,12 +80,14 @@ export default function PropertyItem({
             </a>
           </h2>
           <div className="flex items-center">
-            <Like
-              propertyId={id}
-              userEmail={userEmail}
-              size="small"
-              hasCounter
-            />
+            <Suspense>
+              <Like
+                propertyId={id}
+                userEmail={userEmail}
+                size="small"
+                hasCounter
+              />
+            </Suspense>
           </div>
         </div>
       </div>

@@ -37,7 +37,9 @@ export default async function Index() {
         <Suspense>
           <Home properties={properties} userEmail={userEmail} />
         </Suspense>
-        <PropertiesList userEmail={userEmail} />
+        <Suspense>
+          <PropertiesList userEmail={userEmail} />
+        </Suspense>
       </PropertiesGrid>
     </>
   );
