@@ -185,9 +185,9 @@ export default function Like({
               />
             </path>
             <path
-              stroke-dasharray="64"
-              stroke-dashoffset="64"
-              stroke-opacity="0.3"
+              strokeDasharray="64"
+              strokeDashoffset="64"
+              strokeOpacity="0.3"
               d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9Z"
             >
               <animate

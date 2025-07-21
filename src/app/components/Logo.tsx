@@ -4,12 +4,12 @@ export default function Logo() {
   return (
     <Link
       href="/"
-      title="Inicio | Inmobiliaria"
-      className="flex items-center gap-2 text-sm font-semibold uppercase"
+      title="Casamia"
+      className="flex items-center gap-2 text-sm uppercase"
     >
-      <span className="p-2 rounded-xl bg-cyan-500 block">
+      <span className="p-2 rounded-xl bg-blue-700 text-white block">
         <svg
-          className="text-3xl text-white"
+          className="text-3xl"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -23,7 +23,7 @@ export default function Logo() {
           />
         </svg>
       </span>
-      <span>Home</span>
+      <span>Espacioventa</span>
     </Link>
   );
 }
