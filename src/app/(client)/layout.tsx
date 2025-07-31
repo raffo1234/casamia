@@ -24,7 +24,7 @@ export default async function ClientLayout({
       <Header />
       <Main>{children}</Main>
       <Suspense>
-        <PropertyPreview userEmail={userEmail} currentHref="/" />
+        <PropertyPreview userEmail={userEmail} />
       </Suspense>
     </>
   );

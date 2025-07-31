@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import Property from "./Property";
 import { useGlobalState } from "@/lib/globalState";
 import useSWR from "swr";
@@ -59,10 +59,8 @@ const fetcher = async (propertyId: string) => {
 };
 
 export default function PropertyPreview({
-  currentHref,
   userEmail,
 }: {
-  currentHref: string;
   userEmail: string | undefined | null;
 }) {
   const { propertyId, hide, isDisplayed } = useGlobalState();
@@ -70,32 +68,38 @@ export default function PropertyPreview({
   const { data: property } = useSWR(propertyId, () =>
     propertyId ? fetcher(propertyId) : null
   );
-  const onClose = (event?: React.MouseEvent<HTMLElement>) => {
-    if (!isDisplayed) return;
+  const onClose = useCallback(
+    (event?: React.MouseEvent<HTMLElement>) => {
+      if (!isDisplayed) return;
 
-    if (event) {
-      if (event.target === event.currentTarget) {
+      if (event) {
+        if (event.target === event.currentTarget) {
+          handleClose();
+        }
+      } else {
         handleClose();
       }
-    } else {
-      handleClose();
-    }
-  };
+    },
+    [isDisplayed]
+  );
 
-  const handleClose = () => {
-    hide();
+  const handleClose = useCallback(() => {
     const app = document.getElementById("app") as HTMLElement;
-    window.history.pushState({}, "", currentHref);
     setTimeout(() => {
       app.classList.remove("overflow-hidden");
+      hide();
+      window.history.back();
     }, 50);
-  };
+  }, [hide]);
 
-  const handleEscape = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      onClose();
-    }
-  };
+  const handleEscape = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    },
+    [onClose]
+  );
 
   useEffect(() => {
     document.addEventListener("keyup", function (event) {
@@ -123,7 +127,7 @@ export default function PropertyPreview({
         }
       });
     };
-  }, [isDisplayed]);
+  }, [isDisplayed, handleClose, handleEscape]);
 
   return (
     <div
