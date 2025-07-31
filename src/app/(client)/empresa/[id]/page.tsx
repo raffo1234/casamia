@@ -7,6 +7,7 @@ import { propertyQuery } from "@/queries/property";
 import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { PropertyType } from "@/types/propertyType";
+import { Suspense } from "react";
 
 type Params = Promise<{ id: string[] }>;
 
@@ -58,11 +59,13 @@ export default async function Page({ params }: { params: Params }) {
           companyLogo={company.logo_url}
         />
       </div>
-      <PropertiesListByCompany
-        userEmail={userEmail}
-        properties={properties}
-        companyId={company.id}
-      />
+      <Suspense>
+        <PropertiesListByCompany
+          userEmail={userEmail}
+          properties={properties}
+          companyId={company.id}
+        />
+      </Suspense>
     </>
   );
 }

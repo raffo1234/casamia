@@ -2,6 +2,7 @@ import HightLightSelect from "@/components/HighLightSelect";
 import PropertiesResult from "@/components/PropertiesResult";
 import SearchForm from "@/components/SearchForm";
 import { auth } from "@/lib/auth";
+import { Suspense } from "react";
 
 export default async function Page() {
   const session = await auth();
@@ -11,7 +12,9 @@ export default async function Page() {
     <>
       <SearchForm />
       <HightLightSelect />
-      <PropertiesResult userEmail={userEmail} />
+      <Suspense>
+        <PropertiesResult userEmail={userEmail} />
+      </Suspense>
     </>
   );
 }

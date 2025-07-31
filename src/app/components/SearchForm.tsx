@@ -26,6 +26,7 @@ export default function SearchForm() {
   const { register, handleSubmit } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
+    console.log({ formData });
     const propertyType = typeInput.toLowerCase();
     const trimmedSearchWord = formData.keywords.trim();
     let path: string;
