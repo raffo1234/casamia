@@ -1,7 +1,7 @@
 "use client";
 
 import { PropertyType } from "@/types/propertyState";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -23,25 +23,21 @@ export default function SearchForm() {
       ? PropertyType.APARTMENT
       : (pathnameArray?.at(0)?.toUpperCase() as PropertyType)
   );
-  const { register, reset, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
-    const keywords = encodeURIComponent(formData.keywords);
-    router.push(`/${typeInput?.toLowerCase()}/${keywords}`);
-  };
+    const propertyType = typeInput.toLowerCase();
+    const trimmedSearchWord = formData.keywords.trim();
+    let path: string;
 
-  useEffect(() => {
-    if (pathnameArray.length > 0) {
-      setTypeInput(
-        pathnameArray.length === 0
-          ? PropertyType.APARTMENT
-          : (pathnameArray?.at(0)?.toUpperCase() as PropertyType)
-      );
-      if (pathnameArray[1]) {
-        reset({ keywords: decodeURI(pathnameArray[1]) });
-      }
+    if (trimmedSearchWord) {
+      const encodedSearchWord = encodeURIComponent(trimmedSearchWord);
+      path = `/${propertyType}/${encodedSearchWord}`;
+    } else {
+      path = `/${propertyType}`;
     }
-  }, []);
+    router.push(path);
+  };
 
   return (
     <form
