@@ -4,13 +4,14 @@ import "../globals.css";
 import Header from "@/components/Header";
 import PropertyPreview from "@/components/PropertyPreview";
 import { auth } from "@/lib/auth";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Casamia",
   description: "Casamia",
 };
 
-export default async function RootLayout({
+export default async function ClientLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -22,7 +23,9 @@ export default async function RootLayout({
     <>
       <Header />
       <Main>{children}</Main>
-      <PropertyPreview userEmail={userEmail} currentHref="/" />
+      <Suspense>
+        <PropertyPreview userEmail={userEmail} currentHref="/" />
+      </Suspense>
     </>
   );
 }
