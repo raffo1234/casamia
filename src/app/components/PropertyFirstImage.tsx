@@ -20,8 +20,8 @@ export default function PropertyFirstImage({
       src={src}
       alt={title}
       title={title}
-      width={400}
-      height={400}
+      width={350}
+      height={350}
       className="w-full aspect-[5/4] object-cover rounded-xl bg-gray-100"
     />
   );

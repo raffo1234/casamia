@@ -37,7 +37,7 @@ export default function PropertyItem({
   };
 
   return (
-    <article>
+    <article className="group">
       <div className="relative mb-1">
         <Link
           href={`/inmueble/${id}`}
@@ -48,7 +48,7 @@ export default function PropertyItem({
             src={property.property_image?.at(0)?.image_url}
           />
         </Link>
-        <div className="absolute right-0 top-0 p-4 gap-2 flex items-center">
+        <div className="opacity-0 group-hover:opacity-100 duration-300 transition-all invisible group-hover:visible absolute right-0 top-0 p-4 gap-2 flex items-center">
           <Like propertyId={id} userEmail={userEmail} />
         </div>
       </div>
