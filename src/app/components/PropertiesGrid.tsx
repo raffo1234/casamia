@@ -7,7 +7,7 @@ export default function PropertiesGrid({
     <section
       className="grid gap-8"
       style={{
-        gridTemplateColumns: "repeat(auto-fill, minmax(336px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(299px, 1fr))",
       }}
     >
       {children}
