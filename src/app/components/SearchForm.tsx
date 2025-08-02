@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { PropertyType } from "@/types/propertyState";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -11,10 +12,18 @@ type Inputs = {
 
 export default function SearchForm() {
   const router = useRouter();
-
+  const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
-  const [typeInput, setTypeInput] = useState<string>(PropertyType.APARTMENT);
-  const { register, handleSubmit } = useForm<Inputs>();
+  const [typeInput, setTypeInput] = useState<string>(
+    params.category === PropertyType.HOUSE.toLowerCase()
+      ? PropertyType.HOUSE
+      : PropertyType.APARTMENT
+  );
+  const { register, handleSubmit } = useForm<Inputs>({
+    defaultValues: {
+      keywords: params.searchWord as string,
+    },
+  });
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     const propertyType = typeInput.toLowerCase();
@@ -23,7 +32,7 @@ export default function SearchForm() {
 
     if (trimmedSearchWord) {
       const encodedSearchWord = encodeURIComponent(trimmedSearchWord);
-      path = `/${propertyType}/${encodedSearchWord}`;
+      path = `/${propertyType}/buscar/${encodedSearchWord}`;
     } else {
       path = `/${propertyType}`;
     }

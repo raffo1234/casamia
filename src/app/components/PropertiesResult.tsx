@@ -2,14 +2,13 @@
 
 import { supabase } from "../lib/supabase";
 import useSWR from "swr";
-import getLastSlashValueFromCurrentUrl from "@/utils/getLastSlashValueFromCurrentUrl";
-import { PropertyState, PropertyType } from "@/types/propertyState";
+import { PropertyState } from "@/types/propertyState";
 import PropertiesGrid from "./PropertiesGrid";
 import { PropertyType as PropertyTypeDb } from "@/types/propertyType";
-import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 import Home from "./Home";
 import ResultPage from "./ResultPage";
+import { useParams } from "next/navigation";
 
 const columnsToSearch = [
   "title",
@@ -47,14 +46,12 @@ const query = `
           )
         `;
 
-const fetcher = async (searchTerms: string, pathnameArray: string[]) => {
+const fetcher = async (searchTerms: string, category: string) => {
   const orConditions = columnsToSearch
     .map((column) => `${column}.ilike.%${searchTerms}%`)
     .join(",");
 
-  const propertyType =
-    (pathnameArray?.at(0)?.toUpperCase() as PropertyType) ||
-    PropertyType.APARTMENT;
+  const propertyType = category.toLowerCase().toUpperCase();
 
   const { data } = searchTerms
     ? ((await supabase
@@ -81,36 +78,15 @@ export default function PropertiesResult({
 }: {
   userEmail: string | null | undefined;
 }) {
-  const pathname = usePathname();
-  const pathnameArray = pathname
-    .split("/")
-    .filter((segment: string) => segment !== "");
+  const params = useParams();
+  const searchTerms = params.searchWord as string;
+  const category = params.category as string;
 
-  const searchTerms = getLastSlashValueFromCurrentUrl() || "";
   const { data: properties = [] } = useSWR(
-    `${userEmail}-${searchTerms}-result-properties`,
-    () => fetcher(searchTerms, pathnameArray)
+    `${userEmail}-${searchTerms}-${category}-result-properties`,
+    () => fetcher(searchTerms, category as string)
   );
-
-  // if (properties?.length === 0) {
-  //   return (
-  //     <div className="max-w-md mx-auto items-center flex flex-col gap-10">
-  //       <div className="flex justify-center w-[300px] rounded-full items-center mx-auto bg-cyan-400 aspect-square bg-opacity-5">
-  //         <Icon icon="solar:album-broken" className="text-[200px] text-white" />
-  //       </div>
-  //       <h1 className="text-center">Prueba con otra búsqueda diferente.</h1>
-  //       <Link
-  //         href="/"
-  //         title="Ir al Inicio"
-  //         className="text-lg flex items-center gap-2 px-6 pb-4 pt-3 bg-black text-white rounded-full transition-colors duration-700 hover:bg-gray-800 active:bg-gray-900"
-  //       >
-  //         <Icon icon="solar:home-smile-angle-broken" fontSize={24}></Icon>
-  //         <span>Ir al Inicio</span>
-  //       </Link>
-  //     </div>
-  //   );
-  // }
-
+  
   return (
     <PropertiesGrid>
       <Suspense>

@@ -29,7 +29,7 @@ export default function PropertiesList({
   const { data: total } = useSWR(swrKeyTotal, fetcherTotal);
   const totalPages = total ? Math.ceil((total - pageSize) / pageSize) : 0;
   const pages = [];
-
+  
   for (let i = initPage; i < page; i++) {
     pages.push(
       <PageComponent

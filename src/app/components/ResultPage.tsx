@@ -2,10 +2,9 @@
 
 import { supabase } from "@/lib/supabase";
 import PropertiesList from "./PropertiesList";
-import { PropertyState, PropertyType } from "@/types/propertyState";
+import { PropertyState } from "@/types/propertyState";
 import { PropertyType as PropertyTypeDb } from "@/types/propertyType";
-import getLastSlashValueFromCurrentUrl from "@/utils/getLastSlashValueFromCurrentUrl";
-import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const columnsToSearch = [
   "title",
@@ -43,32 +42,25 @@ const query = `
           )
         `;
 
-const searchTerms = getLastSlashValueFromCurrentUrl() || "";
-
 export default function ResultPage({
   userEmail,
 }: {
   userEmail: string | undefined | null;
 }) {
-  const pathname = usePathname();
-  const pathnameArray = pathname
-    .split("/")
-    .filter((segment: string) => segment !== "");
+  const params = useParams();
+  const searchTerms = params.searchWord as string;
+  const propertyType = params.category as string;
 
   const fetcherTotal = async (): Promise<number> => {
     const orConditions = columnsToSearch
       .map((column) => `${column}.ilike.%${searchTerms}%`)
       .join(",");
 
-    const propertyType =
-      (pathnameArray?.at(0)?.toUpperCase() as PropertyType) ||
-      PropertyType.APARTMENT;
-
     let supabaseQuery = supabase
       .from("property")
-      .select("id", { count: "exact", head: true }) // Select 'id' for count
+      .select("id", { count: "exact", head: true })
       .eq("state", PropertyState.ACTIVE)
-      .eq("type", propertyType);
+      .eq("type", propertyType.toUpperCase());
 
     if (searchTerms) {
       supabaseQuery = supabaseQuery.or(orConditions);
@@ -88,30 +80,28 @@ export default function ResultPage({
       .map((column) => `${column}.ilike.%${searchTerms}%`)
       .join(",");
 
-    const propertyType =
-      (pathnameArray?.at(0)?.toUpperCase() as PropertyType) ||
-      PropertyType.APARTMENT;
+    let queryBuilder = supabase
+      .from("property")
+      .select(query)
+      .eq("state", PropertyState.ACTIVE)
+      .eq("type", propertyType.toUpperCase());
 
-    const { data } = searchTerms
-      ? ((await supabase
-          .from("property")
-          .select(query)
-          .eq("state", PropertyState.ACTIVE)
-          .eq("type", propertyType)
-          .or(orConditions)
-          .order("created_at", { ascending: false })
-          .range(index * pageSize, index * pageSize + pageSize - 1)) as {
-          data: PropertyTypeDb[] | null;
-        })
-      : ((await supabase
-          .from("property")
-          .select(query)
-          .eq("type", propertyType)
-          .eq("state", PropertyState.ACTIVE)
-          .order("created_at", { ascending: false })
-          .range(index * pageSize, index * pageSize + pageSize - 1)) as {
-          data: PropertyTypeDb[] | null;
-        });
+    if (searchTerms) {
+      queryBuilder = queryBuilder.or(orConditions);
+    }
+
+    const { data, error } = (await queryBuilder
+      .order("created_at", { ascending: false })
+      .range(index * pageSize, index * pageSize + pageSize - 1)) as {
+      data: PropertyTypeDb[] | null;
+      error: Error | null;
+    };
+
+    if (error) {
+      throw new Error(
+        `Failed to fetch properties: ${error.message || JSON.stringify(error)}`
+      );
+    }
 
     return data;
   };
@@ -119,8 +109,8 @@ export default function ResultPage({
   return (
     <PropertiesList
       userEmail={userEmail}
-      swrKeyPage="properties-home-page"
-      swrKeyTotal="properties-home-total"
+      swrKeyPage={`${userEmail}-${searchTerms}-${propertyType}-properties-home-page`}
+      swrKeyTotal={`${userEmail}-${searchTerms}-${propertyType}-properties-home-total`}
       fetcherPage={fetcherPage}
       fetcherTotal={fetcherTotal}
     />

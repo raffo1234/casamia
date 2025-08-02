@@ -2,9 +2,7 @@
 
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
-import getLastSlashValueFromCurrentUrl from "@/utils/getLastSlashValueFromCurrentUrl";
 import useSWR, { mutate } from "swr";
-// import { signIn } from "auth-astro/client";
 import { useGlobalState } from "@/lib/globalState";
 import Logo from "./Logo";
 import fetcherUser, { useKeyUser } from "@/lib/fetcherUser";
@@ -71,12 +69,12 @@ export default function Like({
         <div className="mb-12">
           <Logo />
         </div>
-        <h3 className="text-xl mb-10 w-full text-center">
+        <h3 className="w-full mb-10 text-xl text-center">
           Para indicar que te gusta, inicia sesion.
         </h3>
         <button
           // onClick={() => signIn("google")}
-          className="text-lg block w-full px-6 pb-4 pt-3 bg-black text-white rounded-full transition-colors duration-700 hover:bg-gray-800 active:bg-gray-900"
+          className="block w-full px-6 pt-3 pb-4 text-lg text-white transition-colors duration-700 bg-black rounded-full hover:bg-gray-800 active:bg-gray-900"
         >
           Iniciar Sesión
         </button>
@@ -89,8 +87,6 @@ export default function Like({
     propertyId: string,
     userEmail: string | null | undefined
   ) => {
-    const lastSlashValue = getLastSlashValueFromCurrentUrl() || "";
-
     if (!userEmail) {
       showGlobalModal();
       return;
@@ -107,10 +103,7 @@ export default function Like({
       await mutateByUser();
       await mutateByProperty();
       setIsLiking(false);
-
-      if (!lastSlashValue.includes("favorito")) {
-        await mutate(`${user?.id}-likes-properties`, null);
-      }
+      await mutate(`${user?.id}-likes-properties`, null);
     } else {
       await supabase
         .from("like")
@@ -120,10 +113,7 @@ export default function Like({
       await mutateByUser();
       await mutateByProperty();
       setIsLiking(false);
-
-      if (!lastSlashValue.includes("favorito")) {
-        await mutate(`${user?.id}-likes-properties`, null);
-      }
+      await mutate(`${user?.id}-likes-properties`, null);
     }
   };
 
@@ -213,7 +203,7 @@ export default function Like({
         </svg>
       )}
       {hasCounter ? (
-        <span className="text-xs min-w-2 block">{countByProperty}</span>
+        <span className="block text-xs min-w-2">{countByProperty}</span>
       ) : null}
     </button>
   );

@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function HightLightSelect() {
   return (
     <Link
-      href="/inmuebles/favoritos"
+      href="/favoritos"
       title="Favoritos"
       className="mb-8 py-2 group px-6 border inline-block border-gray-300 rounded-md transition-colors hover:border-cyan-300 active:border-cyan-400"
     >

@@ -7,7 +7,7 @@ import { Suspense } from "react";
 export default async function Page() {
   const session = await auth();
   const userEmail = session?.user?.email;
-
+  
   return (
     <>
       <SearchForm />

@@ -63,7 +63,6 @@ export default function PropertyPreview({
 }: {
   userEmail: string | undefined | null;
 }) {
-  const [isMounted, setIsMounted] = useState(false);
   const { id } = useParams();
   const router = useRouter();
   const propertyId = Array.isArray(id) ? id[0] : id;
@@ -82,26 +81,32 @@ export default function PropertyPreview({
   );
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        router.back();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [router]);
 
   return (
     <div
       onClick={handleOverlayClick}
-      className="bg-black/60 fixed z-30 top-0 cursor-pointer left-0 w-full h-full overflow-auto lg:p-6 bg-opacity-40 transition-all duration-200"
+      className="fixed top-0 left-0 z-30 w-full h-full overflow-auto transition-all duration-200 cursor-pointer bg-black/60 lg:p-6 bg-opacity-40"
     >
-      <div
-        className={`${
-          isMounted ? "translate-y-0 opacity-100" : "translate-y-100 opacity-50"
-        } transition-all duration-300 max-w-[1816px] py-20 px-4 animate-slideUp cursor-default mx-auto relative delay-50 transform-all lg:rounded-xl bg-white min-h-lvh`}
-      >
+      <div className="transition-all duration-300 max-w-[1816px] py-20 px-4 animate-slideUp cursor-default mx-auto relative delay-50 transform-all lg:rounded-xl bg-white min-h-lvh">
         <div className="mx-auto max-w-[1024px] w-full">
           <Property property={property} userEmail={userEmail} />
         </div>
         <button
           type="button"
-          className="absolute right-3 transition-colors duration-300 top-3 rounded-full p-3 hover:text-cyan-400"
-          onClick={() => router.back()}
+          className="absolute p-3 transition-colors duration-300 rounded-full right-3 top-3 hover:text-cyan-400"
+          onClick={router.back}
         >
           <Icon icon="solar:close-circle-broken" fontSize="42" />
         </button>
