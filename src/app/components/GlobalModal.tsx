@@ -2,7 +2,6 @@
 
 import { Icon } from "@iconify/react";
 import { useGlobalState } from "@/lib/globalState";
-import { useEffect } from "react";
 
 export default function GlobalModal() {
   const { isModalOpen, modalContent, setModalOpen } = useGlobalState();
@@ -19,14 +18,14 @@ export default function GlobalModal() {
     }
   };
 
-  useEffect(() => {
-    const app = document.getElementById("app");
-    if (isModalOpen) {
-      app?.classList.add("overflow-hidden");
-    } else {
-      app?.classList.remove("overflow-hidden");
-    }
-  }, [isModalOpen]);
+  // useEffect(() => {
+  //   const app = document.getElementById("app");
+  //   if (isModalOpen) {
+  //     app?.classList.add("overflow-hidden");
+  //   } else {
+  //     app?.classList.remove("overflow-hidden");
+  //   }
+  // }, [isModalOpen]);
 
   return (
     <div

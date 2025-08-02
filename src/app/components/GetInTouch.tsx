@@ -10,6 +10,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputError from "./InputError";
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 const fetcher = async (companyId: string) => {
   const { data, error } = await supabase
@@ -150,7 +151,7 @@ export default function GetInTouch({
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="py-4 px-4 flex flex-col gap-4">
             <div className="flex items-center gap-2">
-              <img src={companyLogo} alt={companyName} className="w-20" />
+              <Image src={companyLogo} alt={companyName} className="w-20" />
               <div>
                 <h3 className="font-bold text-xl mb-2">
                   Ponte en contacto con {companyName}.

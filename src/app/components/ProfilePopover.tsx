@@ -52,7 +52,7 @@ export default async function ProfilePopover() {
                   href="/"
                   className="py-2 px-6 hover:bg-gray-50 flex items-center gap-3.5"
                 >
-                  <Icon icon="solar:home-smile-angle-broken" />
+                  <Icon icon="solar:home-smile-angle-broken" fontSize={20} />
                   <span>Inicio</span>
                 </Link>
               </li>
@@ -62,7 +62,7 @@ export default async function ProfilePopover() {
                   title="Favoritos"
                   className="flex items-center gap-3.5 py-2 px-6 hover:bg-gray-50"
                 >
-                  <Icon icon="solar:clipboard-heart-broken" />
+                  <Icon icon="solar:clipboard-heart-broken" fontSize={20} />
                   <span>Favoritos</span>
                 </Link>
               </li>
@@ -71,7 +71,10 @@ export default async function ProfilePopover() {
                   href="/admin/property"
                   className="flex gap-3.5 items-center py-2 px-6 hover:bg-gray-50"
                 >
-                  <Icon icon="solar:settings-minimalistic-broken" />
+                  <Icon
+                    icon="solar:settings-minimalistic-broken"
+                    fontSize={20}
+                  />
                   <span>Admin</span>
                 </Link>
               </li>
@@ -86,6 +89,7 @@ export default async function ProfilePopover() {
                     <Icon
                       icon="solar:inbox-out-linear"
                       className="-rotate-90"
+                      fontSize={20}
                     />
                     <span>Salir</span>
                   </button>

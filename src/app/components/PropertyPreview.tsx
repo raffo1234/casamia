@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Property from "./Property";
-import { useGlobalState } from "@/lib/globalState";
 import useSWR from "swr";
 import { PropertyState } from "@/types/propertyState";
 import { supabase } from "@/lib/supabase";
 import { Icon } from "@iconify/react";
 import { PropertyType } from "@/types/propertyType";
+import { useParams, useRouter } from "next/navigation";
 
 const fetcher = async (propertyId: string) => {
   const { data } = (await supabase
@@ -63,85 +63,37 @@ export default function PropertyPreview({
 }: {
   userEmail: string | undefined | null;
 }) {
-  const { propertyId, hide, isDisplayed } = useGlobalState();
+  const [isMounted, setIsMounted] = useState(false);
+  const { id } = useParams();
+  const router = useRouter();
+  const propertyId = Array.isArray(id) ? id[0] : id;
 
   const { data: property } = useSWR(propertyId, () =>
     propertyId ? fetcher(propertyId) : null
   );
-  const onClose = useCallback(
-    (event?: React.MouseEvent<HTMLElement>) => {
-      if (!isDisplayed) return;
 
-      if (event) {
-        if (event.target === event.currentTarget) {
-          handleClose();
-        }
-      } else {
-        handleClose();
+  const handleOverlayClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (event.target === event.currentTarget) {
+        router.back();
       }
     },
-    [isDisplayed]
-  );
-
-  const handleClose = useCallback(() => {
-    const app = document.getElementById("app") as HTMLElement;
-    setTimeout(() => {
-      app.classList.remove("overflow-hidden");
-      hide();
-      window.history.back();
-    }, 50);
-  }, [hide]);
-
-  const handleEscape = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    },
-    [onClose]
+    [router]
   );
 
   useEffect(() => {
-    document.addEventListener("keyup", function (event) {
-      if (isDisplayed) {
-        handleEscape(event);
-      }
-    });
-
-    window.addEventListener("popstate", function () {
-      if (isDisplayed) {
-        handleClose();
-      }
-    });
-
-    return () => {
-      document.removeEventListener("keyup", function (event) {
-        if (isDisplayed) {
-          handleEscape(event);
-        }
-      });
-
-      window.removeEventListener("popstate", function () {
-        if (isDisplayed) {
-          handleClose();
-        }
-      });
-    };
-  }, [isDisplayed, handleClose, handleEscape]);
+    setIsMounted(true);
+  }, []);
 
   return (
     <div
-      onClick={(event) => onClose(event)}
-      className={`${
-        isDisplayed ? "bg-opacity-40 visible" : "opacity-0 invisible"
-      } bg-black/50 fixed z-30 top-0 cursor-pointer left-0 w-full h-full overflow-auto lg:p-6 bg-opacity-40 transition-all duration-200`}
+      onClick={handleOverlayClick}
+      className="bg-black/60 fixed z-30 top-0 cursor-pointer left-0 w-full h-full overflow-auto lg:p-6 bg-opacity-40 transition-all duration-200"
     >
       <div
         className={`${
-          isDisplayed
-            ? "translate-y-0 opacity-100"
-            : "translate-y-10 opacity-80"
-        } transition-all duration-200 max-w-[1816px] py-20 px-4 animate-slideUp cursor-default mx-auto relative delay-50 transform-all lg:rounded-lg bg-white min-h-lvh`}
+          isMounted ? "translate-y-0 opacity-100" : "translate-y-100 opacity-50"
+        } transition-all duration-300 max-w-[1816px] py-20 px-4 animate-slideUp cursor-default mx-auto relative delay-50 transform-all lg:rounded-xl bg-white min-h-lvh`}
       >
         <div className="mx-auto max-w-[1024px] w-full">
           <Property property={property} userEmail={userEmail} />
@@ -149,7 +101,7 @@ export default function PropertyPreview({
         <button
           type="button"
           className="absolute right-3 transition-colors duration-300 top-3 rounded-full p-3 hover:text-cyan-400"
-          onClick={() => onClose()}
+          onClick={() => router.back()}
         >
           <Icon icon="solar:close-circle-broken" fontSize="42" />
         </button>

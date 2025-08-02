@@ -1,7 +1,7 @@
 "use client";
 
 import Like from "./Like";
-import { useGlobalState } from "@/lib/globalState";
+// import { useGlobalState } from "@/lib/globalState";
 import PropertyFirstImage from "./PropertyFirstImage";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,32 +16,32 @@ export default function PropertyItem({
   userEmail: string | undefined | null;
 }) {
   const { id, title, company } = property;
-  const { setPropertyId, show, isDisplayed } = useGlobalState();
+  // const { setPropertyId, show, isDisplayed } = useGlobalState();
 
-  const onDisplayPropertyDetail = (
-    event: React.MouseEvent<HTMLAnchorElement>,
-    id: string
-  ) => {
-    event.preventDefault();
-    if (isDisplayed) return;
+  // const onDisplayPropertyDetail = (
+  //   event: React.MouseEvent<HTMLAnchorElement>,
+  //   id: string
+  // ) => {
+  //   event.preventDefault();
+  //   if (isDisplayed) return;
 
-    setPropertyId(id);
-    show();
+  //   setPropertyId(id);
+  //   show();
 
-    const app = document.getElementById("app") as HTMLElement;
-    app.classList.add("overflow-hidden");
-    const newUrl = `/inmueble/${property.id}`;
-    const newTitle = property.title;
-    const newState = { page: property.id };
-    window.history.pushState(newState, newTitle, newUrl);
-  };
+  //   const app = document.getElementById("app") as HTMLElement;
+  //   app.classList.add("overflow-hidden");
+  //   const newUrl = `/inmueble/${property.id}`;
+  //   const newTitle = property.title;
+  //   const newState = { page: property.id };
+  //   window.history.pushState(newState, newTitle, newUrl);
+  // };
 
   return (
     <article className="group">
       <div className="relative mb-1">
         <Link
           href={`/inmueble/${id}`}
-          onClick={(event) => onDisplayPropertyDetail(event, id)}
+          // onClick={(event) => onDisplayPropertyDetail(event, id)}
         >
           <PropertyFirstImage
             title={property.title}
