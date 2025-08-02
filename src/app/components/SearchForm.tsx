@@ -3,7 +3,6 @@
 import { PropertyType } from "@/types/propertyState";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 type Inputs = {
   type: string;
@@ -12,21 +11,12 @@ type Inputs = {
 
 export default function SearchForm() {
   const router = useRouter();
-  const pathname = usePathname();
-  const pathnameArray = pathname
-    .split("/")
-    .filter((segment: string) => segment !== "");
 
   const [isOpen, setIsOpen] = useState(false);
-  const [typeInput, setTypeInput] = useState<string>(
-    pathnameArray.length === 0
-      ? PropertyType.APARTMENT
-      : (pathnameArray?.at(0)?.toUpperCase() as PropertyType)
-  );
+  const [typeInput, setTypeInput] = useState<string>(PropertyType.APARTMENT);
   const { register, handleSubmit } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
-    console.log({ formData });
     const propertyType = typeInput.toLowerCase();
     const trimmedSearchWord = formData.keywords.trim();
     let path: string;

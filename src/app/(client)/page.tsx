@@ -1,4 +1,3 @@
-import PropertiesList from "@/components/PropertiesList";
 import { auth } from "@/lib/auth";
 import { propertyQuery } from "@/queries/property";
 import { PropertyState } from "@/types/propertyState";
@@ -9,6 +8,7 @@ import HightLightSelect from "@/components/HighLightSelect";
 import { Suspense } from "react";
 import Home from "@/components/Home";
 import { PropertyType } from "@/types/propertyType";
+import HomePage from "@/components/HomePage";
 
 export default async function Index() {
   const session = await auth();
@@ -38,7 +38,7 @@ export default async function Index() {
           <Home properties={properties} userEmail={userEmail} />
         </Suspense>
         <Suspense>
-          <PropertiesList userEmail={userEmail} />
+          <HomePage userEmail={userEmail} />
         </Suspense>
       </PropertiesGrid>
     </>

@@ -2,14 +2,14 @@
 
 import { supabase } from "../lib/supabase";
 import useSWR from "swr";
-import PropertyItem from "./PropertyItem";
 import getLastSlashValueFromCurrentUrl from "@/utils/getLastSlashValueFromCurrentUrl";
 import { PropertyState, PropertyType } from "@/types/propertyState";
 import PropertiesGrid from "./PropertiesGrid";
-import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { PropertyType as PropertyTypeDb } from "@/types/propertyType";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
+import Home from "./Home";
+import ResultPage from "./ResultPage";
 
 const columnsToSearch = [
   "title",
@@ -87,44 +87,38 @@ export default function PropertiesResult({
     .filter((segment: string) => segment !== "");
 
   const searchTerms = getLastSlashValueFromCurrentUrl() || "";
-  const { data: properties } = useSWR(
+  const { data: properties = [] } = useSWR(
     `${userEmail}-${searchTerms}-result-properties`,
     () => fetcher(searchTerms, pathnameArray)
   );
 
-  if (properties?.length === 0) {
-    return (
-      <div className="max-w-md mx-auto items-center flex flex-col gap-10">
-        <div className="flex justify-center w-[300px] rounded-full items-center mx-auto bg-cyan-400 aspect-square bg-opacity-5">
-          <Icon
-            icon="solar:album-broken"
-            className="text-[200px] text-white"
-          />
-        </div>
-        <h1 className="text-center">Prueba con otra búsqueda diferente.</h1>
-        <Link
-          href="/"
-          title="Ir al Inicio"
-          className="text-lg flex items-center gap-2 px-6 pb-4 pt-3 bg-black text-white rounded-full transition-colors duration-700 hover:bg-gray-800 active:bg-gray-900"
-        >
-          <Icon icon="solar:home-smile-angle-broken" fontSize={24}></Icon>
-          <span>Ir al Inicio</span>
-        </Link>
-      </div>
-    );
-  }
+  // if (properties?.length === 0) {
+  //   return (
+  //     <div className="max-w-md mx-auto items-center flex flex-col gap-10">
+  //       <div className="flex justify-center w-[300px] rounded-full items-center mx-auto bg-cyan-400 aspect-square bg-opacity-5">
+  //         <Icon icon="solar:album-broken" className="text-[200px] text-white" />
+  //       </div>
+  //       <h1 className="text-center">Prueba con otra búsqueda diferente.</h1>
+  //       <Link
+  //         href="/"
+  //         title="Ir al Inicio"
+  //         className="text-lg flex items-center gap-2 px-6 pb-4 pt-3 bg-black text-white rounded-full transition-colors duration-700 hover:bg-gray-800 active:bg-gray-900"
+  //       >
+  //         <Icon icon="solar:home-smile-angle-broken" fontSize={24}></Icon>
+  //         <span>Ir al Inicio</span>
+  //       </Link>
+  //     </div>
+  //   );
+  // }
 
   return (
     <PropertiesGrid>
-      {properties?.map((property) => {
-        return (
-          <PropertyItem
-            key={property.id}
-            userEmail={userEmail}
-            property={property}
-          />
-        );
-      })}
+      <Suspense>
+        <Home properties={properties} userEmail={userEmail} />
+      </Suspense>
+      <Suspense>
+        <ResultPage userEmail={userEmail} />
+      </Suspense>
     </PropertiesGrid>
   );
 }
