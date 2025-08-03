@@ -99,7 +99,7 @@ export default function PropertyPreview({
       onClick={handleOverlayClick}
       className="fixed top-0 left-0 z-30 w-full h-full overflow-auto transition-all duration-200 cursor-pointer bg-black/60 lg:p-6 bg-opacity-40"
     >
-      <div className="transition-all duration-300 max-w-[1816px] py-20 px-4 animate-slideUp cursor-default mx-auto relative delay-50 transform-all lg:rounded-xl bg-white min-h-lvh">
+      <div className="animate-slide-up transition-all duration-300 max-w-[1816px] py-20 px-4 cursor-default mx-auto relative delay-50 transform-all lg:rounded-xl bg-white min-h-lvh">
         <div className="mx-auto max-w-[1024px] w-full">
           <Property property={property} userEmail={userEmail} />
         </div>

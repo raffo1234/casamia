@@ -14,10 +14,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body id="app">
-        {children}
-        <GlobalModal />
-      </body>
+      <body id="app">{children}</body>
     </html>
   );
 }

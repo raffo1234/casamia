@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@tailwind utilities;
 @import "@fontsource-variable/urbanist";
 @import "@fontsource/manrope";
 
