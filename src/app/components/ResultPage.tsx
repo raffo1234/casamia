@@ -49,11 +49,14 @@ export default function ResultPage({
 }) {
   const params = useParams();
   const searchTerms = params.searchWord as string;
+  const decodedSearchWord = searchTerms
+    ? decodeURIComponent(searchTerms)
+    : searchTerms;
   const propertyType = params.category as string;
 
   const fetcherTotal = async (): Promise<number> => {
     const orConditions = columnsToSearch
-      .map((column) => `${column}.ilike.%${searchTerms}%`)
+      .map((column) => `${column}.ilike.%${decodedSearchWord}%`)
       .join(",");
 
     let supabaseQuery = supabase
@@ -77,7 +80,7 @@ export default function ResultPage({
 
   const fetcherPage = async (index: number, pageSize: number) => {
     const orConditions = columnsToSearch
-      .map((column) => `${column}.ilike.%${searchTerms}%`)
+      .map((column) => `${column}.ilike.%${decodedSearchWord}%`)
       .join(",");
 
     let queryBuilder = supabase

@@ -80,11 +80,14 @@ export default function PropertiesResult({
 }) {
   const params = useParams();
   const searchTerms = params.searchWord as string;
+  const decodedSearchWord = searchTerms
+    ? decodeURIComponent(searchTerms)
+    : searchTerms;
   const category = params.category as string;
 
   const { data: properties = [] } = useSWR(
-    `${userEmail}-${searchTerms}-${category}-result-properties`,
-    () => fetcher(searchTerms, category as string)
+    `${userEmail}-${searchTerms}-${category}-result-properties-first-ones`,
+    () => fetcher(decodedSearchWord, category as string)
   );
   
   return (
