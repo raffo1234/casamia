@@ -19,9 +19,13 @@ export default function SearchForm() {
       ? PropertyType.HOUSE
       : PropertyType.APARTMENT
   );
+  const decodedSearchWord = params.searchWord
+    ? decodeURIComponent(params.searchWord as string)
+    : undefined;
+
   const { register, handleSubmit } = useForm<Inputs>({
     defaultValues: {
-      keywords: params.searchWord as string,
+      keywords: decodedSearchWord,
     },
   });
 
