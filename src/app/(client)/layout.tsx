@@ -16,10 +16,10 @@ export default async function ClientLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="bg-slate-50">
       <Header />
       <Main>{children}</Main>
       {modal}
-    </>
+    </div>
   );
 }

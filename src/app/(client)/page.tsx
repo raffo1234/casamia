@@ -4,7 +4,6 @@ import { PropertyState } from "@/types/propertyState";
 import { supabase } from "@/lib/supabase";
 import PropertiesGrid from "@/components/PropertiesGrid";
 import SearchForm from "@/components/SearchForm";
-import HightLightSelect from "@/components/HighLightSelect";
 import { Suspense } from "react";
 import Home from "@/components/Home";
 import { PropertyType } from "@/types/propertyType";
@@ -27,12 +26,11 @@ export default async function Index() {
         style={{
           fontSize: "clamp(16px, 6vw + .5rem, 50px)",
         }}
-        className="w-full mb-10 leading-tight text-center"
+        className={`w-full mb-10 leading-tight text-center font-dessau-pro-drei`}
       >
         Tu camino hacia una <br /> vida plena
       </h1>
       <SearchForm />
-      <HightLightSelect />
       <PropertiesGrid>
         <Suspense>
           <Home properties={properties} userEmail={userEmail} />

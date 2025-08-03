@@ -8,6 +8,7 @@ import GetInTouch from "./GetInTouch";
 import PropertyImages from "./PropertyImages";
 import Image from "next/image";
 import { PropertyType } from "@/types/propertyType";
+import Link from "next/link";
 
 export default function Property({
   property,
@@ -161,9 +162,9 @@ export default function Property({
               </a>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <a href={`/empresa/${company.id}`} title={company.name}>
+              <Link href={`/empresa/${company.id}`} title={company.name}>
                 {company.name}
-              </a>
+              </Link>
               <div>
                 <GetInTouch
                   propertyId={id}

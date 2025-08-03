@@ -1,7 +1,6 @@
 "use client";
 
 import Like from "./Like";
-// import { useGlobalState } from "@/lib/globalState";
 import PropertyFirstImage from "./PropertyFirstImage";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,80 +14,66 @@ export default function PropertyItem({
   property: PropertyType;
   userEmail: string | undefined | null;
 }) {
-  const { id, title, company } = property;
-  // const { setPropertyId, show, isDisplayed } = useGlobalState();
-
-  // const onDisplayPropertyDetail = (
-  //   event: React.MouseEvent<HTMLAnchorElement>,
-  //   id: string
-  // ) => {
-  //   event.preventDefault();
-  //   if (isDisplayed) return;
-
-  //   setPropertyId(id);
-  //   show();
-
-  //   const app = document.getElementById("app") as HTMLElement;
-  //   app.classList.add("overflow-hidden");
-  //   const newUrl = `/inmueble/${property.id}`;
-  //   const newTitle = property.title;
-  //   const newState = { page: property.id };
-  //   window.history.pushState(newState, newTitle, newUrl);
-  // };
+  const { id, price, property_image, title, company } = property;
 
   return (
-    <article className="group">
+    <article className="group bg-white rounded-3xl">
       <div className="relative mb-1">
-        <Link
-          href={`/inmueble/${id}`}
-          // onClick={(event) => onDisplayPropertyDetail(event, id)}
-        >
+        <Link href={`/inmueble/${id}`} title={title}>
           <PropertyFirstImage
-            title={property.title}
-            src={property.property_image?.at(0)?.image_url}
+            title={title}
+            src={property_image?.at(0)?.image_url}
           />
         </Link>
-        <div className="opacity-0 group-hover:opacity-100 duration-300 transition-all invisible group-hover:visible absolute right-0 top-0 p-4 gap-2 flex items-center">
+        <div className="opacity-0 group-hover:opacity-100 duration-300 transition-all invisible group-hover:visible absolute left-0 top-0 p-3">
           <Like propertyId={id} userEmail={userEmail} />
         </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="p-3 sm:p-5 relative">
         {company ? (
           <Link
             href={`/empresa/${company.id}`}
             title={company.name}
-            className="flex-shrink-0"
+            className="absolute -top-8 left-1/2 -translate-x-1/2"
           >
             <Image
               src={company.logo_url}
-              className="w-8 h-8 object-cover rounded-full bg-gray-100"
+              className="object-cover rounded-full bg-gray-100"
               alt={company.name}
               title={company.name}
-              width={32}
-              height={32}
+              width={50}
+              height={50}
             />
           </Link>
         ) : null}
-        <div className="flex items-center justify-between w-full gap-4">
-          <h2>
+        <div className="w-full gap-4">
+          <div className="flex items-center justify-between">
             <a
               title={title}
               href={`/inmueble/${id}`}
-              className="font-semibold line-clamp-1"
+              className="font-bold text-xl mb-1"
             >
-              {title}
+              $/. {price}
             </a>
-          </h2>
-          <div className="flex items-center">
             <Suspense>
               <Like
                 propertyId={id}
                 userEmail={userEmail}
-                size="small"
                 hasCounter
+                hasBg={false}
+                hasPadding={false}
               />
             </Suspense>
           </div>
+          <h2 className="mb-1">
+            <a
+              title={title}
+              href={`/inmueble/${id}`}
+              className="w-full block font-semibold truncate"
+            >
+              {title}
+            </a>
+          </h2>
         </div>
       </div>
     </article>

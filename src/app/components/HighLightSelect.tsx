@@ -5,12 +5,11 @@ export default function HightLightSelect() {
     <Link
       href="/favoritos"
       title="Favoritos"
-      className="mb-8 py-2 group px-6 border inline-block border-gray-300 rounded-md transition-colors hover:border-cyan-300 active:border-cyan-400"
+      className="py-2 group px-6 bg-slate-100 hover:bg-slate-200 inline-block rounded-full transition-colors"
     >
       <span className="flex items-center gap-2">
-        <span>Favoritos</span>
         <svg
-          className="text-cyan-300"
+          className="text-yellow-400"
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
@@ -21,6 +20,7 @@ export default function HightLightSelect() {
             d="M2 9.137C2 14 6.02 16.591 8.962 18.911C10 19.729 11 20.5 12 20.5s2-.77 3.038-1.59C17.981 16.592 22 14 22 9.138S16.5.825 12 5.501C7.5.825 2 4.274 2 9.137"
           />
         </svg>
+        <span>Favoritos</span>
       </span>
     </Link>
   );

@@ -1,6 +1,7 @@
 export const propertyQuery = `
   id,
   title,
+  price,
   user_id,
   property_image (
     id,

@@ -104,7 +104,7 @@ export default function AdminPropertiesList({
           userRoleId={userRoleId}
           requiredPermission={Permissions.CREAR_INMUEBLE}
         >
-          <a
+          <Link
             href="/admin/property/add"
             title="Agregar Inmueble"
             className="border-dashed border bg-white transition-colors duration-300 border-gray-200 hover:bg-gray-50 rounded-2xl p-4 flex hover:text-cyan-500 justify-center items-center"
@@ -117,7 +117,7 @@ export default function AdminPropertiesList({
               />
               <span>Agregar Inmueble</span>
             </span>
-          </a>
+          </Link>
         </CheckPermission>
         {properties?.map((property) => {
           const { id, title, state, property_image } = property;

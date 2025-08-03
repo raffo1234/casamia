@@ -27,6 +27,8 @@ export default function PropertyImages({
     fetcher(propertyId)
   );
 
+  const imageClassName = "w-full aspect-[5/4] object-cover rounded-3xl";
+
   return (
     <div className="relative w-full aspect-[5/4]">
       {images?.length === 1 ? (
@@ -35,7 +37,7 @@ export default function PropertyImages({
           alt={propertyTitle}
           title={propertyTitle}
           loading="lazy"
-          className="w-full aspect-[5/4] object-cover rounded-lg"
+          className={imageClassName}
           priority={false}
           quality={70}
           fill
@@ -50,20 +52,25 @@ export default function PropertyImages({
         >
           {images?.map((image, index) => {
             return (
-              <img
+              <Image
                 key={index}
                 src={image.image_url}
                 alt={propertyTitle}
                 title={propertyTitle}
                 loading="lazy"
-                className="w-full aspect-[5/4] object-cover rounded-lg"
+                className={imageClassName}
+                priority={false}
+                quality={70}
+                fill
               />
             );
           })}
         </Carousel>
       )}
       <div
-        className={`${images?.length === 0 || isLoading ? "opacity-100" : "opacity-0"} absolute left-0 top-0 h-full transition-opacity duration-500 bg-gray-100 rounded-xl w-full aspect-[5/4] flex justify-center items-center`}
+        className={`${
+          images?.length === 0 || isLoading ? "opacity-100" : "opacity-0"
+        } absolute left-0 top-0 h-full transition-opacity duration-500 bg-gray-100 rounded-xl w-full aspect-[5/4] flex justify-center items-center`}
       >
         <Icon
           icon="solar:gallery-broken"

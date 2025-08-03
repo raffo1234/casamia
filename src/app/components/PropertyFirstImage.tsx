@@ -13,18 +13,17 @@ export default function PropertyFirstImage({
 
   if (!src) {
     return (
-      <div className="animate-pulse bg-gray-100 rounded-xl w-full aspect-[5/4] flex justify-center items-center">
+      <div className="animate-pulse bg-gray-100 rounded-t-3xl w-full aspect-[5/4] flex justify-center items-center">
         <Icon icon="solar:gallery-broken" fontSize={32} />
       </div>
     );
   }
 
   return (
-    <div className="relative w-full aspect-[5/4] rounded-xl overflow-hidden">
+    <div className="relative w-full aspect-[5/4] rounded-t-3xl overflow-hidden">
       {!imageLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse"></div>
       )}
-
       <Image
         src={src}
         alt={title}

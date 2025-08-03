@@ -56,7 +56,7 @@ export default function SearchForm() {
         >
           <button
             type="button"
-            className="h-[52px] pl-6 pr-3 bg-slate-200 font-semibold rounded-full flex items-center gap-1"
+            className="h-[52px] pl-6 pr-3 bg-black text-white font-semibold rounded-full flex items-center gap-1"
           >
             <span>
               {typeInput === PropertyType.APARTMENT ? "Depas" : "Casas"}
@@ -65,7 +65,7 @@ export default function SearchForm() {
               <svg
                 className={`${
                   isOpen ? "rotate-90" : "-rotate-90"
-                } transition-transform duration-200`}
+                } transition-transform duration-200 text-gray-400`}
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
@@ -119,7 +119,7 @@ export default function SearchForm() {
         </div>
         <button
           type="submit"
-          className="h-[52px] aspect-square rounded-full bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-500 transition duration-700 flex items-center justify-center"
+          className="h-[52px] aspect-square rounded-full bg-yellow-400 active:bg-yellow-500 transition duration-700 flex items-center justify-center"
         >
           <svg
             className="text-black text-2xl"

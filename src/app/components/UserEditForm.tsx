@@ -2,6 +2,7 @@ import type { FormEvent } from "react";
 import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
 import FormSkeleton from "@/components/FormSkeleton";
+import Link from "next/link";
 
 interface User {
   id?: string;
@@ -94,12 +95,12 @@ export default function UserEditForm({ userId }: { userId: string }) {
         </fieldset>
       </div>
       <footer className="mt-10">
-        <a
+        <Link
           href="/admin/users"
           className="inline-block py-2 px-10 flex-grow font-semibold text-lg bg-white border-gray-200 border-[1px] rounded-md"
         >
           Cancel
-        </a>
+        </Link>
         <button
           type="submit"
           className="inline-block ml-4 py-2 px-10 flex-grow font-semibold text-lg bg-blue-500 text-white rounded-md"
