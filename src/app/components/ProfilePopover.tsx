@@ -58,7 +58,7 @@ export default async function ProfilePopover() {
               </li>
               <li>
                 <Link
-                  href="/inmuebles/favoritos"
+                  href="/favoritos"
                   title="Favoritos"
                   className="flex items-center gap-3.5 py-2 px-6 hover:bg-gray-50"
                 >

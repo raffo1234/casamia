@@ -74,6 +74,7 @@ export default function PropertyPreview({
   const handleOverlayClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       if (event.target === event.currentTarget) {
+        document.body.classList.remove("overflow-hidden");
         router.back();
       }
     },
@@ -83,6 +84,7 @@ export default function PropertyPreview({
   useEffect(() => {
     const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        document.body.classList.remove("overflow-hidden");
         router.back();
       }
     };
@@ -93,6 +95,10 @@ export default function PropertyPreview({
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [router]);
+
+  useEffect(() => {
+    document.body.classList.add("overflow-hidden");
+  }, []);
 
   return (
     <div
@@ -106,7 +112,10 @@ export default function PropertyPreview({
         <button
           type="button"
           className="absolute p-3 transition-colors duration-300 rounded-full right-3 top-3 hover:text-cyan-400"
-          onClick={router.back}
+          onClick={() => {
+            document.body.classList.remove("overflow-hidden");
+            router.back();
+          }}
         >
           <Icon icon="solar:close-circle-broken" fontSize="42" />
         </button>
