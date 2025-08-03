@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import GlobalModal from "@/components/GlobalModal";
 
 export const metadata: Metadata = {
   title: "Casamia",

@@ -1,6 +1,5 @@
 import SearchForm from "@/components/SearchForm";
 import { supabase } from "@/lib/supabase";
-import PropertiesListByCompany from "@/components/PropertiesListByCompany";
 import GetInTouch from "@/components/GetInTouch";
 import { PropertyState } from "@/types/propertyState";
 import { propertyQuery } from "@/queries/property";
@@ -8,6 +7,9 @@ import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { PropertyType } from "@/types/propertyType";
 import { Suspense } from "react";
+import PropertiesGrid from "@/components/PropertiesGrid";
+import Home from "@/components/Home";
+import CompanyPage from "@/components/CompanyPage";
 
 type Params = Promise<{ id: string[] }>;
 
@@ -30,42 +32,42 @@ export default async function Page({ params }: { params: Params }) {
     .order("created_at", { ascending: false })
     .limit(4)) as { data: PropertyType[] | null };
 
-  if (!company) return null;
-
   return (
     <>
       <SearchForm />
       <div className="mb-5">
         <div className="flex items-center gap-3.5">
           <Image
-            src={company.logo_url}
+            src={company?.logo_url}
             width={150}
             height={150}
             className="mb-5"
-            alt={company.name}
+            alt={company?.name}
             priority={false}
             quality={70}
           />
           <h1 className="text-md lg:text-2xl font-semibold mb-4">
-            {company.name}
+            {company?.name}
           </h1>
         </div>
-        <p className="text-lg">{company.description}</p>
+        <p className="text-lg">{company?.description}</p>
       </div>
       <div className="mb-8">
         <GetInTouch
-          companyId={company.id}
-          companyName={company.name}
-          companyLogo={company.logo_url}
+          companyId={company?.id}
+          companyName={company?.name}
+          companyLogo={company?.logo_url}
         />
       </div>
-      <Suspense>
-        <PropertiesListByCompany
-          userEmail={userEmail}
-          properties={properties}
-          companyId={company.id}
-        />
-      </Suspense>
+
+      <PropertiesGrid>
+        <Suspense>
+          <Home properties={properties} userEmail={userEmail} />
+        </Suspense>
+        <Suspense>
+          <CompanyPage companyId={company?.id} userEmail={userEmail} />
+        </Suspense>
+      </PropertiesGrid>
     </>
   );
 }
