@@ -29,7 +29,7 @@ export default async function Index() {
         }}
         className="w-full mb-10 leading-tight text-center"
       >
-        Encuentra tu próximo <br /> hogar
+        Tu camino hacia una <br /> vida plena
       </h1>
       <SearchForm />
       <HightLightSelect />
