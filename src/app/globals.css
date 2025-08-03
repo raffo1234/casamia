@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@tailwind utilities;
+
 @import "@fontsource-variable/urbanist";
 @import "@fontsource/manrope";
 
@@ -18,4 +18,21 @@ h1 {
 .dropdown-parent:hover .dropdown-child {
   opacity: 100;
   visibility: visible;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(5%);
+    opacity: 0.8;
+    scale: 0.95;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.25s ease-in-out forwards;
 }
