@@ -44,7 +44,7 @@ export default function SearchForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="mb-20 w-full max-w-[600px] mx-auto relative z-10"
     >
-      <div className="w-full hover:bg-white hover:border-cyan-100 focus-within:bg-white focus-within:border-cyan-100 border-2 transition-colors duration-500 border-gray-100 flex items-center bg-gray-100 rounded-full p-1 gap-2">
+      <div className="w-full hover:bg-white hover:border-yellow-400 focus-within:bg-white focus-within:border-yellow-300 border-2 transition-colors duration-500 border-gray-100 flex items-center bg-gray-100 rounded-full p-1 gap-2">
         <div
           onMouseEnter={() => setIsOpen(true)}
           onMouseLeave={() => setIsOpen(false)}
@@ -115,10 +115,10 @@ export default function SearchForm() {
         </div>
         <button
           type="submit"
-          className="h-[52px] aspect-square rounded-full bg-cyan-400 hover:bg-cyan-500 active:bg-cyan-600 transition duration-700 flex items-center justify-center"
+          className="h-[52px] aspect-square rounded-full bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-500 transition duration-700 flex items-center justify-center"
         >
           <svg
-            className="text-white text-2xl"
+            className="text-black text-2xl"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
