@@ -48,7 +48,7 @@ export default function SearchForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="mb-20 w-full max-w-[600px] mx-auto relative z-10"
     >
-      <div className="w-full hover:bg-white hover:border-yellow-400 focus-within:bg-white focus-within:border-yellow-300 border-2 transition-colors duration-500 border-gray-100 flex items-center bg-gray-100 rounded-full p-1 gap-2">
+      <div className="w-full hover:bg-white hover:border-yellow-400 focus-within:bg-white focus-within:border-yellow-300 border-2 transition-colors duration-500 border-gray-100 flex items-center bg-gray-100 rounded-full p-1 gap-3">
         <div
           onMouseEnter={() => setIsOpen(true)}
           onMouseLeave={() => setIsOpen(false)}
@@ -56,7 +56,7 @@ export default function SearchForm() {
         >
           <button
             type="button"
-            className="h-[52px] pl-6 pr-3 bg-black text-white font-semibold rounded-full flex items-center gap-1"
+            className="h-[52px] pl-6 pr-3 bg-black text-white rounded-full flex items-center gap-1"
           >
             <span>
               {typeInput === PropertyType.APARTMENT ? "Depas" : "Casas"}
@@ -113,8 +113,8 @@ export default function SearchForm() {
           <input
             type="search"
             {...register("keywords")}
-            className="w-full flex-grow placeholder:text-gray-400 border-transparent border-2 focus:outline-none py-3 bg-transparent"
-            placeholder="Buscar ..."
+            className="w-full font-light flex-grow placeholder:text-gray-400 border-transparent border-2 focus:outline-none py-3 bg-transparent"
+            placeholder={`Buscar ${typeInput.toLowerCase()}. Ejemplo: San Isidro`}
           />
         </div>
         <button

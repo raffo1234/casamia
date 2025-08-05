@@ -6,6 +6,7 @@ import useSWR, { mutate } from "swr";
 import { useGlobalState } from "@/lib/globalState";
 import Logo from "./Logo";
 import fetcherUser, { useKeyUser } from "@/lib/fetcherUser";
+import { signIn } from "next-auth/react";
 
 const fetcherByUser = async (propertyId: string, userEmail: string) => {
   const { count, error } = await supabase
@@ -77,7 +78,7 @@ export default function Like({
           Para indicar que te gusta, inicia sesion.
         </h3>
         <button
-          // onClick={() => signIn("google")}
+          onClick={() => signIn("google")}
           className="block w-full px-6 pt-3 pb-4 text-lg text-white transition-colors duration-700 bg-black rounded-full hover:bg-gray-800 active:bg-gray-900"
         >
           Iniciar Sesión

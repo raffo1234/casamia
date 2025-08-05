@@ -1,10 +1,18 @@
+import localFont from "next/font/local";
 import type { Metadata } from "next";
-import { Mona_Sans } from "next/font/google";
+import { Roboto } from "next/font/google";
+import GlobalModal from "./components/GlobalModal";
 import "./globals.css";
 
-const mona = Mona_Sans({
-  weight: "400",
+const roboto = Roboto({
+  weight: ["300", "400", "700", "800"],
   subsets: ["latin"],
+  variable: "--font-manrope",
+});
+
+const flaviotte = localFont({
+  src: "../../public/fonts/Flaviotte.woff2", // The path to your local font file
+  variable: "--font-flaviotte",
 });
 
 export const metadata: Metadata = {
@@ -18,8 +26,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={mona.className}>
-      <body id="app">{children}</body>
+    <html
+      lang="es"
+      className={`${roboto.variable} font-roboto ${flaviotte.variable} font-normal`}
+    >
+      <body id="app">
+        {children}
+        <GlobalModal />
+      </body>
     </html>
   );
 }

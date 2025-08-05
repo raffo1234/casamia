@@ -48,13 +48,13 @@ export default function PropertyItem({
         ) : null}
         <div className="w-full gap-4">
           <div className="flex items-center justify-between">
-            <a
-              title={title}
+            <Link
               href={`/inmueble/${id}`}
-              className="font-bold text-xl mb-1"
+              title={title}
+              className=" font-semibold font-flaviotte text-xl mb-1"
             >
-              $/. {price}
-            </a>
+              S/. {price}
+            </Link>
             <Suspense>
               <Like
                 propertyId={id}
@@ -66,13 +66,13 @@ export default function PropertyItem({
             </Suspense>
           </div>
           <h2 className="mb-1">
-            <a
+            <Link
               title={title}
               href={`/inmueble/${id}`}
-              className="w-full block font-semibold truncate"
+              className="w-full block truncate text-sm text-gray-400 font-light"
             >
               {title}
-            </a>
+            </Link>
           </h2>
         </div>
       </div>

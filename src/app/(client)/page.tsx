@@ -24,11 +24,11 @@ export default async function Index() {
     <>
       <h1
         style={{
-          fontSize: "clamp(16px, 6vw + .5rem, 50px)",
+          fontSize: "clamp(16px, 6vw + .5rem, 63px)",
         }}
-        className={`w-full mb-10 leading-tight text-center font-dessau-pro-drei`}
+        className="font-flaviotte w-full mb-20 leading-tight text-center"
       >
-        Tu camino hacia una <br /> vida plena
+        Tu nuevo hogar <br /> te espera.
       </h1>
       <SearchForm />
       <PropertiesGrid>
