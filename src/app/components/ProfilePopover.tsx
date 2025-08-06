@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import Image from "next/image";
 import { signIn, signOut, auth } from "@/lib/auth";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 export default async function ProfilePopover() {
   const session = await auth();
@@ -99,19 +100,7 @@ export default async function ProfilePopover() {
           </div>
         </div>
       ) : (
-        <form
-          action={async () => {
-            "use server";
-            await signIn("google");
-          }}
-        >
-          <button
-            type="submit"
-            className="block px-6 py-2 bg-black text-white rounded-full transition-colors duration-700 hover:bg-gray-800 active:bg-gray-900"
-          >
-            Iniciar sesión
-          </button>
-        </form>
+        <GoogleLoginButton />
       )}
     </>
   );
