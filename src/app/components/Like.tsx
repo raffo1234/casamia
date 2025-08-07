@@ -6,7 +6,6 @@ import useSWR, { mutate } from "swr";
 import { useGlobalState } from "@/lib/globalState";
 import Logo from "./Logo";
 import fetcherUser, { useKeyUser } from "@/lib/fetcherUser";
-import { signIn } from "next-auth/react";
 import GoogleLoginButton from "./GoogleLoginButton";
 
 const fetcherByUser = async (propertyId: string, userEmail: string) => {
@@ -79,8 +78,7 @@ export default function Like({
           Para indicar que te gusta, inicia sesion.
         </h3>
         <div className="flex justify-center w-full">
-
-        <GoogleLoginButton />
+          <GoogleLoginButton />
         </div>
       </>
     );

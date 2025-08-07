@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import Image from "next/image";
-import { signIn, signOut, auth } from "@/lib/auth";
+import { signOut, auth } from "@/lib/auth";
 import GoogleLoginButton from "./GoogleLoginButton";
 
 export default async function ProfilePopover() {

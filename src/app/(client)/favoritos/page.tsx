@@ -1,7 +1,7 @@
 import FavoritesWrapper from "@/components/FavoritesWrapper";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
 import SearchForm from "@/components/SearchForm";
-import { auth, signIn } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { Icon } from "@iconify/react";
 import { Suspense, use } from "react";
 

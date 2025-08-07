@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 export default function PropertyImagesEdition({
   propertyImages,
@@ -19,7 +20,7 @@ export default function PropertyImagesEdition({
       {propertyImages?.map(({ image_url }) => {
         return (
           <div key={image_url}>
-            <img
+            <Image
               key={image_url}
               src={image_url}
               alt="Inmueble"
