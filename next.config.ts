@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
         "https://bzhqohtiptcvesotbvgh.supabase.co/storage/v1/object/public/**"
       ),
       new URL("https://lh3.googleusercontent.com/**"),
+      new URL("https://picsum.photos/**"),
     ],
   },
 };

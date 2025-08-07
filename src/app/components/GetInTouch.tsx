@@ -150,8 +150,14 @@ export default function GetInTouch({
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="py-4 px-4 flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-              <Image src={companyLogo} alt={companyName} className="w-20" />
+            <div className="flex items-center gap-3 mb-10 ">
+              <Image
+                src={companyLogo}
+                alt={companyName}
+                width={80}
+                height={80}
+                className="w-20"
+              />
               <div>
                 <h3 className="font-bold text-xl mb-2">
                   Ponte en contacto con {companyName}.
@@ -165,7 +171,7 @@ export default function GetInTouch({
                   htmlFor="property_id"
                   className="inline-block mb-2 font-semibold"
                 >
-                  Inmueble de tu interes
+                  Proyecto de tu interes
                 </label>
                 <select
                   id="property_id"

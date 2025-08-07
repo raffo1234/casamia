@@ -16,7 +16,7 @@ export default async function ClientLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <div className="bg-slate-50">
+    <div className="bg-slate-50 min-h-lvh">
       <Header />
       <Main>{children}</Main>
       {modal}

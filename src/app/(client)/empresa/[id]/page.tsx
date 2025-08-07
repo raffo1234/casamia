@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import PropertiesGrid from "@/components/PropertiesGrid";
 import Home from "@/components/Home";
 import CompanyPage from "@/components/CompanyPage";
+import Link from "next/link";
 
 type Params = Promise<{ id: string[] }>;
 
@@ -36,30 +37,38 @@ export default async function Page({ params }: { params: Params }) {
     <>
       <SearchForm />
       <div className="mb-5">
-        <div className="flex items-center gap-3.5">
-          <Image
-            src={company?.logo_url}
-            width={150}
-            height={150}
-            className="mb-5"
-            alt={company?.name}
-            priority={false}
-            quality={70}
-          />
-          <h1 className="text-md lg:text-2xl font-semibold mb-4">
-            {company?.name}
-          </h1>
+        <div className="mb-10 flex gap-3 justify-between items-center-safe">
+          {company ? (
+            <div className="flex gap-3 items-center-safe ">
+              <span className="font-light">Por: </span>
+              <Link
+                href={`/empresa/${company.id}`}
+                title={company.name}
+                className="flex text-lg items-center-safe gap-3"
+              >
+                <Image
+                  src={company.logo_url}
+                  alt={company.name}
+                  className="rounded-full"
+                  height="32"
+                  width="32"
+                />
+                <span className="border-b-2 transition-colors hover:border-slate-300 border-slate-400">
+                  {company.name}
+                </span>
+              </Link>
+            </div>
+          ) : null}
+          {company ? (
+            <GetInTouch
+              companyId={company?.id}
+              companyName={company?.name}
+              companyLogo={company?.logo_url}
+            />
+          ) : null}
         </div>
-        <p className="text-lg">{company?.description}</p>
+        <p className="text-lg mb-30">{company?.description}</p>
       </div>
-      <div className="mb-8">
-        <GetInTouch
-          companyId={company?.id}
-          companyName={company?.name}
-          companyLogo={company?.logo_url}
-        />
-      </div>
-
       <PropertiesGrid>
         <Suspense>
           <Home properties={properties} userEmail={userEmail} />

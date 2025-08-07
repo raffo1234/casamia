@@ -28,7 +28,7 @@ export default async function RootLayout({
   return (
     <html
       lang="es"
-      className={`${roboto.variable} font-roboto ${flaviotte.variable} font-normal`}
+      className={`${roboto.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
     >
       <body id="app">
         {children}
