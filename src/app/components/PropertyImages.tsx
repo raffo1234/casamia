@@ -2,9 +2,11 @@
 
 import { Icon } from "@iconify/react";
 import { supabase } from "@/lib/supabase";
-import { Carousel } from "antd";
 import useSWR from "swr";
 import Image from "next/image";
+import ImageSlider from "./ImageSlider";
+import { useMemo } from "react";
+import Link from "next/link";
 
 const fetcher = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -26,58 +28,52 @@ export default function PropertyImages({
   const { data: images, isLoading } = useSWR(`${propertyId}-images`, () =>
     fetcher(propertyId)
   );
-
   const imageClassName = "w-full aspect-[5/4] object-cover rounded-3xl";
 
+  const imagesToSlider = useMemo(
+    () =>
+      images?.map((image) => ({
+        src: image.image_url,
+        propertyId: propertyId,
+      })) || [],
+    [images, propertyId]
+  );
+
   return (
-    <div className="relative w-full aspect-[5/4]">
-      {images?.length === 1 ? (
-        <Image
-          src={images[0].image_url}
-          alt={propertyTitle}
-          title={propertyTitle}
-          loading="lazy"
-          className={imageClassName}
-          priority={false}
-          quality={70}
-          fill
-        />
-      ) : (
-        <Carousel
-          arrows
-          draggable
-          infinite={false}
-          autoplay={{ dotDuration: true }}
-          autoplaySpeed={3000}
+    <div className="relative w-full">
+      {images?.length === 0 || isLoading ? (
+        <div
+          className={`${imageClassName} ${
+            images?.length === 0 || isLoading ? "opacity-100" : "opacity-0"
+          } absolute left-0 top-0 h-full transition-opacity duration-500 bg-gray-100 rounded-xl w-full aspect-[5/4] flex justify-center items-center`}
         >
-          {images?.map((image, index) => {
-            return (
-              <Image
-                key={index}
-                src={image.image_url}
-                alt={propertyTitle}
-                title={propertyTitle}
-                loading="lazy"
-                className={imageClassName}
-                priority={false}
-                quality={70}
-                fill
-              />
-            );
-          })}
-        </Carousel>
+          <Icon
+            icon="solar:gallery-broken"
+            fontSize={64}
+            className="text-gray-400"
+          />
+        </div>
+      ) : null}
+      {images?.length === 1 ? (
+        <Link
+          href={`/inmueble/${propertyId}/imagenes`}
+          className="w-full aspect-5/4 mx-auto cursor-pointer"
+        >
+          <Image
+            src={images[0].image_url}
+            alt={propertyTitle}
+            title={propertyTitle}
+            loading="lazy"
+            className={imageClassName}
+            priority={false}
+            quality={70}
+            width={500}
+            height={400}
+          />
+        </Link>
+      ) : (
+        <ImageSlider images={imagesToSlider} />
       )}
-      <div
-        className={`${
-          images?.length === 0 || isLoading ? "opacity-100" : "opacity-0"
-        } absolute left-0 top-0 h-full transition-opacity duration-500 bg-gray-100 rounded-xl w-full aspect-[5/4] flex justify-center items-center`}
-      >
-        <Icon
-          icon="solar:gallery-broken"
-          fontSize={64}
-          className="text-gray-400"
-        />
-      </div>
     </div>
   );
 }

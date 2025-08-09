@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import GlobalModal from "./components/GlobalModal";
 import "./globals.css";
+import Slider from "./components/Slider";
 
 const roboto = Roboto({
   weight: ["300", "400", "700", "800"],
@@ -33,6 +34,7 @@ export default async function RootLayout({
       <body id="app">
         {children}
         <GlobalModal />
+        <Slider />
       </body>
     </html>
   );

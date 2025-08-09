@@ -141,7 +141,7 @@ export default function Property({
             </div>
           </div>
           <div className="lg:w-1/2 relative">
-            <div className="absolute top-0 left-0 z-10 p-5">
+            <div className="absolute top-0 left-0 z-10">
               <Like size={24} propertyId={id} userEmail={userEmail} />
             </div>
             <PropertyImages
