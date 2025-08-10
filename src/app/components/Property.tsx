@@ -85,36 +85,45 @@ export default function Property({
             <div className="border border-slate-300 rounded-xl">
               <table className="border-collapse border-spacing-0 w-full text-center">
                 <thead>
-                  <tr>
-                    <th className="border-r border-b border-slate-300 p-4 rounded-tl-lg">
-                      <Icon
-                        icon="solar:calendar-linear"
-                        className="text-xl inline-block"
-                      />
-                    </th>
-                    <th className="border-r border-b border-slate-300 p-4">
-                      <Icon
-                        icon="lucide:bed-double"
-                        className="text-xl inline-block"
-                      />
-                    </th>
-                    <th className="border-r border-b border-slate-300 p-4">
-                      <Icon
-                        icon="lucide-lab:shower"
-                        className="text-xl inline-block"
-                      />
-                    </th>
-                    <th className="border-b border-slate-300 p-4 rounded-tr-lg">
+                  <tr className="flex">
+                    <th className="flex-1 border-r border-b border-slate-300 p-4 rounded-tl-lg">
                       <Icon
                         icon="ri:price-tag-3-line"
                         className="text-xl  inline-block"
                       />
                     </th>
+                    <th className="flex-1 border-r border-b border-slate-300 p-4">
+                      <Icon
+                        icon="lucide:bed-double"
+                        className="text-xl inline-block"
+                      />
+                    </th>
+                    <th className="flex-1 border-r border-b border-slate-300 p-4">
+                      <Icon
+                        icon="lucide-lab:shower"
+                        className="text-xl inline-block"
+                      />
+                    </th>
+                    <th className="flex-1 border-b border-slate-300 p-4 rounded-tr-lg">
+                      <Icon
+                        icon="solar:calendar-linear"
+                        className="text-xl inline-block"
+                      />
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="text-sm border-r border-slate-300 p-4 rounded-bl-lg">
+                  <tr className="flex">
+                    <td className="flex-1 border-r border-slate-300 p-4 rounded-bl-lg">
+                      S/. {price}
+                    </td>
+                    <td className="flex-1 border-r border-slate-300 p-4">
+                      {bedroom_count}
+                    </td>
+                    <td className="flex-1 border-r border-slate-300 p-4">
+                      {bathroom_count}
+                    </td>
+                    <td className="flex-1 p-4 text-sm rounded-br-lg">
                       {phase === PropertyPhase.PLANOS ||
                       phase === PropertyPhase.CONSTRUCCION ? (
                         <span className="text-sm">
@@ -128,13 +137,6 @@ export default function Property({
                         phase
                       )}
                     </td>
-                    <td className="border-r border-slate-300 p-4">
-                      {bedroom_count}
-                    </td>
-                    <td className="border-r border-slate-300 p-4">
-                      {bathroom_count}
-                    </td>
-                    <td className="p-4 rounded-br-lg">S/. {price}</td>
                   </tr>
                 </tbody>
               </table>
