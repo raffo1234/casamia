@@ -3,6 +3,7 @@
 @theme {
   --font-roboto: "Roboto", sans-serif;
   --font-flaviotte: "Flaviotte", sans-serif;
+  --font-bebas: "Bebas_Neue", sans-serif;
 }
 
 @layer base {

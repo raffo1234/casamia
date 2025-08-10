@@ -18,10 +18,9 @@ export default function Logo() {
           />
         </svg>
       </span>
-      <span
-        className="font-semibold text-lg uppercase"
-        style={{ fontFamily: "Urbanist Variable" }}
-      ></span>
+      <span className="font-semibold text-2xl tracking-wider uppercase font-bebas">
+        Casamia
+      </span>
     </Link>
   );
 }

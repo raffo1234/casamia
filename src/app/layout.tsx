@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Bebas_Neue, Roboto } from "next/font/google";
 import GlobalModal from "./components/GlobalModal";
 import "./globals.css";
 import Slider from "./components/Slider";
@@ -8,7 +8,13 @@ import Slider from "./components/Slider";
 const roboto = Roboto({
   weight: ["300", "400", "700", "800"],
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-roboto",
+});
+
+const bebas = Bebas_Neue({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--font-bebas",
 });
 
 const flaviotte = localFont({
@@ -29,7 +35,7 @@ export default async function RootLayout({
   return (
     <html
       lang="es"
-      className={`${roboto.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
+      className={`${roboto.variable} ${bebas.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
     >
       <body id="app">
         {children}

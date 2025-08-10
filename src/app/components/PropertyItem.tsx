@@ -29,7 +29,7 @@ export default function PropertyItem({
           <Like propertyId={id} userEmail={userEmail} />
         </div>
       </div>
-      <div className="p-3 sm:p-5 relative">
+      <div className="p-3 sm:p-5 sm:pt-7 relative">
         {company ? (
           <Link
             href={`/empresa/${company.id}`}
