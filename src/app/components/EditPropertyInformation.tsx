@@ -29,7 +29,7 @@ type Inputs = {
   type: string;
   bathroom_count: string;
   bedroom_count: string;
-  company_id: string;
+  company_id?: string;
   size: string;
   price: string;
   created_at: string;
@@ -280,11 +280,14 @@ export default function EditPropertyInformation({
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold">Empresa</h2>
+              <p>
+                Por defecto, la autoría de esta publicación se asignará a tu
+                perfil. Puedes cambiarlo seleccionando una empresa.
+              </p>
               <fieldset className="flex items-center gap-4 w-full">
                 <select
                   id="company_id"
                   {...register("company_id")}
-                  required
                   className="w-full -m-[1px] px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
                 >
                   {companies?.map(({ id, name }) => {

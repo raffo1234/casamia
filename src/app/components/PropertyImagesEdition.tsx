@@ -25,6 +25,8 @@ export default function PropertyImagesEdition({
               src={image_url}
               alt="Inmueble"
               className="w-full aspect-[5/4] object-cover rounded-xl bg-gray-100"
+              width={400}
+              height={300}
             />
             <div className="flex justify-center border-x border-b border-gray-100 -mt-3 pt-6 pb-3 px-4 rounded-b-xl">
               <button

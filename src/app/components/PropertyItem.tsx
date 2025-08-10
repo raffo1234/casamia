@@ -14,8 +14,8 @@ export default function PropertyItem({
   property: PropertyType;
   userEmail: string | undefined | null;
 }) {
-  const { id, price, property_image, title, company } = property;
-
+  const { id, price, user, property_image, title, company } = property;
+  
   return (
     <article className="group bg-white rounded-3xl">
       <div className="relative mb-1">
@@ -41,6 +41,21 @@ export default function PropertyItem({
               className="object-cover rounded-full bg-gray-100"
               alt={company.name}
               title={company.name}
+              width={50}
+              height={50}
+            />
+          </Link>
+        ) : user ? (
+          <Link
+            href={`/usuario/${user?.id}`}
+            title={user?.name}
+            className="absolute -top-8 left-1/2 -translate-x-1/2"
+          >
+            <Image
+              src={user?.image_url}
+              className="object-cover rounded-full bg-gray-100"
+              alt={user?.name}
+              title={user?.name}
               width={50}
               height={50}
             />
