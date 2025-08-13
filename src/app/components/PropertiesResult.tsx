@@ -26,6 +26,7 @@ const columnsToSearch = [
 const query = `
           id,
           title,
+          price,
           description,
           user_id,
           type,
@@ -85,11 +86,13 @@ export default function PropertiesResult({
     : searchTerms;
   const category = params.category as string;
 
-  const { data: properties = [] } = useSWR(
+  const { data: properties = [], isLoading } = useSWR(
     `${userEmail}-${searchTerms}-${category}-result-properties-first-ones`,
     () => fetcher(decodedSearchWord, category as string)
   );
-  
+
+  if (isLoading) return "Cargando ...";
+
   return (
     <PropertiesGrid>
       <Suspense>
