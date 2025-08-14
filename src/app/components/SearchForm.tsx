@@ -123,7 +123,7 @@ export default function SearchForm() {
         </div>
         <button
           type="submit"
-          className="h-[52px] aspect-square rounded-full bg-yellow-400 active:bg-yellow-500 transition duration-700 flex items-center justify-center"
+          className="h-[52px] aspect-square rounded-full bg-yellow-400 cursor-pointer hover:bg-yellow-500 transition duration-700 flex items-center justify-center"
         >
           <svg
             className="text-black text-2xl"

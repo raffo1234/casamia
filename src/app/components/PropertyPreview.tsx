@@ -5,7 +5,6 @@ import Property from "./Property";
 import useSWR from "swr";
 import { PropertyState } from "@/types/propertyState";
 import { supabase } from "@/lib/supabase";
-import { Icon } from "@iconify/react";
 import { PropertyType } from "@/types/propertyType";
 import { useParams, useRouter } from "next/navigation";
 
@@ -111,14 +110,28 @@ export default function PropertyPreview({
         <div className="mx-auto w-full">
           <Property property={property} userEmail={userEmail} />
         </div>
-        <button
-          type="button"
-          className="absolute p-3 transition-colors duration-300 rounded-full right-3 top-3 hover:text-cyan-400"
-          onClick={router.back}
-        >
-          <Icon icon="solar:close-circle-broken" fontSize="42" />
-        </button>
       </div>
+      <button
+        type="button"
+        className="absolute bg-yellow-400 cursor-pointer p-3 transition-colors duration-300 rounded-full right-3 top-3 hover:bg-yellow-500"
+        onClick={router.back}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="36"
+          height="36"
+          viewBox="0 0 512 512"
+        >
+          <path
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="32"
+            d="M368 368L144 144m224 0L144 368"
+          />
+        </svg>
+      </button>
     </div>
   );
 }
