@@ -30,6 +30,8 @@ export default function SearchForm() {
     },
   });
 
+  const { ref, ...rest } = register("keywords");
+
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     const propertyType = typeInput.toLowerCase();
     const trimmedSearchWord = formData.keywords
@@ -114,9 +116,12 @@ export default function SearchForm() {
         </div>
         <div className="flex-grow w-[100px]">
           <input
-            {...register("keywords")}
+            {...rest}
+            ref={(e) => {
+              ref(e);
+              inputRef.current = e;
+            }}
             type="search"
-            ref={inputRef}
             className="w-full font-light flex-grow placeholder:text-gray-400 border-transparent border-2 focus:outline-none py-3 bg-transparent"
             placeholder={`Buscar ${typeInput.toLowerCase()}. Ejemplo: San Isidro`}
           />

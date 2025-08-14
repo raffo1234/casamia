@@ -31,39 +31,37 @@ export default function Property({
   } = property;
 
   return (
-    <>
-      <div className="mx-auto max-w-[1650px] w-full mb-6">
-        <div className="mb-30 flex gap-3 justify-between items-center-safe">
-          {company ? (
-            <div className="flex gap-3 items-center-safe ">
-              <span className="font-light">Por: </span>
-              <a
-                href={`/empresa/${company.id}`}
-                title={company.name}
-                className="flex text-lg items-center-safe gap-3"
-              >
-                <Image
-                  src={company.logo_url}
-                  alt={company.name}
-                  className="rounded-full"
-                  height="32"
-                  width="32"
-                />
-                <span className="border-b-2 transition-colors hover:border-slate-300 border-slate-400">
-                  {company.name}
-                </span>
-              </a>
-            </div>
-          ) : null}
-          {company ? (
-            <GetInTouch
-              propertyId={id}
-              companyName={company.name}
-              companyLogo={company.logo_url}
-              propertyTitle={property.title}
-            />
-          ) : null}
+    <div className="mx-auto max-w-[1650px] w-full mb-6">
+      {company ? (
+        <div className="px-6 sm:px-14 py-4 bg-slate-100 w-full flex items-center justify-between rounded-t-3xl pr-20">
+          <div className="flex gap-3 items-center-safe">
+            <span className="font-light">Por: </span>
+            <a
+              href={`/empresa/${company.id}`}
+              title={company.name}
+              className="flex text-lg items-center-safe gap-3"
+            >
+              <Image
+                src={company.logo_url}
+                alt={company.name}
+                className="rounded-full"
+                height="32"
+                width="32"
+              />
+              <span className="border-b-2 transition-colors hover:border-slate-300 border-slate-400">
+                {company.name}
+              </span>
+            </a>
+          </div>
+          <GetInTouch
+            propertyId={id}
+            companyName={company.name}
+            companyLogo={company.logo_url}
+            propertyTitle={property.title}
+          />
         </div>
+      ) : null}
+      <div className="px-6 sm:px-14 pt-30 ">
         <div className="lg:flex items-center-safe">
           <div className="lg:w-1/2 lg:pr-20 mb-10 lg:mb-0">
             <h1
@@ -152,14 +150,14 @@ export default function Property({
             />
           </div>
         </div>
+        {property.description ? (
+          <>
+            <h3 className="mb-6 text-xl font-semibold">Conoce mas:</h3>
+            <p className="leading-relaxed">{property.description}</p>
+          </>
+        ) : null}
+        <Typologies propertyId={property.id} />
       </div>
-      {property.description ? (
-        <>
-          <h3 className="mb-6 text-xl font-semibold">Conoce mas:</h3>
-          <p className="leading-relaxed">{property.description}</p>
-        </>
-      ) : null}
-      <Typologies propertyId={property.id} />
-    </>
+    </div>
   );
 }
