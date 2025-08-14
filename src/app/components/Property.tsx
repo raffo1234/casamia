@@ -33,13 +33,13 @@ export default function Property({
   return (
     <div className="mx-auto max-w-[1650px] w-full mb-6">
       {company ? (
-        <div className="px-6 sm:px-14 py-4 bg-slate-100 w-full flex items-center justify-between rounded-t-3xl pr-20">
+        <div className="flex items-center justify-between w-full px-6 py-4 pr-20 sm:px-14 bg-slate-100 rounded-t-3xl">
           <div className="flex gap-3 items-center-safe">
             <span className="font-light">Por: </span>
             <a
               href={`/empresa/${company.id}`}
               title={company.name}
-              className="flex text-lg items-center-safe gap-3"
+              className="flex gap-3 text-lg items-center-safe"
             >
               <Image
                 src={company.logo_url}
@@ -48,7 +48,7 @@ export default function Property({
                 height="32"
                 width="32"
               />
-              <span className="border-b-2 transition-colors hover:border-slate-300 border-slate-400">
+              <span className="transition-colors border-b-2 hover:border-slate-300 border-slate-400">
                 {company.name}
               </span>
             </a>
@@ -63,9 +63,9 @@ export default function Property({
       ) : null}
       <div className="px-6 sm:px-14 pt-30 ">
         <div className="lg:flex items-center-safe">
-          <div className="lg:w-1/2 lg:pr-20 mb-10 lg:mb-0">
+          <div className="mb-10 lg:w-1/2 lg:pr-20 lg:mb-0">
             <h1
-              className="font-flaviotte leading-tight mb-8"
+              className="mb-8 leading-tight font-flaviotte"
               style={{
                 fontSize: "clamp(60px,41.6901408451px + 3.661971831vw,112px)",
               }}
@@ -81,44 +81,44 @@ export default function Property({
               {location}
             </h2>
             <div className="border border-slate-300 rounded-xl">
-              <table className="border-collapse border-spacing-0 w-full text-center">
+              <table className="w-full text-center border-collapse border-spacing-0">
                 <thead>
                   <tr className="flex">
-                    <th className="flex-1 border-r border-b border-slate-300 p-4 rounded-tl-lg">
+                    <th className="flex-1 p-4 border-b border-r rounded-tl-lg border-slate-300">
                       <Icon
                         icon="ri:price-tag-3-line"
-                        className="text-xl  inline-block"
+                        className="inline-block text-xl"
                       />
                     </th>
-                    <th className="flex-1 border-r border-b border-slate-300 p-4">
+                    <th className="flex-1 p-4 border-b border-r border-slate-300">
                       <Icon
                         icon="lucide:bed-double"
-                        className="text-xl inline-block"
+                        className="inline-block text-xl"
                       />
                     </th>
-                    <th className="flex-1 border-r border-b border-slate-300 p-4">
+                    <th className="flex-1 p-4 border-b border-r border-slate-300">
                       <Icon
                         icon="lucide-lab:shower"
-                        className="text-xl inline-block"
+                        className="inline-block text-xl"
                       />
                     </th>
-                    <th className="flex-1 border-b border-slate-300 p-4 rounded-tr-lg">
+                    <th className="flex-1 p-4 border-b rounded-tr-lg border-slate-300">
                       <Icon
                         icon="solar:calendar-linear"
-                        className="text-xl inline-block"
+                        className="inline-block text-xl"
                       />
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="flex">
-                    <td className="flex-1 border-r border-slate-300 p-4 rounded-bl-lg">
+                    <td className="flex-1 p-4 border-r rounded-bl-lg border-slate-300">
                       S/. {price}
                     </td>
-                    <td className="flex-1 border-r border-slate-300 p-4">
+                    <td className="flex-1 p-4 border-r border-slate-300">
                       {bedroom_count}
                     </td>
-                    <td className="flex-1 border-r border-slate-300 p-4">
+                    <td className="flex-1 p-4 border-r border-slate-300">
                       {bathroom_count}
                     </td>
                     <td className="flex-1 p-4 text-sm rounded-br-lg">
@@ -140,7 +140,7 @@ export default function Property({
               </table>
             </div>
           </div>
-          <div className="lg:w-1/2 relative">
+          <div className="relative lg:w-1/2">
             <div className="absolute top-0 left-0 z-10">
               <Like size={24} propertyId={id} userEmail={userEmail} />
             </div>
@@ -151,10 +151,12 @@ export default function Property({
           </div>
         </div>
         {property.description ? (
-          <>
-            <h3 className="mb-6 text-xl font-semibold">Conoce mas:</h3>
-            <p className="leading-relaxed">{property.description}</p>
-          </>
+          <div className="pt-20">
+            <h3 className="mb-6 text-sm text-slate-700">Conoce m&aacute;s</h3>
+            <p className="text-3xl font-light leading-relaxed">
+              {property.description}
+            </p>
+          </div>
         ) : null}
         <Typologies propertyId={property.id} />
       </div>
