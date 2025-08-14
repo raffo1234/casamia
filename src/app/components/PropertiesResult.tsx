@@ -91,7 +91,13 @@ export default function PropertiesResult({
     () => fetcher(decodedSearchWord, category as string)
   );
 
-  if (isLoading) return "Cargando ...";
+  if (isLoading) return <PropertiesGrid>
+    <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
+    <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
+    <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
+    <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
+    
+  </PropertiesGrid>;
 
   return (
     <PropertiesGrid>
