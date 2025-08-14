@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { PropertyType } from "@/types/propertyState";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 type Inputs = {
@@ -11,6 +11,7 @@ type Inputs = {
 };
 
 export default function SearchForm() {
+  const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -31,16 +32,24 @@ export default function SearchForm() {
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     const propertyType = typeInput.toLowerCase();
-    const trimmedSearchWord = formData.keywords.trim();
+    const trimmedSearchWord = formData.keywords
+      ? formData.keywords.trim()
+      : formData.keywords;
     let path: string;
 
-    if (trimmedSearchWord) {
+    if (formData.keywords) {
       const encodedSearchWord = encodeURIComponent(trimmedSearchWord);
       path = `/${propertyType}/buscar/${encodedSearchWord}`;
     } else {
       path = `/${propertyType}`;
     }
     router.push(path);
+  };
+
+  const handleOnClick = (type: PropertyType) => {
+    setTypeInput(type);
+    setIsOpen(false);
+    inputRef.current?.focus();
   };
 
   return (
@@ -88,19 +97,13 @@ export default function SearchForm() {
             <div className="bg-white shadow-md rounded-[30px] p-2 flex flex-col">
               <button
                 type="button"
-                onClick={() => {
-                  setTypeInput(PropertyType.APARTMENT);
-                  setIsOpen(false);
-                }}
+                onClick={() => handleOnClick(PropertyType.APARTMENT)}
                 className="w-full text-left px-5 py-3 hover:bg-slate-100 rounded-full"
               >
                 Depas
               </button>
               <button
-                onClick={() => {
-                  setTypeInput(PropertyType.HOUSE);
-                  setIsOpen(false);
-                }}
+                onClick={() => handleOnClick(PropertyType.HOUSE)}
                 type="button"
                 className="w-full text-left px-5 py-3 hover:bg-slate-100 rounded-full"
               >
@@ -111,8 +114,9 @@ export default function SearchForm() {
         </div>
         <div className="flex-grow w-[100px]">
           <input
-            type="search"
             {...register("keywords")}
+            type="search"
+            ref={inputRef}
             className="w-full font-light flex-grow placeholder:text-gray-400 border-transparent border-2 focus:outline-none py-3 bg-transparent"
             placeholder={`Buscar ${typeInput.toLowerCase()}. Ejemplo: San Isidro`}
           />
