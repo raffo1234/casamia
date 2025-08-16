@@ -4,6 +4,7 @@ import { Bebas_Neue, Roboto } from "next/font/google";
 import GlobalModal from "./components/GlobalModal";
 import "./globals.css";
 import Slider from "./components/Slider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const roboto = Roboto({
   weight: ["300", "400", "700", "800"],
@@ -38,9 +39,11 @@ export default async function RootLayout({
       className={`${roboto.variable} ${bebas.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
     >
       <body id="app">
-        {children}
-        <GlobalModal />
-        <Slider />
+        <NuqsAdapter>
+          {children}
+          <GlobalModal />
+          <Slider />
+        </NuqsAdapter>
       </body>
     </html>
   );

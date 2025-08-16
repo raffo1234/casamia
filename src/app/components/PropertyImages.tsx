@@ -34,9 +34,10 @@ export default function PropertyImages({
     () =>
       images?.map((image) => ({
         src: image.image_url,
-        propertyId: propertyId,
+        propertyId,
+        propertyTitle,
       })) || [],
-    [images, propertyId]
+    [images, propertyId, propertyTitle]
   );
 
   return (
