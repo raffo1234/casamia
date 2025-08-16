@@ -3,10 +3,8 @@
 import { Icon } from "@iconify/react";
 import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
-import Image from "next/image";
 import ImageSlider from "./ImageSlider";
 import { useMemo } from "react";
-import Link from "next/link";
 
 const fetcher = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -34,14 +32,15 @@ export default function PropertyImages({
     () =>
       images?.map((image) => ({
         src: image.image_url,
-        propertyId: propertyId,
+        propertyId,
+        propertyTitle,
       })) || [],
-    [images, propertyId]
+    [images, propertyId, propertyTitle]
   );
 
   return (
     <div className="relative w-full">
-      {images?.length === 0 || isLoading ? (
+      {isLoading ? (
         <div
           className={`${imageClassName} ${
             images?.length === 0 || isLoading ? "opacity-100" : "opacity-0"
@@ -54,26 +53,7 @@ export default function PropertyImages({
           />
         </div>
       ) : null}
-      {images?.length === 1 ? (
-        <Link
-          href={`/inmueble/${propertyId}/imagenes`}
-          className="w-full aspect-5/4 mx-auto cursor-pointer"
-        >
-          <Image
-            src={images[0].image_url}
-            alt={propertyTitle}
-            title={propertyTitle}
-            loading="lazy"
-            className={imageClassName}
-            priority={false}
-            quality={70}
-            width={500}
-            height={400}
-          />
-        </Link>
-      ) : (
-        <ImageSlider images={imagesToSlider} />
-      )}
+      <ImageSlider images={imagesToSlider} />
     </div>
   );
 }

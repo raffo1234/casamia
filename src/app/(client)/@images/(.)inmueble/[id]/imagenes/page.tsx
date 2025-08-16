@@ -1,11 +1,10 @@
 "use client";
 
-import ImageSliderFullScreen from "@/components/ImageSliderFullScreen";
-import Spinner from "@/components/Spinner";
 import { supabase } from "@/lib/supabase";
-import { useParams } from "next/navigation";
-import { Suspense, useMemo } from "react";
 import useSWR from "swr";
+import { Suspense, useMemo } from "react";
+import { useParams } from "next/navigation";
+import ImageSliderFullScreen from "@/components/ImageSliderFullScreen";
 
 const fetcher = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -35,12 +34,7 @@ export default function Page() {
     [images, propertyId]
   );
 
-  if (isLoading)
-    return (
-      <div className="items-center text-slate-400 flex justify-center w-full h-full bg-black fixed left-0 top-0 z-50">
-        <Spinner size={48} />
-      </div>
-    );
+  if (isLoading) return "Cargando ...";
 
   return (
     <Suspense>

@@ -31,7 +31,7 @@ export default function Property({
   } = property;
 
   return (
-    <div className="mx-auto max-w-[1650px] w-full mb-6">
+    <>
       {company ? (
         <div className="flex items-center justify-between w-full px-6 py-4 pr-20 sm:px-14 bg-slate-100 rounded-t-3xl">
           <div className="flex gap-3 items-center-safe">
@@ -61,7 +61,7 @@ export default function Property({
           />
         </div>
       ) : null}
-      <div className="px-6 sm:px-14 pt-30 ">
+      <div className="md:px-6 px-4 sm:px-14 sm:pt-30 pt-12">
         <div className="lg:flex items-center-safe">
           <div className="mb-10 lg:w-1/2 lg:pr-20 lg:mb-0">
             <h1
@@ -160,6 +160,6 @@ export default function Property({
         ) : null}
         <Typologies propertyId={property.id} />
       </div>
-    </div>
+    </>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useCallback, useMemo, useState, useRef } from "react";
+import React, { useEffect, useCallback, useMemo, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { parseAsInteger, useQueryState } from "nuqs";
 import { useRouter } from "next/navigation";
 
@@ -12,12 +12,10 @@ interface ImageProp {
   propertyTitle: string;
 }
 
-const ImageSlider = ({ images }: { images: ImageProp[] }) => {
-  const router = useRouter();
+const ImageSliderFullScreen = ({ images }: { images: ImageProp[] }) => {
   const multipleImages = images.length > 1;
+  const router = useRouter();
   const [touchStart, setTouchStart] = useState(0);
-  // Create a ref for the image container
-  const imageContainerRef = useRef<HTMLDivElement>(null);
 
   const [currentImageIndex, setCurrentImageIndex] = useQueryState(
     "imagen",
@@ -25,39 +23,23 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
   );
 
   const goToNextImage = useCallback(() => {
-    const nextIndex = (currentImageIndex + 1) % images.length;
-    setCurrentImageIndex(nextIndex);
-  }, [currentImageIndex, images.length, setCurrentImageIndex]);
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
+  }, [images.length, setCurrentImageIndex]);
 
   const goToPreviousImage = useCallback(() => {
-    const prevIndex = (currentImageIndex - 1 + images.length) % images.length;
-    setCurrentImageIndex(prevIndex);
-  }, [currentImageIndex, images.length, setCurrentImageIndex]);
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  }, [images.length, setCurrentImageIndex]);
 
-  // useEffect for Arrow keys (always on)
-  useEffect(() => {
-    const handleEscapeKey = (event: Event) => {
-      if (event instanceof KeyboardEvent && event.key === "Escape") {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        router.back();
-      }
-    };
+  const currentImage = useMemo(() => {
+    return images[currentImageIndex];
+  }, [images, currentImageIndex]);
 
-    window.addEventListener("keydown", handleEscapeKey, true);
-
-    return () => {
-      window.removeEventListener("keydown", handleEscapeKey, true);
-    };
-  }, [router]);
-
-  // useEffect for Arrow keys and Touch events (only if multiple images exist)
   useEffect(() => {
     if (!multipleImages) {
-      return;
-    }
-    const container = imageContainerRef.current;
-    if (!container) {
       return;
     }
 
@@ -94,29 +76,41 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
     };
 
     window.addEventListener("keydown", handleNavigationEvents, true);
-    // Attach touch listeners to the specific image container
-    container.addEventListener("touchstart", handleNavigationEvents, true);
-    container.addEventListener("touchend", handleNavigationEvents, true);
+    window.addEventListener("touchstart", handleNavigationEvents, true);
+    window.addEventListener("touchend", handleNavigationEvents, true);
 
     return () => {
       window.removeEventListener("keydown", handleNavigationEvents, true);
-      // Clean up touch listeners
-      container.removeEventListener("touchstart", handleNavigationEvents, true);
-      container.removeEventListener("touchend", handleNavigationEvents, true);
+      window.removeEventListener("touchstart", handleNavigationEvents, true);
+      window.removeEventListener("touchend", handleNavigationEvents, true);
     };
   }, [goToNextImage, goToPreviousImage, touchStart, multipleImages]);
 
-  const currentImage = useMemo(() => {
-    const index = Number.isNaN(currentImageIndex) ? 0 : currentImageIndex;
-    return images[index] || images[0];
-  }, [images, currentImageIndex]);
+  useEffect(() => {
+    const handleEscapeKey = (event: Event) => {
+      if (event instanceof KeyboardEvent) {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          router.back();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleEscapeKey, true);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscapeKey, true);
+    };
+  }, [router]);
 
   return (
-    <div className="relative pl-12 md:pr-12 w-full mx-auto">
+    <div className="fixed top-0 left-0 bg-black z-50 px-2 md:px-12 h-full w-full">
       {multipleImages ? (
         <button
           onClick={goToPreviousImage}
-          className="hidden md:flex outline-none absolute w-12 items-center justify-center h-full left-0 top-0 bottom-0"
+          aria-label="Image anterior"
+          className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full left-0 top-0 bottom-0"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -136,20 +130,14 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
         </button>
       ) : null}
       {currentImage && (
-        // Attach the ref to this div to listen for touch events
-        <div className="w-full relative" ref={imageContainerRef}>
-          <Link
-            href={`/inmueble/${currentImage.propertyId}/imagenes?imagen=${currentImageIndex}`}
-            className="w-full aspect-5/4 mx-auto cursor-pointer"
-          >
-            <Image
-              src={currentImage.src}
-              alt={currentImage.propertyTitle}
-              className="w-full aspect-5/4 mx-auto object-cover rounded-3xl"
-              width={400}
-              height={300}
-            />
-          </Link>
+        <div className="relative h-full w-full">
+          <Image
+            src={currentImage.src}
+            alt={currentImage.propertyTitle}
+            className="h-full w-full object-contain"
+            width={400}
+            height={300}
+          />
           {multipleImages ? (
             <div className="w-full items-center flex gap-3 flex-wrap justify-center absolute bottom-3 left-0 right-0">
               {images.map((image) => (
@@ -180,7 +168,8 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
       {multipleImages ? (
         <button
           onClick={goToNextImage}
-          className="hidden md:flex outline-none absolute w-12 items-center justify-center h-full right-0 top-0 bottom-0"
+          aria-label="Image siguiente"
+          className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full right-0 top-0 bottom-0"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -199,8 +188,25 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
           </svg>
         </button>
       ) : null}
+      <div className="absolute z-20 flex items-center top-3 right-3 rounded-[50px]">
+        <div className="flex items-center text-lg h-13 px-4 mr-2 bg-white text-slate-600 bg-opacity-20 rounded-full">
+          {currentImageIndex + 1}&nbsp;/&nbsp;{images.length}
+        </div>
+        <button
+          onClick={router.back}
+          title="Ir a la propiedad"
+          aria-label="Volver a la propiedad"
+          className="cursor-pointer flex items-center justify-center rounded-full w-13 h-13 text-black bg-yellow-400"
+        >
+          <Icon
+            icon="material-symbols-light:close-rounded"
+            width={32}
+            height={32}
+          />
+        </button>
+      </div>
     </div>
   );
 };
 
-export default ImageSlider;
+export default ImageSliderFullScreen;
