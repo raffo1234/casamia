@@ -39,6 +39,7 @@ type Inputs = {
   property_image?: {
     image_url: string;
   }[];
+  slug?: string;
 };
 
 async function fetcher(id: string) {
@@ -90,17 +91,22 @@ export default function EditPropertyInformation({
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    let slug = property.slug; // Start with the existing slug
+     let newSlug = null;
 
-    if (data.title !== property.title) {
-      slug = await generateUniqueSlug(data.title, property.id);
+    if (data.title !== property.title || !property.slug) {
+      newSlug = await generateUniqueSlug(data.title, property.id);
     }
 
     const { property_image, ...rest } = data;
     try {
+      const updatePayload = { ...rest };
+      if (newSlug) {
+        updatePayload.slug = newSlug;
+      }
+
       await supabase
         .from("property")
-        .update({ ...rest, slug })
+        .update(updatePayload)
         .eq("id", id)
         .select()
         .single();
