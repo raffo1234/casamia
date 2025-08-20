@@ -19,6 +19,7 @@ import { getAdminPropertiesUserKey } from "@/constants";
 import PropertyImagesEdition from "./PropertyImagesEdition";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { generateUniqueSlug } from "@/lib/supabase/generateUniqueSlug";
 
 type Inputs = {
   title: string;
@@ -71,11 +72,12 @@ export default function EditPropertyInformation({
     fetcherCompany(userId)
   );
   const {
-    data,
+    data: property,
     error,
     isLoading,
     mutate: mutateProperty,
   } = useSWR(id, () => fetcher(id));
+
   const { reset, register, handleSubmit, control } = useForm<Inputs>({
     mode: "onBlur",
   });
@@ -88,19 +90,25 @@ export default function EditPropertyInformation({
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    let slug = property.slug; // Start with the existing slug
+
+    if (data.title !== property.title) {
+      slug = await generateUniqueSlug(data.title, property.id);
+    }
+
     const { property_image, ...rest } = data;
     try {
       await supabase
         .from("property")
-        .update(rest)
+        .update({ ...rest, slug })
         .eq("id", id)
         .select()
         .single();
       await mutateProperty();
       await mutate(() => getAdminPropertiesUserKey(userId));
       success();
-    } catch {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       console.error({ property_image });
     } finally {
       redirect("/admin/property");
@@ -112,8 +120,8 @@ export default function EditPropertyInformation({
   };
 
   useEffect(() => {
-    reset(data);
-  }, [data, reset]);
+    reset(property);
+  }, [property, reset]);
 
   if (error) return <div>Error cargando datos ...</div>;
 
@@ -154,7 +162,7 @@ export default function EditPropertyInformation({
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold">Imágenes</h2>
-              <PropertyImagesEdition propertyImages={data.property_image} />
+              <PropertyImagesEdition propertyImages={property.property_image} />
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold">Estado</h2>
