@@ -4,10 +4,10 @@ import { supabase } from "@/lib/supabase";
 import { PropertyType } from "@/types/propertyType";
 import { redirect } from "next/navigation";
 
-type Params = Promise<{ id: string[] }>;
+type Params = Promise<{ slug: string[] }>;
 
 export default async function Page({ params }: { params: Params }) {
-  const { id } = await params;
+  const { slug } = await params;
   const session = await auth();
   const userEmail = session?.user?.email;
 
@@ -17,6 +17,7 @@ export default async function Page({ params }: { params: Params }) {
       `
       id,
       title,
+      slug,
       description,
       state,
       user_id,
@@ -50,7 +51,7 @@ export default async function Page({ params }: { params: Params }) {
       )
     `
     )
-    .eq("id", id)
+    .eq("slug", slug)
     .single()) as { data: PropertyType };
 
   if (!property) {
@@ -58,7 +59,7 @@ export default async function Page({ params }: { params: Params }) {
     return { notFound: true };
   }
 
-  if (!id || !property) {
+  if (!slug || !property) {
     redirect("/404");
   }
 
