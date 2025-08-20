@@ -14,12 +14,12 @@ export default function PropertyItem({
   property: PropertyType;
   userEmail: string | undefined | null;
 }) {
-  const { id, price, user, property_image, title, company } = property;
-  
+  const { id, slug, price, user, property_image, title, company } = property;
+  console.log("slug", slug)
   return (
     <article className="group bg-white rounded-3xl">
       <div className="relative mb-1">
-        <Link href={`/inmueble/${id}`} title={title}>
+        <Link href={`/inmueble/${slug}`} title={title}>
           <PropertyFirstImage
             title={title}
             src={property_image?.at(0)?.image_url}

@@ -8,13 +8,14 @@ import { supabase } from "@/lib/supabase";
 import { PropertyType } from "@/types/propertyType";
 import { useParams, useRouter } from "next/navigation";
 
-const fetcher = async (propertyId: string) => {
+const fetcher = async (propertySlug: string) => {
   const { data } = (await supabase
     .from("property")
     .select(
       `
       id,
       title,
+      slug,
       description,
       state,
       user_id,
@@ -50,7 +51,7 @@ const fetcher = async (propertyId: string) => {
     `
     )
     .eq("state", PropertyState.ACTIVE)
-    .eq("id", propertyId)
+    .eq("slug", propertySlug)
     .order("created_at", { ascending: false })
     .single()) as { data: PropertyType | null };
 
@@ -62,12 +63,12 @@ export default function PropertyPreview({
 }: {
   userEmail: string | undefined | null;
 }) {
-  const { id } = useParams();
+  const { slug } = useParams();
   const router = useRouter();
-  const propertyId = Array.isArray(id) ? id[0] : id;
-
-  const { data: property } = useSWR(propertyId, () =>
-    propertyId ? fetcher(propertyId) : null
+  const propertySlug = Array.isArray(slug) ? slug[0] : slug;
+  console.log(slug);
+  const { data: property } = useSWR(propertySlug, () =>
+    propertySlug ? fetcher(propertySlug) : null
   );
 
   const handleOverlayClick = useCallback(

@@ -10,6 +10,7 @@ type Typology = {
 
 export type PropertyType = {
   id: string;
+  slug: string;
   title: string;
   user_id: string;
   bathroom_count?: string;
