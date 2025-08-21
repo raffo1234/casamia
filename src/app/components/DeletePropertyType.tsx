@@ -1,6 +1,7 @@
-import { Icon } from "@iconify/react";
 import { supabase } from "@/lib/supabase";
 import useSWR, { mutate } from "swr";
+import DeleteButton from "./DeleteButton";
+import { useState } from "react";
 
 type Typology = {
   id: string;
@@ -22,6 +23,8 @@ export default function DeletePropertyType({
   propertyId: string;
   id: string;
 }) {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const { data: typologies } = useSWR(`${propertyId}-typologies`, () =>
     fetcher(propertyId)
   );
@@ -30,6 +33,8 @@ export default function DeletePropertyType({
       "Esta acción es irreversible. Esta seguro?"
     );
     if (!confirmationMessage) return;
+
+    setIsDeleting(true);
 
     try {
       const { data: deletedTypology } = await supabase
@@ -40,27 +45,14 @@ export default function DeletePropertyType({
         .single();
 
       if (deletedTypology && typologies) {
-        await mutate(
-          `${propertyId}-types`,
-          typologies.filter((typology) => typology.id !== deletedTypology.id),
-          false
-        );
+        await mutate(`${propertyId}-typologies`);
       }
     } catch (error) {
       console.error(`Error eliminando este item: ${error}`);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
-  return (
-    <button
-      onClick={() => onDelete(id)}
-      type="button"
-      className="w-12 h-12 flex items-center justify-center"
-    >
-      <Icon
-        icon="material-symbols-light:delete-outline"
-        className="text-3xl text-red-500"
-      />
-    </button>
-  );
+  return <DeleteButton isDeleting={isDeleting} onClick={() => onDelete(id)} />;
 }

@@ -1,6 +1,4 @@
 import EditPropertyInformation from "@/components/EditPropertyInformation";
-import PropertyTypologies from "@/components/PropertyTypologies";
-import Tabs from "@/components/Tabs";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { Icon } from "@iconify/react";
@@ -19,17 +17,6 @@ export default async function Page({ params }: { params: Params }) {
     .eq("email", userEmail)
     .single();
 
-  const items = [
-    {
-      label: "General",
-      children: <EditPropertyInformation id={id} userId={user?.id} />,
-    },
-    {
-      label: "Tipologias",
-      children: <PropertyTypologies propertyId={id} />,
-    },
-  ];
-
   return (
     <>
       <div className="flex items-center justify-between">
@@ -38,7 +25,24 @@ export default async function Page({ params }: { params: Params }) {
           <Icon icon="solar:square-alt-arrow-left-broken" fontSize="32" />
         </Link>
       </div>
-      <Tabs items={items} />
+      <div className="mb-10">
+        <Link
+          href={`/admin/property/edit/${id}`}
+          title="Volver"
+          className="mb-4"
+        >
+          General
+        </Link>
+        <Link
+          href={`/admin/property/edit/${id}/typologies`}
+          title="Volver"
+          className="mb-4"
+        >
+          Tipologias
+        </Link>
+      </div>
+
+      <EditPropertyInformation id={id} userId={user?.id} />
     </>
   );
 }

@@ -1,7 +1,11 @@
+"use client";
+
 import { supabase } from "@/lib/supabase";
-import useSWR, { mutate } from "swr";
-import { Button, Skeleton } from "antd";
+import { mutate } from "swr";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type TypologyInputs = {
   name: string;
@@ -11,63 +15,32 @@ type TypologyInputs = {
   bedroom_count: string;
 };
 
-const fetcherType = async (propertyId: string) => {
-  const { data, error } = await supabase
-    .from("typology")
-    .select(
-      `
-      id,
-      property_id,
-      name,
-      price,
-      size
-    `
-    )
-    .eq("property_id", propertyId)
-    .order("created_at", { ascending: false });
-
-  if (error) throw error;
-  return data;
-};
-
 export default function InsertPropertyTypology({
   propertyId,
-  setDisplayAddForm,
 }: {
   propertyId: string;
-  setDisplayAddForm: (value: boolean) => void;
 }) {
-  const { data: typologies = [], isLoading } = useSWR(
-    `${propertyId}-typologies`,
-    () => fetcherType(propertyId)
-  );
-
+  const router = useRouter();
   const { register, reset, handleSubmit } = useForm<TypologyInputs>({
     mode: "onBlur",
   });
   async function insertData(data: TypologyInputs) {
-    const { error, data: insertedData } = await supabase
+    const { error } = await supabase
       .from("typology")
       .insert([{ ...data, property_id: propertyId }])
       .select()
       .single();
 
-    await mutate(
-      `${propertyId}-typologies`,
-      [...typologies, insertedData],
-      false
-    );
+    await mutate(`${propertyId}-typologies`);
+    toast.success("Added successfully");
     reset();
-    setDisplayAddForm(false);
+    router.push(`/admin/property/edit/${propertyId}/typologies`);
 
     if (error) {
       console.error("Error inserting data:", error);
       return { success: false, error: error?.message };
     }
-    return { success: true };
   }
-
-  if (isLoading) return <Skeleton />;
 
   return (
     <form onSubmit={handleSubmit(insertData)}>
@@ -124,12 +97,10 @@ export default function InsertPropertyTypology({
           />
         </div>
         <footer className="flex items-center gap-2 pt-4 mt-4 justify-end">
-          <Button htmlType="button" onClick={() => setDisplayAddForm(false)}>
-            Cancel
-          </Button>
-          <Button htmlType="submit" type="primary">
-            Guardar
-          </Button>
+          <Link href={`/admin/property/edit/${propertyId}/typologies`}>
+            Cancelar
+          </Link>
+          <button type="submit">Guardar</button>
         </footer>
       </fieldset>
     </form>
