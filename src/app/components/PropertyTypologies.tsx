@@ -8,6 +8,7 @@ import DeletePropertyType from "./DeletePropertyType";
 import Link from "next/link";
 import Image from "next/image";
 import EditLink from "./EditButton";
+import Title from "./Title";
 
 const fetcherType = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -46,6 +47,7 @@ export default function PropertyTypologies({
 
   return (
     <>
+      <Title>Tipologias</Title>
       <section
         key={propertyId}
         className="grid gap-8"

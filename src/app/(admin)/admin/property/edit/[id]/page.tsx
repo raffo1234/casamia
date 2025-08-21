@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <>
       <div className="flex items-center justify-between">
-        <Title>Edit Inmueble</Title>
+        <Title>Editar Inmueble</Title>
         <Link href="/admin/property" title="Volver" className="mb-4">
           <Icon icon="solar:square-alt-arrow-left-broken" fontSize="32" />
         </Link>

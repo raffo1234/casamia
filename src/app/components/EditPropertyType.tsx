@@ -10,6 +10,7 @@ import { es } from "date-fns/locale";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Title from "./Title";
 
 type Inputs = {
   size: string;
@@ -80,6 +81,7 @@ export default function EditPropertyType({
     <FormSkeleton rows={2} />
   ) : (
     <>
+      <Title>Editar Tipologia</Title>
       <form onSubmit={handleSubmit(onSubmit)} id="editProperty">
         <fieldset className="flex flex-col gap-4">
           <div>

@@ -12,6 +12,7 @@ import {
 import { Icon } from "@iconify/react";
 import { NumericFormat } from "react-number-format";
 import Link from "next/link";
+import Title from "./Title";
 
 type Inputs = {
   title: string;
@@ -53,7 +54,7 @@ export default function AddProperty({ userId }: { userId: string }) {
   return (
     <>
       <div className="w-full mb-8 flex justify-between items-center">
-        <h1 className="font-semibold text-lg block">Agregar Inmueble</h1>
+        <Title>Agregar Inmueble</Title>
         <Link href="/admin/property" title="Volver" className="mb-4">
           <Icon icon="solar:square-alt-arrow-left-broken" fontSize="32" />
         </Link>
