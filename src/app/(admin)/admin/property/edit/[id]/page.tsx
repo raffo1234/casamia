@@ -1,8 +1,9 @@
+import BackLink from "@/components/BackLink";
 import EditPropertyInformation from "@/components/EditPropertyInformation";
+import HeaderTitle from "@/components/HeaderTitle";
 import Title from "@/components/Title";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
-import { Icon } from "@iconify/react";
 import Link from "next/link";
 
 type Params = Promise<{ id: string }>;
@@ -21,10 +22,10 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <>
       <div className="flex items-center justify-between">
-        <Title>Editar Inmueble</Title>
-        <Link href="/admin/property" title="Volver" className="mb-4">
-          <Icon icon="solar:square-alt-arrow-left-broken" fontSize="32" />
-        </Link>
+        <HeaderTitle>
+          <Title>Editar Inmueble</Title>
+          <BackLink href={`/admin/property`}></BackLink>
+        </HeaderTitle>
       </div>
       <div className="mb-10">
         <Link

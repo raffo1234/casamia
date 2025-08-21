@@ -10,6 +10,7 @@ import Image from "next/image";
 import EditLink from "./EditButton";
 import Title from "./Title";
 import HeaderTitle from "./HeaderTitle";
+import BackButton from "./BackLink";
 
 const fetcherType = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -50,12 +51,7 @@ export default function PropertyTypologies({
     <>
       <HeaderTitle>
         <Title>Tipologias</Title>
-        <Link
-          href={`/admin/property/edit/${propertyId}/typologies/add`}
-          className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-        >
-          Agregar Tipologia
-        </Link>
+        <BackButton href={`/admin/property`}></BackButton>
       </HeaderTitle>
       <section
         key={propertyId}

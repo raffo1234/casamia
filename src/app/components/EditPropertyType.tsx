@@ -11,6 +11,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Title from "./Title";
+import HeaderTitle from "./HeaderTitle";
+import BackLink from "./BackLink";
 
 type Inputs = {
   size: string;
@@ -81,7 +83,12 @@ export default function EditPropertyType({
     <FormSkeleton rows={2} />
   ) : (
     <>
-      <Title>Editar Tipologia</Title>
+      <HeaderTitle>
+        <Title>Editar Tipologia</Title>
+        <BackLink
+          href={`/admin/property/edit/${propertyId}/typologies`}
+        ></BackLink>
+      </HeaderTitle>
       <form onSubmit={handleSubmit(onSubmit)} id="editProperty">
         <fieldset className="flex flex-col gap-4">
           <div>

@@ -1,4 +1,5 @@
 import AdminPropertiesList from "@/components/AdminPropertiesList";
+import HeaderTitle from "@/components/HeaderTitle";
 import Title from "@/components/Title";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
@@ -17,7 +18,9 @@ export default async function Page() {
 
   return (
     <>
-      <Title>Inmuebles</Title>
+      <HeaderTitle>
+        <Title>Inmuebles</Title>
+      </HeaderTitle>
       <AdminPropertiesList userId={userId} userRoleId={user?.role_id} />
     </>
   );
