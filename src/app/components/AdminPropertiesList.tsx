@@ -2,7 +2,6 @@
 
 import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
-import EditProperty from "@/components/EditProperty";
 import DeleteProperty from "@/components/DeleteProperty";
 import { PropertyState, Permissions } from "@/types/propertyState";
 import { Icon } from "@iconify/react";
@@ -11,6 +10,7 @@ import EditPropertyModal from "./EditPropertyModal";
 import PropertyFirstImage from "./PropertyFirstImage";
 import { getAdminPropertiesUserKey } from "@/constants";
 import Link from "next/link";
+import EditLink from "./EditButton";
 
 type Props = {
   id: string;
@@ -49,7 +49,7 @@ const AdminPropertyItem = ({
       <div className="border-x px-4 border-b rounded-b-xl -mt-3 pt-6 pb-4 border-gray-100">
         <h3 className="mb-3 font-semibold line-clamp-1">{title}</h3>
         <div className="flex gap-2 justify-center">
-          <EditProperty id={id} />
+          <EditLink href={`/admin/property/edit/${id}`} />
           <DeleteProperty id={id} userId={userId} />
         </div>
       </div>

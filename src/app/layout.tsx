@@ -5,6 +5,7 @@ import GlobalModal from "./components/GlobalModal";
 import "./globals.css";
 import Slider from "./components/Slider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({
   weight: ["300", "400", "700", "800"],
@@ -39,6 +40,11 @@ export default async function RootLayout({
       className={`${roboto.variable} ${bebas.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
     >
       <body id="app">
+        <Toaster
+          toastOptions={{
+            className: "text-xs",
+          }}
+        />
         <NuqsAdapter>
           {children}
           <GlobalModal />

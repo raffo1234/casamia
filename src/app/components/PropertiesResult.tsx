@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import Home from "./Home";
 import ResultPage from "./ResultPage";
 import { useParams } from "next/navigation";
+import { propertyQuery } from "@/queries/property";
 
 const columnsToSearch = [
   "title",
@@ -23,30 +24,6 @@ const columnsToSearch = [
   "bedroom_count",
 ];
 
-const query = `
-          id,
-          title,
-          price,
-          description,
-          user_id,
-          type,
-          property_image (
-            image_url
-          ),
-          user!property_user_id_fkey (
-            id,
-            email,
-            name,
-            image_url
-          ),
-          company!property_company_id_fkey (
-            id,
-            name,
-            image_url,
-            logo_url
-          )
-        `;
-
 const fetcher = async (searchTerms: string, category: string) => {
   const orConditions = columnsToSearch
     .map((column) => `${column}.ilike.%${searchTerms}%`)
@@ -57,7 +34,7 @@ const fetcher = async (searchTerms: string, category: string) => {
   const { data } = searchTerms
     ? ((await supabase
         .from("property")
-        .select(query)
+        .select(propertyQuery)
         .eq("state", PropertyState.ACTIVE)
         .eq("type", propertyType)
         .or(orConditions)
@@ -65,7 +42,7 @@ const fetcher = async (searchTerms: string, category: string) => {
         .limit(4)) as { data: PropertyTypeDb[] | null })
     : ((await supabase
         .from("property")
-        .select(query)
+        .select(propertyQuery)
         .eq("type", propertyType)
         .eq("state", PropertyState.ACTIVE)
         .order("created_at", { ascending: false })
@@ -91,13 +68,15 @@ export default function PropertiesResult({
     () => fetcher(decodedSearchWord, category as string)
   );
 
-  if (isLoading) return <PropertiesGrid>
-    <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
-    <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
-    <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
-    <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
-    
-  </PropertiesGrid>;
+  if (isLoading)
+    return (
+      <PropertiesGrid>
+        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
+        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
+        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
+        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
+      </PropertiesGrid>
+    );
 
   return (
     <PropertiesGrid>

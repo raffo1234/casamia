@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
 import TypologiesGrid from "./TypologiesGrid";
 import { Icon } from "@iconify/react";
-import { Button } from "antd";
+import Image from "next/image";
 
 type Typology = {
   id: string;
@@ -23,7 +23,7 @@ const fetcher = async (propertyId: string) => {
     .from("typology")
     .select("*")
     .eq("property_id", propertyId)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: true });
 
   if (error) throw error;
   return data;
@@ -33,34 +33,19 @@ function Typology({ typology }: { typology: Typology }) {
   const { name, id, size, bedroom_count, bathroom_count, price, floor } =
     typology;
   return (
-    <div key={id}>
-      <div className="relative mb-4">
-        <button className="relative group block">
-          <img
-            src="/"
-            className="block w-full aspect-[4/3] object-cover rounded-lg z-10 relative"
-            alt={name}
-          />
-          <span className="z-20 group-hover:opacity-100 flex justify-center opacity-0 duration-500 ease-in-out rounded-lg absolute left-0 top-0 items-center w-full h-full bg-black bg-opacity-30 transition-all">
-            <Icon
-              icon="lets-icons:img-out-box-duotone-line"
-              className="text-[40px] text-white"
-            />
-          </span>
-        </button>
-        <Button
-          color="cyan"
-          variant="solid"
-          className="block absolute right-2 bottom-3.5 z-30 pb-1"
-          size="large"
-        >
-          Cotizar
-        </Button>
-      </div>
+    <article key={id} className="relative mb-4">
+      <button className="relative block w-full">
+        <Image
+          src="https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"
+          className="w-full object-cover aspect-[4/3] rounded-3xl mb-4 relative"
+          alt={name}
+          width={400}
+          height={300}
+        />
+      </button>
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2 mb-3">
-          <div className="w-5 h-5 bg-black rounded-full"></div>
-          <p>{name}</p>
+          <p className="text-xl font-light">{name}</p>
         </div>
         <div className="justify-center flex items-center p-3 bg-orange-100 rounded-md">
           <p className="font-semibold">S/. {price}</p>
@@ -100,7 +85,7 @@ function Typology({ typology }: { typology: Typology }) {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -110,13 +95,15 @@ export default function Typologies({ propertyId }: { propertyId: string }) {
   );
 
   return typologies.length > 0 ? (
-    <>
-      <h3 className="mb-6 text-xl font-semibold">Encuentra tu modelo ideal:</h3>
+    <div className="mt-20 md:mt-30">
+      <h3 className="mb-6 text-sm text-slate-700">
+        Encuentra tu modelo ideal:
+      </h3>
       <TypologiesGrid>
         {typologies.map((typology) => {
           return <Typology key={typology.id} typology={typology} />;
         })}
       </TypologiesGrid>
-    </>
+    </div>
   ) : null;
 }
