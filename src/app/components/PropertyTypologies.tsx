@@ -120,11 +120,11 @@ export default function PropertyTypologies({
         )}
         <Link
           href={`/admin/property/edit/${propertyId}/typologies/add`}
-          className="hover:bg-gray-200 transition-colors active:bg-gray-300 h-[260px] bg-gray-100 rounded-lg flex justify-center items-center"
+          className="hover:bg-gray-200 transition-colors active:bg-gray-300 h-[260px] bg-gray-100 rounded-3xl flex justify-center items-center"
         >
           <Icon
             icon="material-symbols-light:add-2-rounded"
-            className="text-xl"
+            className="text-3xl"
           />
         </Link>
       </section>

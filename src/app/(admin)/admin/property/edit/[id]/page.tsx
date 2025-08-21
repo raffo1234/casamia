@@ -1,4 +1,5 @@
 import EditPropertyInformation from "@/components/EditPropertyInformation";
+import Title from "@/components/Title";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { Icon } from "@iconify/react";
@@ -20,7 +21,7 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <>
       <div className="flex items-center justify-between">
-        <h1 className="mb-6 font-semibold text-lg block">Edit Inmueble</h1>
+        <Title>Edit Inmueble</Title>
         <Link href="/admin/property" title="Volver" className="mb-4">
           <Icon icon="solar:square-alt-arrow-left-broken" fontSize="32" />
         </Link>

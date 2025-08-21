@@ -93,6 +93,8 @@ export default function EditPropertyInformation({
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     let newSlug = null;
 
+    const companyId = data.company_id === "" ? null : data.company_id;
+
     if (data.title !== property.title || !property.slug) {
       newSlug = await generateUniqueSlug(data.title, property.id);
     }
@@ -106,7 +108,7 @@ export default function EditPropertyInformation({
 
       await supabase
         .from("property")
-        .update(updatePayload)
+        .update({ ...updatePayload, company_id: companyId })
         .eq("id", id)
         .select()
         .single();
@@ -282,8 +284,10 @@ export default function EditPropertyInformation({
                 <select
                   id="company_id"
                   {...register("company_id")}
+                  defaultValue={property.company_id || ""}
                   className="w-full -m-[1px] px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
                 >
+                  <option value="">Selecciona Empresa</option>
                   {companies?.map(({ id, name }) => {
                     return (
                       <option key={id} value={id}>
