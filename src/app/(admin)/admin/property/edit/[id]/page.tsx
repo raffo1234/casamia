@@ -6,7 +6,6 @@ import TabLinks from "@/components/TabLinks";
 import Title from "@/components/Title";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
-import Link from "next/link";
 
 type Params = Promise<{ id: string }>;
 

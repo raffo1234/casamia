@@ -1,4 +1,3 @@
-import { Icon } from "@iconify/react";
 import Image from "next/image";
 import DeleteButton from "./DeleteButton";
 
