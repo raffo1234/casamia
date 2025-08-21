@@ -13,13 +13,13 @@ import {
 } from "@/types/propertyState";
 import { message } from "antd";
 import FormSkeleton from "./FormSkeleton";
-import Uploader from "./Uploader";
 import { Icon } from "@iconify/react";
 import { getAdminPropertiesUserKey } from "@/constants";
 import PropertyImagesEdition from "./PropertyImagesEdition";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { generateUniqueSlug } from "@/lib/supabase/generateUniqueSlug";
+import AttachFiles from "./AttachFiles";
 
 type Inputs = {
   title: string;
@@ -142,18 +142,20 @@ export default function EditPropertyInformation({
         <div className="flex items-start gap-6">
           <div className="flex-1 flex flex-col gap-7">
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Subir Imágenes</h2>
-              <Uploader
-                propertyId={id}
-                onUploadSuccess={mutatePropertyImages}
-              />
+              <h2 className="font-semibold text-xl">
+                Subir Imágenes <br />{" "}
+                <span className="text-gray-400 text-sm font-normal">
+                  Las im&aacute;genes adjuntas serán parte de este inmueble
+                </span>
+              </h2>
+              <AttachFiles propertyId={id} mutateFiles={mutatePropertyImages} />
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Imágenes</h2>
+              <h2 className="font-semibold text-xl">Imágenes</h2>
               <PropertyImagesEdition propertyImages={property.property_image} />
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Estado</h2>
+              <h2 className="font-semibold text-xl">Estado</h2>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -225,7 +227,7 @@ export default function EditPropertyInformation({
               </fieldset>
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Tipo</h2>
+              <h2 className="font-semibold text-xl">Tipo</h2>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -275,7 +277,7 @@ export default function EditPropertyInformation({
               </fieldset>
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Empresa</h2>
+              <h2 className="font-semibold text-xl">Empresa</h2>
               <p>
                 Por defecto, la autoría de esta publicación se asignará a tu
                 perfil. Puedes cambiarlo seleccionando una empresa.
@@ -299,7 +301,7 @@ export default function EditPropertyInformation({
               </fieldset>
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Fase</h2>
+              <h2 className="font-semibold text-xl">Fase</h2>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -371,7 +373,7 @@ export default function EditPropertyInformation({
               </fieldset>
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Dormitorios</h2>
+              <h2 className="font-semibold text-xl">Dormitorios</h2>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -452,7 +454,7 @@ export default function EditPropertyInformation({
               </fieldset>
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Ba&ntilde;os</h2>
+              <h2 className="font-semibold text-xl">Ba&ntilde;os</h2>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -533,7 +535,7 @@ export default function EditPropertyInformation({
               </fieldset>
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Detalles</h2>
+              <h2 className="font-semibold text-xl">Detalles</h2>
               <div className="flex gap-5 items-center">
                 <fieldset>
                   <div className="flex gap-5 items-center">
@@ -619,7 +621,7 @@ export default function EditPropertyInformation({
               </div>
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Information Basica</h2>
+              <h2 className="font-semibold text-xl">Information Basica</h2>
               <fieldset>
                 <label htmlFor="title" className="inline-block mb-2 text-sm">
                   Titulo
