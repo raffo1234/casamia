@@ -11,23 +11,23 @@ import Home from "@/components/Home";
 import Link from "next/link";
 import UserPage from "@/components/UserPage";
 
-type Params = Promise<{ id: string[] }>;
+type Params = Promise<{ slug: string[] }>;
 
 export default async function Page({ params }: { params: Params }) {
-  const { id } = await params;
+  const { slug } = await params;
   const session = await auth();
   const userEmail = session?.user?.email;
 
   const { data: user } = await supabase
     .from("user")
-    .select("id, first_name, last_name, image_url")
-    .eq("id", id)
+    .select("id, slug, first_name, last_name, image_url")
+    .eq("slug", slug)
     .single();
 
   const { data: properties } = (await supabase
     .from("property")
     .select(propertyQuery)
-    .eq("user_id", id)
+    .eq("user_id", user?.id)
     .eq("state", PropertyState.ACTIVE)
     .is("company_id", null)
     .order("created_at", { ascending: false })
@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: Params }) {
             <div className="flex gap-3 items-center-safe ">
               <span className="font-light">Por: </span>
               <Link
-                href={`/usuario/${user.id}`}
+                href={`/usuario/${user.slug}`}
                 title={user.first_name}
                 className="flex text-lg items-center-safe gap-3"
               >

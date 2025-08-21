@@ -12,23 +12,23 @@ import Home from "@/components/Home";
 import CompanyPage from "@/components/CompanyPage";
 import Link from "next/link";
 
-type Params = Promise<{ id: string[] }>;
+type Params = Promise<{ slug: string[] }>;
 
 export default async function Page({ params }: { params: Params }) {
-  const { id } = await params;
+  const { slug } = await params;
   const session = await auth();
   const userEmail = session?.user?.email;
 
   const { data: company } = await supabase
     .from("company")
-    .select("id, name, logo_url, description")
-    .eq("id", id)
+    .select("id, name, slug, logo_url, description")
+    .eq("slug", slug)
     .single();
-
+  
   const { data: properties } = (await supabase
     .from("property")
     .select(propertyQuery)
-    .eq("company_id", id)
+    .eq("company_id", company?.id)
     .eq("state", PropertyState.ACTIVE)
     .order("created_at", { ascending: false })
     .limit(4)) as { data: PropertyType[] | null };
@@ -39,10 +39,10 @@ export default async function Page({ params }: { params: Params }) {
       <div className="mb-5">
         <div className="mb-10 flex gap-3 justify-between items-center-safe">
           {company ? (
-            <div className="flex gap-3 items-center-safe ">
+            <div className="flex gap-3 items-center-safe">
               <span className="font-light">Por: </span>
               <Link
-                href={`/empresa/${company.id}`}
+                href={`/empresa/${company.slug}`}
                 title={company.name}
                 className="flex text-lg items-center-safe gap-3"
               >

@@ -38,7 +38,7 @@ export default async function Page({ params }: { params: Params }) {
           <Icon icon="solar:square-alt-arrow-left-broken" fontSize="32" />
         </Link>
       </div>
-      <Tabs items={items} />;
+      <Tabs items={items} />
     </>
   );
 }

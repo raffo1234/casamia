@@ -60,26 +60,6 @@ export default function AddProperty({ userId }: { userId: string }) {
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start gap-6">
-          <nav className="hidden xl:block rounded-xl border border-gray-100 w-60">
-            <button
-              type="button"
-              className="bg-white px-6 py-3 text-left block border-b rounded-t-xl border-gray-100 w-full hover:bg-gray-50"
-            >
-              Informacion Basica
-            </button>
-            <button
-              type="button"
-              className="bg-white px-6 py-3 text-left block border-b border-gray-100 w-full hover:bg-gray-50 "
-            >
-              Detalles
-            </button>
-            <button
-              type="button"
-              className="bg-white px-6 py-3 text-left block w-full hover:bg-gray-50 rounded-b-xl"
-            >
-              Photos
-            </button>
-          </nav>
           <div className="flex-1 flex flex-col gap-7">
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold">Estado</h2>

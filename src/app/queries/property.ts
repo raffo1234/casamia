@@ -12,11 +12,13 @@ export const propertyQuery = `
     id,
     name,
     email,
-    image_url
+    image_url,
+    slug
   ),
   company!property_company_id_fkey (
     id,
     name,
+    slug,
     logo_url
   )
 `;
@@ -24,6 +26,7 @@ export const propertyQuery = `
 export const favoriteQuery = `
   property(
     id,
+    slug,
     title,
     user_id,
     property_image (
@@ -34,11 +37,13 @@ export const favoriteQuery = `
       id,
       name,
       email,
-      image_url
+      image_url,
+      slug
     ),
     company!property_company_id_fkey (
       id,
       name,
+      slug,
       logo_url
     )
   )

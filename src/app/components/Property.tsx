@@ -62,7 +62,7 @@ export default function Property({
           />
         </div>
       ) : null}
-      <div className="md:px-6 px-4 sm:px-14 sm:pt-30 pt-12">
+      <div className="sm:px-6 px-4 md:px-14 sm:pt-30 pt-12">
         <div className="lg:flex items-center-safe">
           <div className="mb-10 lg:w-1/2 lg:pr-20 lg:mb-0">
             <h1

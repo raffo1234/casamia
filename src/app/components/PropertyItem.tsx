@@ -15,7 +15,7 @@ export default function PropertyItem({
   userEmail: string | undefined | null;
 }) {
   const { id, slug, price, user, property_image, title, company } = property;
-  console.log("slug", slug)
+
   return (
     <article className="group bg-white rounded-3xl">
       <div className="relative mb-1">
@@ -32,7 +32,7 @@ export default function PropertyItem({
       <div className="p-3 sm:p-5 sm:pt-7 relative">
         {company ? (
           <Link
-            href={`/empresa/${company.id}`}
+            href={`/empresa/${company.slug}`}
             title={company.name}
             className="absolute -top-8 left-1/2 -translate-x-1/2"
           >
@@ -47,7 +47,7 @@ export default function PropertyItem({
           </Link>
         ) : user ? (
           <Link
-            href={`/usuario/${user?.id}`}
+            href={`/usuario/${user?.slug}`}
             title={user?.name}
             className="absolute -top-8 left-1/2 -translate-x-1/2"
           >
