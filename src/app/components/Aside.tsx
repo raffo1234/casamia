@@ -8,6 +8,11 @@ import { usePathname } from "next/navigation";
 
 const pages = [
   {
+    href: "/",
+    title: "Home",
+    iconName: "solar:home-smile-outline",
+  },
+  {
     href: "/admin/users",
     title: "Usuarios",
     iconName: "solar:user-linear",
