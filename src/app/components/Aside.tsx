@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 const pages = [
   {
     href: "/",
-    title: "Home",
+    title: "Inicio",
     iconName: "solar:home-smile-outline",
   },
   {

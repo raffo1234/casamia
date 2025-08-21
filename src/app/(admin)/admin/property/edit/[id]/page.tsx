@@ -1,6 +1,8 @@
 import BackLink from "@/components/BackLink";
 import EditPropertyInformation from "@/components/EditPropertyInformation";
 import HeaderTitle from "@/components/HeaderTitle";
+import TabLink from "@/components/TabLink";
+import TabLinks from "@/components/TabLinks";
 import Title from "@/components/Title";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
@@ -27,23 +29,13 @@ export default async function Page({ params }: { params: Params }) {
           <BackLink href={`/admin/property`}></BackLink>
         </HeaderTitle>
       </div>
-      <div className="mb-10">
-        <Link
-          href={`/admin/property/edit/${id}`}
-          title="Volver"
-          className="mb-4"
-        >
-          General
-        </Link>
-        <Link
+      <TabLinks>
+        <TabLink href={`/admin/property/edit/${id}`} title="General" />
+        <TabLink
           href={`/admin/property/edit/${id}/typologies`}
-          title="Volver"
-          className="mb-4"
-        >
-          Tipologias
-        </Link>
-      </div>
-
+          title="Tipologias"
+        />
+      </TabLinks>
       <EditPropertyInformation id={id} userId={user?.id} />
     </>
   );

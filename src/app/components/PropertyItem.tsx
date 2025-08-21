@@ -25,7 +25,7 @@ export default function PropertyItem({
             src={property_image?.at(0)?.image_url}
           />
         </Link>
-        <div className="opacity-0 group-hover:opacity-100 duration-300 transition-all invisible group-hover:visible absolute left-0 top-0 p-3">
+        <div className="md:opacity-0 group-hover:opacity-100 duration-300 transition-all sm:invisible group-hover:visible absolute left-0 top-0 p-3">
           <Like propertyId={id} userEmail={userEmail} />
         </div>
       </div>
@@ -62,11 +62,11 @@ export default function PropertyItem({
           </Link>
         ) : null}
         <div className="w-full gap-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-2">
             <Link
               href={`/inmueble/${id}`}
               title={title}
-              className=" font-semibold font-flaviotte text-xl mb-1"
+              className=" font-semibold font-gilroy-medium text-xl"
             >
               S/. {price}
             </Link>

@@ -46,8 +46,10 @@ const AdminPropertyItem = ({
       >
         {state}
       </div>
-      <div className="border-x px-4 border-b rounded-b-xl -mt-3 pt-6 pb-4 border-gray-100">
-        <h3 className="mb-3 font-semibold line-clamp-1">{title}</h3>
+      <div className="border-x px-4 border-b rounded-b-xl py-5 border-slate-100">
+        <h2 className="mb-5 font-gilroy-medium text-xl line-clamp-1">
+          {title}
+        </h2>
         <div className="flex gap-2 justify-center">
           <EditLink href={`/admin/property/edit/${id}`} />
           <DeleteProperty id={id} userId={userId} />

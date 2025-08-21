@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import Image from "next/image";
+import DeleteButton from "./DeleteButton";
 
 export default function PropertyImagesEdition({
   propertyImages,
@@ -29,16 +30,7 @@ export default function PropertyImagesEdition({
               height={300}
             />
             <div className="flex justify-center border-x border-b border-gray-100 -mt-3 pt-6 pb-3 px-4 rounded-b-xl">
-              <button
-                onClick={onDelete}
-                type="button"
-                className="hover:border-gray-200 w-11 h-11 rounded-full border-gray-100 border text-red-500 flex items-center justify-center"
-              >
-                <Icon
-                  icon="solar:trash-bin-minimalistic-broken"
-                  fontSize={24}
-                />
-              </button>
+              <DeleteButton onClick={onDelete} />
             </div>
           </div>
         );

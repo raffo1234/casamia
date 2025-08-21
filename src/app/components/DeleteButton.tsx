@@ -64,7 +64,7 @@ export default function DeleteButton({
       disabled={isDeleting}
       onClick={onClick}
       type="button"
-      className="cursor-pointer relative w-11 h-11 rounded-full border-gray-100 border text-red-500 flex items-center justify-center"
+      className="cursor-pointer relative w-11 h-11 rounded-full border-gray-100 border text-red-400 hover:bg-red-50 transition-colors duration-300 hover:border-red-50 flex items-center justify-center"
     >
       <Icon
         className={`${isDeleting ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
