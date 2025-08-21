@@ -1,6 +1,6 @@
 export default function Title({ children }: { children: React.ReactNode }) {
   return (
-    <h1 className="font-flaviotte text-3xl mb-10 font-semibold block tracking-wider">
+    <h1 className="font-gilroy-medium text-4xl font-semibold block">
       {children}
     </h1>
   );

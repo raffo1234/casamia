@@ -4,6 +4,8 @@
   --font-roboto: "Roboto", sans-serif;
   --font-flaviotte: "Flaviotte", sans-serif;
   --font-bebas: "Bebas_Neue", sans-serif;
+  --font-gilroy-bold: "Gilroy-Bold", sans-serif;
+  --font-gilroy-medium: "Gilroy-Medium", sans-serif;
 }
 
 @layer base {

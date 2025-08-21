@@ -20,8 +20,18 @@ const bebas = Bebas_Neue({
 });
 
 const flaviotte = localFont({
-  src: "../../public/fonts/Flaviotte.woff2", // The path to your local font file
+  src: "../../public/fonts/Flaviotte.woff2",
   variable: "--font-flaviotte",
+});
+
+const gilroyBold = localFont({
+  src: "../../public/fonts/Gilroy-Bold.woff",
+  variable: "--font-gilroy-bold",
+});
+
+const gilroyMedium = localFont({
+  src: "../../public/fonts/Gilroy-Medium.woff",
+  variable: "--font-gilroy-medium",
 });
 
 export const metadata: Metadata = {
@@ -37,7 +47,7 @@ export default async function RootLayout({
   return (
     <html
       lang="es"
-      className={`${roboto.variable} ${bebas.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
+      className={`${roboto.variable} ${bebas.variable} ${gilroyMedium.variable} ${gilroyBold.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
     >
       <body id="app">
         <Toaster
