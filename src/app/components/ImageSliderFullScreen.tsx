@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 interface ImageProp {
   src: string;
-  propertyId: string;
+  propertySlug: string;
   propertyTitle: string;
 }
 
@@ -43,91 +43,111 @@ const ImageSliderFullScreen = ({ images }: { images: ImageProp[] }) => {
       return;
     }
 
-    const handleNavigationEvents = (event: Event) => {
-      if (event instanceof KeyboardEvent) {
-        if (event.key === "ArrowLeft") {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          goToPreviousImage();
-        } else if (event.key === "ArrowRight") {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          goToNextImage();
-        }
-      } else if (
-        typeof window !== "undefined" &&
-        "TouchEvent" in window &&
-        event instanceof TouchEvent
-      ) {
-        if (event.type === "touchstart") {
-          setTouchStart(event.touches[0].clientX);
-        } else if (event.type === "touchend") {
-          const touchEnd = event.changedTouches[0].clientX;
-          const swipeDistance = touchEnd - touchStart;
-          const swipeThreshold = 50;
-
-          if (swipeDistance > swipeThreshold) {
-            goToPreviousImage();
-          } else if (swipeDistance < -swipeThreshold) {
-            goToNextImage();
-          }
-        }
+    const handleKeyboardNavigation = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goToPreviousImage();
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goToNextImage();
       }
     };
 
-    window.addEventListener("keydown", handleNavigationEvents, true);
-    window.addEventListener("touchstart", handleNavigationEvents, true);
-    window.addEventListener("touchend", handleNavigationEvents, true);
+    const handleTouchStart = (event: TouchEvent) => {
+      setTouchStart(event.touches[0].clientX);
+    };
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      const touchEnd = event.changedTouches[0].clientX;
+      const swipeDistance = touchEnd - touchStart;
+      const swipeThreshold = 50;
+
+      if (swipeDistance > swipeThreshold) {
+        goToPreviousImage();
+      } else if (swipeDistance < -swipeThreshold) {
+        goToNextImage();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyboardNavigation);
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
 
     return () => {
-      window.removeEventListener("keydown", handleNavigationEvents, true);
-      window.removeEventListener("touchstart", handleNavigationEvents, true);
-      window.removeEventListener("touchend", handleNavigationEvents, true);
+      window.removeEventListener("keydown", handleKeyboardNavigation);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [goToNextImage, goToPreviousImage, touchStart, multipleImages]);
 
   useEffect(() => {
-    const handleEscapeKey = (event: Event) => {
-      if (event instanceof KeyboardEvent) {
-        if (event.key === "Escape") {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          router.back();
-        }
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        router.back();
       }
     };
 
-    window.addEventListener("keydown", handleEscapeKey, true);
-
+    window.addEventListener("keydown", handleEscapeKey);
     return () => {
-      window.removeEventListener("keydown", handleEscapeKey, true);
+      window.removeEventListener("keydown", handleEscapeKey);
     };
   }, [router]);
+
+  useEffect(() => {
+    document.body.classList.add("overflow-hidden");
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, []);
 
   return (
     <div className="fixed top-0 left-0 bg-black z-50 px-2 md:px-12 h-full w-full">
       {multipleImages ? (
-        <button
-          onClick={goToPreviousImage}
-          aria-label="Image anterior"
-          className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full left-0 top-0 bottom-0"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
+        <>
+          <button
+            onClick={goToPreviousImage}
+            aria-label="Image anterior"
+            className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full left-0 top-0 bottom-0"
           >
-            <path
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="M20 12H4m0 0l6-6m-6 6l6 6"
-            />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M20 12H4m0 0l6-6m-6 6l6 6"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={goToNextImage}
+            aria-label="Image siguiente"
+            className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full right-0 top-0 bottom-0"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M4 12h16m0 0l-6-6m6 6l-6 6"
+              />
+            </svg>
+          </button>
+        </>
       ) : null}
       {currentImage && (
         <div className="relative h-full w-full">
@@ -165,29 +185,6 @@ const ImageSliderFullScreen = ({ images }: { images: ImageProp[] }) => {
           ) : null}
         </div>
       )}
-      {multipleImages ? (
-        <button
-          onClick={goToNextImage}
-          aria-label="Image siguiente"
-          className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full right-0 top-0 bottom-0"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="M4 12h16m0 0l-6-6m6 6l-6 6"
-            />
-          </svg>
-        </button>
-      ) : null}
       <div className="absolute z-20 flex items-center top-3 right-3 rounded-[50px]">
         <div className="flex items-center text-lg h-13 px-4 mr-2 bg-white text-slate-600 bg-opacity-20 rounded-full">
           {currentImageIndex + 1}&nbsp;/&nbsp;{images.length}

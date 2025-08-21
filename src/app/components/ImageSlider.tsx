@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 interface ImageProp {
   src: string;
-  propertyId: string;
+  propertySlug: string;
   propertyTitle: string;
 }
 
@@ -16,7 +16,6 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
   const router = useRouter();
   const multipleImages = images.length > 1;
   const [touchStart, setTouchStart] = useState(0);
-  // Create a ref for the image container
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   const [currentImageIndex, setCurrentImageIndex] = useQueryState(
@@ -34,7 +33,6 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
     setCurrentImageIndex(prevIndex);
   }, [currentImageIndex, images.length, setCurrentImageIndex]);
 
-  // useEffect for Arrow keys (always on)
   useEffect(() => {
     const handleEscapeKey = (event: Event) => {
       if (event instanceof KeyboardEvent && event.key === "Escape") {
@@ -51,7 +49,6 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
     };
   }, [router]);
 
-  // useEffect for Arrow keys and Touch events (only if multiple images exist)
   useEffect(() => {
     if (!multipleImages) {
       return;
@@ -94,13 +91,11 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
     };
 
     window.addEventListener("keydown", handleNavigationEvents, true);
-    // Attach touch listeners to the specific image container
     container.addEventListener("touchstart", handleNavigationEvents, true);
     container.addEventListener("touchend", handleNavigationEvents, true);
 
     return () => {
       window.removeEventListener("keydown", handleNavigationEvents, true);
-      // Clean up touch listeners
       container.removeEventListener("touchstart", handleNavigationEvents, true);
       container.removeEventListener("touchend", handleNavigationEvents, true);
     };
@@ -110,7 +105,7 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
     const index = Number.isNaN(currentImageIndex) ? 0 : currentImageIndex;
     return images[index] || images[0];
   }, [images, currentImageIndex]);
-
+  
   return (
     <div className="relative pl-12 md:pr-12 w-full mx-auto">
       {multipleImages ? (
@@ -136,10 +131,9 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
         </button>
       ) : null}
       {currentImage && (
-        // Attach the ref to this div to listen for touch events
         <div className="w-full relative" ref={imageContainerRef}>
           <Link
-            href={`/inmueble/${currentImage.propertyId}/imagenes?imagen=${currentImageIndex}`}
+            href={`/inmueble/${currentImage.propertySlug}/imagenes?imagen=${currentImageIndex}`}
             className="w-full aspect-5/4 mx-auto cursor-pointer"
           >
             <Image

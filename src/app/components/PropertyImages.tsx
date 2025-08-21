@@ -18,9 +18,11 @@ const fetcher = async (propertyId: string) => {
 
 export default function PropertyImages({
   propertyId,
+  propertySlug,
   propertyTitle,
 }: {
   propertyId: string;
+  propertySlug: string;
   propertyTitle: string;
 }) {
   const { data: images, isLoading } = useSWR(`${propertyId}-images`, () =>
@@ -33,9 +35,10 @@ export default function PropertyImages({
       images?.map((image) => ({
         src: image.image_url,
         propertyId,
+        propertySlug,
         propertyTitle,
       })) || [],
-    [images, propertyId, propertyTitle]
+    [images, propertyId, propertySlug, propertyTitle]
   );
 
   return (

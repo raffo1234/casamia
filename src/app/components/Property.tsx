@@ -21,6 +21,7 @@ export default function Property({
   const {
     id,
     title,
+    slug,
     bathroom_count,
     bedroom_count,
     phase,
@@ -145,8 +146,9 @@ export default function Property({
               <Like size={24} propertyId={id} userEmail={userEmail} />
             </div>
             <PropertyImages
-              propertyTitle={property.title}
-              propertyId={property.id}
+              propertyTitle={title}
+              propertyId={id}
+              propertySlug={slug}
             />
           </div>
         </div>
