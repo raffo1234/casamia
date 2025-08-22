@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import Title from "./Title";
 import HeaderTitle from "./HeaderTitle";
 import BackLink from "./BackLink";
+import TypologyAdminTabs from "./TypologyAdminTabs";
 
 type Inputs = {
   size: string;
@@ -89,6 +90,7 @@ export default function EditPropertyType({
           href={`/admin/property/edit/${propertyId}/typologies`}
         ></BackLink>
       </HeaderTitle>
+      <TypologyAdminTabs />
       <form onSubmit={handleSubmit(onSubmit)} id="editProperty">
         <fieldset className="flex flex-col gap-4">
           <div>

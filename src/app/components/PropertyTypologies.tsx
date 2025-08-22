@@ -13,6 +13,7 @@ import HeaderTitle from "./HeaderTitle";
 import BackButton from "./BackLink";
 import TabLinks from "./TabLinks";
 import TabLink from "./TabLink";
+import PropertyAdminTabs from "./PropertyAdminTabs";
 
 const fetcherType = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -55,13 +56,7 @@ export default function PropertyTypologies({
         <Title>Tipologias</Title>
         <BackButton href={`/admin/property`}></BackButton>
       </HeaderTitle>
-      <TabLinks>
-        <TabLink href={`/admin/property/edit/${propertyId}`} title="General" />
-        <TabLink
-          href={`/admin/property/edit/${propertyId}/typologies`}
-          title="Tipologias"
-        />
-      </TabLinks>
+      <PropertyAdminTabs propertyId={propertyId} />
       <section
         key={propertyId}
         className="grid gap-8"

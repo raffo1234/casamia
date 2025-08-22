@@ -1,6 +1,7 @@
 import BackLink from "@/components/BackLink";
 import EditPropertyInformation from "@/components/EditPropertyInformation";
 import HeaderTitle from "@/components/HeaderTitle";
+import PropertyAdminTabs from "@/components/PropertyAdminTabs";
 import TabLink from "@/components/TabLink";
 import TabLinks from "@/components/TabLinks";
 import Title from "@/components/Title";
@@ -28,14 +29,7 @@ export default async function Page({ params }: { params: Params }) {
           <BackLink href={`/admin/property`}></BackLink>
         </HeaderTitle>
       </div>
-      <TabLinks>
-        <TabLink href={`/admin/property/edit/${id}`} title="General" />
-        <TabLink
-          href={`/admin/property/edit/${id}/typologies`}
-          title="Tipologias"
-        />
-        <TabLink href={`/admin/property/edit/${id}/images`} title="Imagenes" />
-      </TabLinks>
+      <PropertyAdminTabs propertyId={id} />
       <EditPropertyInformation id={id} userId={user?.id} />
     </>
   );

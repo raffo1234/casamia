@@ -148,7 +148,7 @@ export default function AttachFiles({
     }
     setIsAttaching(false);
     mutateFiles();
-    toast.success("Im&aacute;genes subidas correctamente");
+    toast.success("Imágenes subidas correctamente");
     setFiles([]);
   };
 

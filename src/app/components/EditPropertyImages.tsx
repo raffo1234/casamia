@@ -5,6 +5,10 @@ import useSWR, { mutate } from "swr";
 import AttachFiles from "./AttachFiles";
 import PropertyImagesEdition from "./PropertyImagesEdition";
 import { supabase } from "@/lib/supabase";
+import PropertyAdminTabs from "./PropertyAdminTabs";
+import Title from "./Title";
+import HeaderTitle from "./HeaderTitle";
+import BackLink from "./BackLink";
 
 async function fetcher(id: string) {
   const { data, error } = await supabase
@@ -29,7 +33,6 @@ export default function EditPropertyImages({
 
   const {
     data: property,
-
     isLoading,
     mutate: mutateProperty,
   } = useSWR(propertyId, () => fetcher(propertyId));
@@ -38,6 +41,11 @@ export default function EditPropertyImages({
 
   return (
     <>
+      <HeaderTitle>
+        <Title>Imagenes</Title>
+        <BackLink href={`/admin/property/edit/${propertyId}`} />
+      </HeaderTitle>
+      <PropertyAdminTabs />
       <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
         <h2 className="font-semibold text-xl">
           Subir Imágenes <br />{" "}
