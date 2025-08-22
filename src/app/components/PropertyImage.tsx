@@ -11,9 +11,11 @@ import { mutate } from "swr";
 export default function PropertyImagen({
   propertyImage,
   userId,
+  mutateProperty,
 }: {
   userId: string;
   propertyImage: { image_url: string; id: string };
+  mutateProperty: () => void;
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const { image_url, id } = propertyImage;
@@ -26,8 +28,10 @@ export default function PropertyImagen({
 
     setIsDeleting(true);
     await deleteImage(id, "property_image", "image_url");
+
+    await mutate(() => getAdminPropertiesUserKey(userId));
+    await mutateProperty();
     setIsDeleting(false);
-    mutate(() => getAdminPropertiesUserKey(userId));
     toast.success("Imagen eliminada exitosamente.");
   };
 

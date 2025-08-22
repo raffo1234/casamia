@@ -1,17 +1,16 @@
 "use client";
 
 import { v4 as uuidv4 } from "uuid";
-// import { DicomType } from "@/types/dicomType";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useDropzone } from "react-dropzone";
-// import FileUploadItem from "./FileUploadItem";
 import { useState } from "react";
 import uploadSignedFile from "@/lib/uploadSignedFile";
-// import editFileById from "@/lib/editFileById";
 import { supabase } from "@/lib/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { sanitize } from "@/lib/sanitize";
 import FileUploadItem from "./FileUploadItem";
+import toast from "react-hot-toast";
+import editFileById from "@/lib/editFileById";
 
 export enum CustomFileState {
   selected = "Selected",
@@ -107,44 +106,50 @@ export default function AttachFiles({
         continue;
       }
 
-      //   const updateProgress = (progress: number) => {
-      //     editFileById(setFiles, customFile.id, {
-      //       uploadPercentage: progress,
-      //     });
-      //   };
-
-      //   editFileById(setFiles, customFile.id, {
-      //     state: CustomFileState.uploading,
-      //   });
-
-      const updateProgress = (value: number) => {
-        console.log(value);
+      const updateProgress = (progress: number) => {
+        editFileById(setFiles, customFile.id, {
+          uploadPercentage: progress,
+        });
       };
 
-      await uploadSignedFile(customFile.file, now, updateProgress);
+      editFileById(setFiles, customFile.id, {
+        state: CustomFileState.uploading,
+      });
 
-      //   if (!urlSigned) {
-      //     editFileById(setFiles, customFile.id, {
-      //       state: CustomFileState.errorSigning,
-      //     });
-      //     continue;
-      //   }
+      const urlSigned = await uploadSignedFile(
+        customFile.file,
+        now,
+        updateProgress
+      );
+
+      if (!urlSigned) {
+        editFileById(setFiles, customFile.id, {
+          state: CustomFileState.errorSigning,
+        });
+        continue;
+      }
 
       const filename = sanitize(`${now}_${customFile.file.name}`);
       const publicUrl = `${process.env.NEXT_PUBLIC_PUBLIC_DEVELOPMENT_URL}/property/${filename}`;
 
-      await insertNewFile(supabase, propertyId, publicUrl);
+      const { id: insertedId } = await insertNewFile(
+        supabase,
+        propertyId,
+        publicUrl
+      );
 
-      //   if (insertedId) {
-      //     editFileById(setFiles, customFile.id, {
-      //       state: CustomFileState.complete,
-      //       dbId: insertedId,
-      //       publicUrl,
-      //     });
-      //   }
+      if (insertedId) {
+        editFileById(setFiles, customFile.id, {
+          state: CustomFileState.complete,
+          dbId: insertedId,
+          publicUrl,
+        });
+      }
     }
     setIsAttaching(false);
     mutateFiles();
+    toast.success("Im&aacute;genes subidas correctamente");
+    setFiles([]);
   };
 
   const removeCustomFile = (idToRemove: CustomFile["id"]) => {
@@ -213,10 +218,11 @@ export default function AttachFiles({
       0 ? (
         <div className="flex justify-center mt-6">
           <button
+            disabled={isAttaching}
             onClick={() => attachFiles(files)}
             type="button"
             title="Attach files"
-            className="flex gap-2 self-end cursor-pointer text-white px-6 py-2 rounded-full bg-cyan-400"
+            className="flex gap-2 self-end cursor-pointer text-white px-6 py-2 rounded-full bg-cyan-400 disabled:bg-cyan-200 disabled:cursor-not-allowed"
           >
             <span>Upload Im&aacute;genes</span>
           </button>

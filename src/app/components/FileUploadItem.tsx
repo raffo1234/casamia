@@ -123,34 +123,43 @@ export default function FileUploadItem({
           )}
         </button>
       ) : (
-        <button
-          title="Delete"
-          //   onClick={handleDeleteFile}
-          className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer p-2 text-rose-400 border-dashed border border-rose-100 rounded-full transition-colors duration-300"
-        >
-          {true ? (
-            <Icon
-              icon="solar:record-broken"
-              className="animate-spin"
-              fontSize={24}
+        <div className="p-2 absolute right-1 top-0 text-cyan-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z"
+              clipRule="evenodd"
             />
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={24}
-              height={24}
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeWidth="1.5"
-                d="M9.17 4a3.001 3.001 0 0 1 5.66 0m5.67 2h-17m14.874 9.4c-.177 2.654-.266 3.981-1.131 4.79s-2.195.81-4.856.81h-.774c-2.66 0-3.99 0-4.856-.81c-.865-.809-.953-2.136-1.13-4.79l-.46-6.9m13.666 0l-.2 3M9.5 11l.5 5m4.5-5l-.5 5"
-              />
-            </svg>
-          )}
-        </button>
+          </svg>
+        </div>
+        // <button
+        //   title="Delete"
+        //   //   onClick={handleDeleteFile}
+        //   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer p-2 text-rose-400 border-dashed border border-rose-100 rounded-full transition-colors duration-300"
+        // >
+
+        //   <svg
+        //     xmlns="http://www.w3.org/2000/svg"
+        //     width={24}
+        //     height={24}
+        //     viewBox="0 0 24 24"
+        //   >
+        //     <path
+        //       fill="none"
+        //       stroke="currentColor"
+        //       strokeLinecap="round"
+        //       strokeWidth="1.5"
+        //       d="M9.17 4a3.001 3.001 0 0 1 5.66 0m5.67 2h-17m14.874 9.4c-.177 2.654-.266 3.981-1.131 4.79s-2.195.81-4.856.81h-.774c-2.66 0-3.99 0-4.856-.81c-.865-.809-.953-2.136-1.13-4.79l-.46-6.9m13.666 0l-.2 3M9.5 11l.5 5m4.5-5l-.5 5"
+        //     />
+        //   </svg>
+
+        // </button>
       )}
     </div>
   );

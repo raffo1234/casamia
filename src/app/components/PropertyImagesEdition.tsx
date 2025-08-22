@@ -3,9 +3,11 @@ import PropertyImage from "./PropertyImage";
 export default function PropertyImagesEdition({
   propertyImages,
   userId,
+  mutateProperty,
 }: {
   propertyImages: { image_url: string; id: string }[];
   userId: string;
+  mutateProperty: () => void;
 }) {
   return (
     <section
@@ -19,6 +21,7 @@ export default function PropertyImagesEdition({
           userId={userId}
           key={propertyImage.id}
           propertyImage={propertyImage}
+          mutateProperty={mutateProperty}
         />
       ))}
     </section>

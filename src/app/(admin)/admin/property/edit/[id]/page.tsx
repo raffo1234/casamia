@@ -34,6 +34,7 @@ export default async function Page({ params }: { params: Params }) {
           href={`/admin/property/edit/${id}/typologies`}
           title="Tipologias"
         />
+        <TabLink href={`/admin/property/edit/${id}/images`} title="Imagenes" />
       </TabLinks>
       <EditPropertyInformation id={id} userId={user?.id} />
     </>

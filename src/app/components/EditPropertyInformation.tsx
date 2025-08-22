@@ -115,10 +115,6 @@ export default function EditPropertyInformation({
     }
   };
 
-  const mutatePropertyImages = () => {
-    mutate(() => getAdminPropertiesUserKey(userId));
-  };
-
   useEffect(() => {
     reset(property);
   }, [property, reset]);
@@ -150,7 +146,10 @@ export default function EditPropertyInformation({
               </fieldset>
               <fieldset>
                 <label htmlFor="slug" className="inline-block mb-2 text-sm">
-                  Slug <span className="text-xs block font-semibold mt-1">Es usado en el URL del inmueble</span>
+                  Slug{" "}
+                  <span className="text-xs block font-semibold mt-1">
+                    Es usado en el URL del inmueble
+                  </span>
                 </label>
                 <input
                   disabled
@@ -188,7 +187,8 @@ export default function EditPropertyInformation({
                 />
               </fieldset>
             </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
+
+            {/* <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold text-xl">
                 Subir Imágenes <br />{" "}
                 <span className="text-gray-400 text-sm font-normal">
@@ -205,7 +205,7 @@ export default function EditPropertyInformation({
                   propertyImages={property.property_image}
                 />
               </div>
-            ) : null}
+            ) : null} */}
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold text-xl">Estado</h2>
               <fieldset className="flex items-center gap-4 w-full">
