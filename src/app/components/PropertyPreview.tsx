@@ -66,7 +66,7 @@ export default function PropertyPreview({
   const { slug } = useParams();
   const router = useRouter();
   const propertySlug = Array.isArray(slug) ? slug[0] : slug;
-  console.log(slug);
+
   const { data: property } = useSWR(propertySlug, () =>
     propertySlug ? fetcher(propertySlug) : null
   );

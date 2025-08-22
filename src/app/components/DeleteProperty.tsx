@@ -1,8 +1,8 @@
-import { supabase } from "@/lib/supabase";
 import { getAdminPropertiesUserKey } from "@/constants";
 import { mutate } from "swr";
 import DeleteButton from "./DeleteButton";
 import { useState } from "react";
+import deleteEntityWithImages from "@/lib/deleteEntityWithImages";
 
 export default function DeleteProperty({
   id,
@@ -21,22 +21,10 @@ export default function DeleteProperty({
 
     setIsDeleting(true);
 
-    try {
-      const { data: deletedProperty } = await supabase
-        .from("property")
-        .delete()
-        .eq("id", id)
-        .select("id")
-        .single();
+    await deleteEntityWithImages(id, "property");
 
-      if (deletedProperty) {
-        await mutate(getAdminPropertiesUserKey(userId));
-      }
-    } catch (error) {
-      console.error(`Error eliminando este item: ${error}`);
-    } finally {
-      setIsDeleting(false);
-    }
+    await mutate(getAdminPropertiesUserKey(userId));
+    setIsDeleting(false);
   };
 
   return <DeleteButton isDeleting={isDeleting} onClick={() => onDelete(id)} />;

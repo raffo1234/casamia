@@ -11,7 +11,6 @@ import {
   PropertyState,
   PropertyType,
 } from "@/types/propertyState";
-import { message } from "antd";
 import FormSkeleton from "./FormSkeleton";
 import { Icon } from "@iconify/react";
 import { getAdminPropertiesUserKey } from "@/constants";
@@ -20,6 +19,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { generateUniqueSlug } from "@/lib/supabase/generateUniqueSlug";
 import AttachFiles from "./AttachFiles";
+import toast from "react-hot-toast";
 
 type Inputs = {
   title: string;
@@ -45,7 +45,7 @@ type Inputs = {
 async function fetcher(id: string) {
   const { data, error } = await supabase
     .from("property")
-    .select("*, property_image(image_url)")
+    .select("*, property_image(id, image_url)")
     .eq("id", id)
     .single();
   if (error) throw error;
@@ -68,7 +68,6 @@ export default function EditPropertyInformation({
   id: string;
   userId: string;
 }) {
-  const [messageApi, contextHolder] = message.useMessage();
   const { data: companies } = useSWR(`${userId}-companies`, () =>
     fetcherCompany(userId)
   );
@@ -82,13 +81,6 @@ export default function EditPropertyInformation({
   const { reset, register, handleSubmit, control } = useForm<Inputs>({
     mode: "onBlur",
   });
-
-  const success = () => {
-    messageApi.open({
-      type: "success",
-      content: "Item updated successfully!",
-    });
-  };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     let newSlug = null;
@@ -114,7 +106,7 @@ export default function EditPropertyInformation({
         .single();
       await mutateProperty();
       await mutate(() => getAdminPropertiesUserKey(userId));
-      success();
+      toast.success("Inmueble actualizado exitosamente.");
     } catch (err) {
       console.error(err);
       console.error({ property_image });
@@ -137,10 +129,65 @@ export default function EditPropertyInformation({
     <FormSkeleton rows={2} />
   ) : (
     <>
-      {contextHolder}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start gap-6">
           <div className="flex-1 flex flex-col gap-7">
+            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
+              <h2 className="font-semibold text-xl">
+                Informaci&oacute;n General
+              </h2>
+              <fieldset>
+                <label htmlFor="title" className="inline-block mb-2 text-sm">
+                  Titulo
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  {...register("title")}
+                  required
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                />
+              </fieldset>
+              <fieldset>
+                <label htmlFor="slug" className="inline-block mb-2 text-sm">
+                  Slug <span className="text-xs block font-semibold mt-1">Es usado en el URL del inmueble</span>
+                </label>
+                <input
+                  disabled
+                  type="text"
+                  id="slug"
+                  {...register("slug")}
+                  required
+                  className="disabled:bg-slate-100 w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                />
+              </fieldset>
+              <fieldset>
+                <label htmlFor="location" className="inline-block mb-2 text-sm">
+                  Ubicacion
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  {...register("location")}
+                  required
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                />
+              </fieldset>
+              <fieldset>
+                <label
+                  htmlFor="description"
+                  className="inline-block mb-2 text-sm"
+                >
+                  Descripcion
+                </label>
+                <textarea
+                  id="decription"
+                  {...register("description")}
+                  required
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                />
+              </fieldset>
+            </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold text-xl">
                 Subir Imágenes <br />{" "}
@@ -150,10 +197,15 @@ export default function EditPropertyInformation({
               </h2>
               <AttachFiles propertyId={id} mutateFiles={mutatePropertyImages} />
             </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">Imágenes</h2>
-              <PropertyImagesEdition propertyImages={property.property_image} />
-            </div>
+            {property.property_image.length > 0 ? (
+              <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
+                <h2 className="font-semibold text-xl">Imágenes</h2>
+                <PropertyImagesEdition
+                  userId={userId}
+                  propertyImages={property.property_image}
+                />
+              </div>
+            ) : null}
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold text-xl">Estado</h2>
               <fieldset className="flex items-center gap-4 w-full">
@@ -619,47 +671,6 @@ export default function EditPropertyInformation({
                   />
                 </fieldset>
               </div>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">Information Basica</h2>
-              <fieldset>
-                <label htmlFor="title" className="inline-block mb-2 text-sm">
-                  Titulo
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  {...register("title")}
-                  required
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
-                />
-              </fieldset>
-              <fieldset>
-                <label htmlFor="location" className="inline-block mb-2 text-sm">
-                  Ubicacion
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  {...register("location")}
-                  required
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
-                />
-              </fieldset>
-              <fieldset>
-                <label
-                  htmlFor="description"
-                  className="inline-block mb-2 text-sm"
-                >
-                  Descripcion
-                </label>
-                <textarea
-                  id="decription"
-                  {...register("description")}
-                  required
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
-                />
-              </fieldset>
             </div>
             <footer className="justify-end flex items-center gap-2">
               <Link

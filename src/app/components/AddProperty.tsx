@@ -13,6 +13,7 @@ import { Icon } from "@iconify/react";
 import { NumericFormat } from "react-number-format";
 import Link from "next/link";
 import Title from "./Title";
+import slugify from "slugify";
 
 type Inputs = {
   title: string;
@@ -35,14 +36,19 @@ export default function AddProperty({ userId }: { userId: string }) {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    try {
-      const { data: createdProperty } = await supabase
-        .from("property")
-        .insert([{ ...data, user_id: userId }])
-        .select()
-        .single();
+    const slug = slugify(data.title, {
+      lower: true,
+      strict: true,
+      locale: "es",
+    });
 
-      await mutate(createdProperty.id, createdProperty);
+    try {
+      const { error } = await supabase
+        .from("property")
+        .insert([{ ...data, user_id: userId, slug }]);
+
+      console.warn(error);
+      // await mutate(createdProperty?.id, createdProperty);
 
       reset();
       window.location.href = "/admin/property";
