@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-const deleteImage = async (id: string, table: string, column: string) => {
+const deleteImage = async (id: string, table: string) => {
   try {
     const response = await fetch("/api/delete-image", {
       method: "DELETE",
@@ -11,7 +11,7 @@ const deleteImage = async (id: string, table: string, column: string) => {
         // you would include a user's session token here. Example:
         // 'Authorization': `Bearer ${(await supabaseClient.auth.getSession())?.data.session?.access_token || ''}`
       },
-      body: JSON.stringify({ id, table, column }),
+      body: JSON.stringify({ id, table }),
     });
 
     if (!response.ok) {

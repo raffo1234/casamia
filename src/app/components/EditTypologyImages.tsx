@@ -4,28 +4,30 @@ import useSWR from "swr";
 import AttachFiles from "./AttachFiles";
 import ImagesEdition from "./ImagesEdition";
 import { supabase } from "@/lib/supabase";
-import PropertyAdminTabs from "./PropertyAdminTabs";
 import Title from "./Title";
 import HeaderTitle from "./HeaderTitle";
 import BackLink from "./BackLink";
+import { useParams } from "next/navigation";
+import TypologyAdminTabs from "./TypologyAdminTabs";
 
 async function fetcher(id: string) {
   const { data, error } = await supabase
-    .from("property")
-    .select("*, property_image(id, image_url)")
+    .from("typology")
+    .select("*, typology_image(id, image_url)")
     .eq("id", id)
     .single();
   if (error) throw error;
   return data;
 }
 
-export default function EditPropertyImages({
-  propertyId,
-}: {
-  propertyId: string;
-}) {
-  const { data: property, isLoading } = useSWR(propertyId, () =>
-    fetcher(propertyId)
+export default function EditTypologyImages() {
+  const params = useParams();
+  const propertyId = params.id as string;
+  const typologyId = params.typologyId as string;
+
+  const { data: typology, isLoading } = useSWR(
+    `${typologyId}-typology-image`,
+    () => fetcher(typologyId)
   );
 
   if (isLoading) return <div>Loading...</div>;
@@ -33,10 +35,10 @@ export default function EditPropertyImages({
   return (
     <>
       <HeaderTitle>
-        <Title>Imagenes</Title>
-        <BackLink href={`/admin/property/edit/${propertyId}`} />
+        <Title>Typologia Imagenes</Title>
+        <BackLink href={`/admin/property/edit/${propertyId}/typologies`} />
       </HeaderTitle>
-      <PropertyAdminTabs />
+      <TypologyAdminTabs />
       <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
         <h2 className="font-semibold text-xl">
           Subir Imágenes <br />{" "}
@@ -45,19 +47,19 @@ export default function EditPropertyImages({
           </span>
         </h2>
         <AttachFiles
-          table="property_image"
-          parentColumnKey="property_id"
-          parentColumnValue={propertyId}
-          keyPrefix="property"
+          table="typology_image"
+          parentColumnKey="typology_id"
+          parentColumnValue={typologyId}
+          keyPrefix="typology"
         />
       </div>
-      {property.property_image.length > 0 ? (
+      {typology.typology_image.length > 0 ? (
         <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
           <h2 className="font-semibold text-xl">Imágenes</h2>
           <ImagesEdition
-            parentColumnValue={propertyId}
-            images={property.property_image}
-            table="property_image"
+            parentColumnValue={typologyId}
+            images={typology.typology_image}
+            table="typology_image"
           />
         </div>
       ) : null}

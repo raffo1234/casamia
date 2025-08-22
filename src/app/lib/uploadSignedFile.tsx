@@ -4,6 +4,8 @@ import uploadFileToR2 from "./uploadFileToR2";
 export default async function uploadSignedFile(
   file: File,
   now: string,
+  parentEntityId: string,
+  keyPrefix: string,
   onProgress: (progress: number) => void
 ) {
   const filename = sanitize(`${now}_${file.name}`);
@@ -14,7 +16,9 @@ export default async function uploadSignedFile(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ filename }),
+      body: JSON.stringify({
+        filename: `${keyPrefix}_${parentEntityId}/${filename}`,
+      }),
     });
 
     const data = await response.json();

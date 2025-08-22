@@ -7,9 +7,9 @@ import { supabase } from "@/lib/supabase";
 const r2 = getR2Client();
 
 export async function DELETE(request: Request) {
-  const { id, table, column } = await request.json();
+  const { id, table } = await request.json();
 
-  if (!id || !table || !column) {
+  if (!id || !table) {
     return NextResponse.json(
       { message: "Missing required parameter: id." },
       { status: 400 }
@@ -19,7 +19,7 @@ export async function DELETE(request: Request) {
   try {
     const { data, error: selectError } = (await supabase
       .from(table)
-      .select(column)
+      .select("image_url")
       .eq("id", id)
       .single()) as { data: { image_url: string } | null; error: Error };
 

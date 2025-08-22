@@ -11,6 +11,7 @@ import { sanitize } from "@/lib/sanitize";
 import FileUploadItem from "./FileUploadItem";
 import toast from "react-hot-toast";
 import editFileById from "@/lib/editFileById";
+import { mutate } from "swr";
 
 export enum CustomFileState {
   selected = "Selected",
@@ -34,17 +35,17 @@ export type CustomFile = {
 };
 
 async function insertNewFile(
+  table: string,
+  parentColumnKey: string,
   supabase: SupabaseClient,
-  propertyId: string | undefined,
+  parentColumnValue: string | undefined,
   publicUrl: string | undefined
 ): Promise<InsertOperationResult> {
-  const table = "property_image";
-
   const { data, error } = await supabase
     .from(table)
     .insert([
       {
-        property_id: propertyId,
+        [parentColumnKey]: parentColumnValue,
         image_url: publicUrl,
       },
     ])
@@ -65,11 +66,15 @@ async function insertNewFile(
 }
 
 export default function AttachFiles({
-  propertyId,
-  mutateFiles,
+  table,
+  parentColumnKey,
+  parentColumnValue,
+  keyPrefix,
 }: {
-  propertyId: string;
-  mutateFiles: () => void;
+  table: string;
+  parentColumnKey: string;
+  parentColumnValue: string;
+  keyPrefix: string;
 }) {
   const [files, setFiles] = useState<CustomFile[]>([]);
   const [isAttaching, setIsAttaching] = useState(false);
@@ -119,6 +124,8 @@ export default function AttachFiles({
       const urlSigned = await uploadSignedFile(
         customFile.file,
         now,
+        parentColumnValue,
+        keyPrefix,
         updateProgress
       );
 
@@ -130,11 +137,13 @@ export default function AttachFiles({
       }
 
       const filename = sanitize(`${now}_${customFile.file.name}`);
-      const publicUrl = `${process.env.NEXT_PUBLIC_PUBLIC_DEVELOPMENT_URL}/property/${filename}`;
+      const publicUrl = `${process.env.NEXT_PUBLIC_PUBLIC_DEVELOPMENT_URL}/${keyPrefix}_${parentColumnValue}/${filename}`;
 
       const { id: insertedId } = await insertNewFile(
+        table,
+        parentColumnKey,
         supabase,
-        propertyId,
+        parentColumnValue,
         publicUrl
       );
 
@@ -147,9 +156,9 @@ export default function AttachFiles({
       }
     }
     setIsAttaching(false);
-    mutateFiles();
-    toast.success("Imágenes subidas correctamente");
+    mutate(parentColumnValue);
     setFiles([]);
+    toast.success("Imágenes subidas correctamente");
   };
 
   const removeCustomFile = (idToRemove: CustomFile["id"]) => {
@@ -206,7 +215,6 @@ export default function AttachFiles({
         {files.map((file) => {
           return (
             <FileUploadItem
-              // mutate={mutateFiles}
               removeCustomFile={() => removeCustomFile(file.id)}
               file={file}
               key={file.id}

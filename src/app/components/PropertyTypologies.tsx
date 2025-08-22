@@ -11,9 +11,8 @@ import EditLink from "./EditButton";
 import Title from "./Title";
 import HeaderTitle from "./HeaderTitle";
 import BackButton from "./BackLink";
-import TabLinks from "./TabLinks";
-import TabLink from "./TabLink";
 import PropertyAdminTabs from "./PropertyAdminTabs";
+import FirstImage from "./FirstImage";
 
 const fetcherType = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -28,7 +27,8 @@ const fetcherType = async (propertyId: string) => {
       price,
       size,
       floor,
-      stock
+      stock,
+      typology_image(id, image_url)
     `
     )
     .eq("property_id", propertyId)
@@ -44,7 +44,7 @@ export default function PropertyTypologies({
   propertyId: string;
 }) {
   const { data: types = [], isLoading } = useSWR(
-    `${propertyId}-typologies`,
+    `${propertyId}-typology-all`,
     () => fetcherType(propertyId)
   );
 
@@ -56,7 +56,7 @@ export default function PropertyTypologies({
         <Title>Tipologias</Title>
         <BackButton href={`/admin/property`}></BackButton>
       </HeaderTitle>
-      <PropertyAdminTabs propertyId={propertyId} />
+      <PropertyAdminTabs />
       <section
         key={propertyId}
         className="grid gap-8"
@@ -65,18 +65,19 @@ export default function PropertyTypologies({
         }}
       >
         {types.map(
-          ({ id, name, size, floor, stock, bedroom_count, bathroom_count }) => {
+          ({
+            id,
+            name,
+            size,
+            floor,
+            stock,
+            bedroom_count,
+            bathroom_count,
+            typology_image,
+          }) => {
             return (
               <div key={id}>
-                <div className="relative">
-                  <Image
-                    src="https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"
-                    className="w-full h-[260px] object-cover rounded-3xl mb-4 relative"
-                    alt={name}
-                    width={400}
-                    height={300}
-                  />
-                </div>
+                <FirstImage src={typology_image[0]?.image_url} title={name} />
                 <div className="flex gap-2 item-center w-full justify-center">
                   <EditLink
                     href={`/admin/property/edit/${propertyId}/typologies/edit/${id}`}

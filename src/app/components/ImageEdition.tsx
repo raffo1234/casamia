@@ -5,20 +5,19 @@ import DeleteButton from "./DeleteButton";
 import deleteImage from "@/lib/deleteImage";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { getAdminPropertiesUserKey } from "@/constants";
 import { mutate } from "swr";
 
-export default function PropertyImagen({
-  propertyImage,
-  userId,
-  mutateProperty,
+export default function ImageEdition({
+  image,
+  parentColumnValue,
+  table,
 }: {
-  userId: string;
-  propertyImage: { image_url: string; id: string };
-  mutateProperty: () => void;
+  image: { image_url: string; id: string };
+  parentColumnValue: string;
+  table: string;
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
-  const { image_url, id } = propertyImage;
+  const { image_url, id } = image;
 
   const onDelete = async (id: string) => {
     const confirmationMessage = confirm(
@@ -27,10 +26,9 @@ export default function PropertyImagen({
     if (!confirmationMessage) return;
 
     setIsDeleting(true);
-    await deleteImage(id, "property_image", "image_url");
+    await deleteImage(id, table);
 
-    await mutate(() => getAdminPropertiesUserKey(userId));
-    await mutateProperty();
+    await mutate(parentColumnValue);
     setIsDeleting(false);
     toast.success("Imagen eliminada exitosamente.");
   };

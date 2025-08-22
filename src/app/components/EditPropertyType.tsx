@@ -29,7 +29,7 @@ type Inputs = {
 async function fetcher(typologyId: string) {
   const { data, error } = await supabase
     .from("typology")
-    .select()
+    .select("*")
     .eq("id", typologyId)
     .single();
   if (error) throw error;
@@ -58,15 +58,11 @@ export default function EditPropertyType({
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    
     try {
-      const { data: updatedData } = await supabase
-        .from("typology")
-        .update(data)
-        .eq("id", typologyId)
-        .select()
-        .single();
+      await supabase.from("typology").update(data).eq("id", typologyId);
 
-      await mutate(typologyId, updatedData);
+      await mutate(typologyId);
       toast.success("Updated successfully");
       router.push(`/admin/property/edit/${propertyId}/typologies`);
     } catch (error) {
@@ -102,7 +98,7 @@ export default function EditPropertyType({
             </span>
           </div>
           <div>
-            <label htmlFor="name" className="block font-bold mb-2 font-manrope">
+            <label htmlFor="name" className="block font-bold mb-2">
               Nombre
             </label>
             <input
@@ -114,10 +110,7 @@ export default function EditPropertyType({
             />
           </div>
           <div>
-            <label
-              htmlFor="description"
-              className="block font-bold mb-2 font-manrope"
-            >
+            <label htmlFor="description" className="block font-bold mb-2">
               Descripcion
             </label>
             <textarea
@@ -127,7 +120,6 @@ export default function EditPropertyType({
               className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-
           <footer className="flex items-center gap-2 pt-4 mt-4 justify-end">
             <Link href={`/admin/property/edit/${propertyId}/typologies`}>
               Cancel

@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function PropertyFirstImage({
+export default function FirstImage({
   src,
   title,
 }: {

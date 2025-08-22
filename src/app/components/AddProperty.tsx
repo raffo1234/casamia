@@ -2,7 +2,6 @@
 
 import { supabase } from "@/lib/supabase";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
-import { mutate } from "swr";
 import {
   PropertyCurrency,
   PropertyPhase,

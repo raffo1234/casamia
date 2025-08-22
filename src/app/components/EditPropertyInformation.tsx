@@ -14,11 +14,9 @@ import {
 import FormSkeleton from "./FormSkeleton";
 import { Icon } from "@iconify/react";
 import { getAdminPropertiesUserKey } from "@/constants";
-import PropertyImagesEdition from "./PropertyImagesEdition";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { generateUniqueSlug } from "@/lib/supabase/generateUniqueSlug";
-import AttachFiles from "./AttachFiles";
 import toast from "react-hot-toast";
 
 type Inputs = {
@@ -187,25 +185,6 @@ export default function EditPropertyInformation({
                 />
               </fieldset>
             </div>
-
-            {/* <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">
-                Subir Imágenes <br />{" "}
-                <span className="text-gray-400 text-sm font-normal">
-                  Las im&aacute;genes adjuntas serán parte de este inmueble
-                </span>
-              </h2>
-              <AttachFiles propertyId={id} mutateFiles={mutatePropertyImages} />
-            </div>
-            {property.property_image.length > 0 ? (
-              <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-                <h2 className="font-semibold text-xl">Imágenes</h2>
-                <PropertyImagesEdition
-                  userId={userId}
-                  propertyImages={property.property_image}
-                />
-              </div>
-            ) : null} */}
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold text-xl">Estado</h2>
               <fieldset className="flex items-center gap-4 w-full">

@@ -1,6 +1,5 @@
-import TypologyAdminTabs from "@/components/TypologyAdminTabs";
+import EditTypologyImages from "@/components/EditTypologyImages";
 
-export default function Page() {
-  return <TypologyAdminTabs />;
-  
+export default async function Page() {
+  return <EditTypologyImages />;
 }

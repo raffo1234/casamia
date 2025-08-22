@@ -10,7 +10,7 @@ type Typology = {
 async function fetcher(propertyId: string): Promise<Typology[]> {
   const { data, error } = await supabase
     .from("typology")
-    .select()
+    .select("*")
     .eq("property_id", propertyId);
   if (error) throw error;
   return data;

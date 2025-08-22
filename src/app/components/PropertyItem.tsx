@@ -1,7 +1,7 @@
 "use client";
 
 import Like from "./Like";
-import PropertyFirstImage from "./PropertyFirstImage";
+import FirstImage from "./FirstImage";
 import Image from "next/image";
 import Link from "next/link";
 import { PropertyType } from "@/types/propertyType";
@@ -20,10 +20,7 @@ export default function PropertyItem({
     <article className="group bg-white rounded-3xl">
       <div className="relative mb-1">
         <Link href={`/inmueble/${slug}`} title={title}>
-          <PropertyFirstImage
-            title={title}
-            src={property_image?.at(0)?.image_url}
-          />
+          <FirstImage title={title} src={property_image?.at(0)?.image_url} />
         </Link>
         <div className="md:opacity-0 group-hover:opacity-100 duration-300 transition-all sm:invisible group-hover:visible absolute left-0 top-0 p-3">
           <Like propertyId={id} userEmail={userEmail} />

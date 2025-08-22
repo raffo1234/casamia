@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     const command = new PutObjectCommand({
       Bucket: bucketName,
-      Key: `property/${filename}`,
+      Key: filename,
     });
 
     const signedUrl = await getSignedUrl(client, command, { expiresIn: 600 });

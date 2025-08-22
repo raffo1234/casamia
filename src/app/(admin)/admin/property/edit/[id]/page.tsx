@@ -2,8 +2,6 @@ import BackLink from "@/components/BackLink";
 import EditPropertyInformation from "@/components/EditPropertyInformation";
 import HeaderTitle from "@/components/HeaderTitle";
 import PropertyAdminTabs from "@/components/PropertyAdminTabs";
-import TabLink from "@/components/TabLink";
-import TabLinks from "@/components/TabLinks";
 import Title from "@/components/Title";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
@@ -29,7 +27,7 @@ export default async function Page({ params }: { params: Params }) {
           <BackLink href={`/admin/property`}></BackLink>
         </HeaderTitle>
       </div>
-      <PropertyAdminTabs propertyId={id} />
+      <PropertyAdminTabs />
       <EditPropertyInformation id={id} userId={user?.id} />
     </>
   );

@@ -7,7 +7,7 @@ import { PropertyState, Permissions } from "@/types/propertyState";
 import { Icon } from "@iconify/react";
 import CheckPermission from "@/components/CheckPermission";
 import EditPropertyModal from "./EditPropertyModal";
-import PropertyFirstImage from "./PropertyFirstImage";
+import FirstImage from "./FirstImage";
 import { getAdminPropertiesUserKey } from "@/constants";
 import Link from "next/link";
 import EditLink from "./EditButton";
@@ -32,10 +32,7 @@ const AdminPropertyItem = ({
   return (
     <article className="bg-white rounded-xl relative">
       <Link href={`/admin/property/edit/${id}`}>
-        <PropertyFirstImage
-          title={title}
-          src={propertyImage?.at(0)?.image_url}
-        />
+        <FirstImage title={title} src={propertyImage?.at(0)?.image_url} />
       </Link>
       <div
         className={`rounded-xl absolute right-3 top-3 text-sm py-1 px-2 
