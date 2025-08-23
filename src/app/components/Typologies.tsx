@@ -70,8 +70,9 @@ function Typology({ typology }: { typology: TypologyType }) {
 }
 
 export default function Typologies({ propertyId }: { propertyId: string }) {
-  const { data: typologies = [] } = useSWR(`${propertyId}-typology-image`, () =>
-    fetcher(propertyId)
+  const { data: typologies = [] } = useSWR(
+    `${propertyId}-typology-with-images`,
+    () => fetcher(propertyId)
   );
 
   return typologies.length > 0 ? (

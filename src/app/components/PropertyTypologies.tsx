@@ -44,7 +44,7 @@ export default function PropertyTypologies({
   propertyId: string;
 }) {
   const { data: types = [], isLoading } = useSWR(
-    `${propertyId}-typology-all`,
+    `${propertyId}-typology-with-images`,
     () => fetcherType(propertyId)
   );
 
@@ -73,7 +73,7 @@ export default function PropertyTypologies({
             stock,
             bedroom_count,
             bathroom_count,
-            typology_image,
+          typology_image,
           }) => {
             return (
               <div key={id}>

@@ -48,7 +48,7 @@ export default function EditPropertyType({
     data: typology,
     error,
     isLoading,
-  } = useSWR(typologyId, () => fetcher(typologyId));
+  } = useSWR(`${typologyId}-no-images`, () => fetcher(typologyId));
 
   const { reset, register, handleSubmit } = useForm<Inputs>({
     mode: "onBlur",
@@ -58,7 +58,6 @@ export default function EditPropertyType({
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    
     try {
       await supabase.from("typology").update(data).eq("id", typologyId);
 

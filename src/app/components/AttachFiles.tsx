@@ -154,9 +154,10 @@ export default function AttachFiles({
           publicUrl,
         });
       }
+
+      await mutate(parentColumnValue);
     }
     setIsAttaching(false);
-    mutate(parentColumnValue);
     setFiles([]);
     toast.success("Imágenes subidas correctamente");
   };

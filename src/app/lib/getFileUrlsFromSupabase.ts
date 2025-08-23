@@ -4,14 +4,14 @@ import { supabase } from "./supabase";
 export const getFileUrlsFromSupabase = async (
   tableName: string,
   foreignKeyColumn: string,
-  id: string,
+  ids: string[],
   column: string
 ) => {
   try {
     const { data, error } = await supabase
       .from(tableName)
       .select(column)
-      .eq(foreignKeyColumn, id);
+      .in(foreignKeyColumn, ids); // 🔹 query all ids in one call
 
     if (error) {
       console.error(`Supabase query failed for table ${tableName}:`, error);
@@ -21,9 +21,9 @@ export const getFileUrlsFromSupabase = async (
       );
     }
 
-    const fileUrls: string[] = (
-      data as unknown as { [key: string]: string }[]
-    ).map((item) => item[column]);
+    const fileUrls: string[] = (data as unknown as { [key: string]: string }[])
+      .map((item) => item[column])
+      .filter((url): url is string => Boolean(url)); // filter out nulls
 
     return fileUrls;
   } catch (error) {

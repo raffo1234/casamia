@@ -3,7 +3,7 @@ import ImageEdition from "./ImageEdition";
 export default function ImagesEdition({
   images,
   parentColumnValue,
-  table
+  table,
 }: {
   images: { image_url: string; id: string }[];
   parentColumnValue: string;

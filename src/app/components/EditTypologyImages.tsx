@@ -25,11 +25,10 @@ export default function EditTypologyImages() {
   const propertyId = params.id as string;
   const typologyId = params.typologyId as string;
 
-  const { data: typology, isLoading } = useSWR(
-    `${typologyId}-typology-image`,
-    () => fetcher(typologyId)
+  const { data: typology, isLoading } = useSWR(typologyId, () =>
+    fetcher(typologyId)
   );
-
+  
   if (isLoading) return <div>Loading...</div>;
 
   return (

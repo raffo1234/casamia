@@ -1,6 +1,12 @@
 import toast from "react-hot-toast";
 
-const deleteEntityWithImages = async (id: string, table: string) => {
+const deleteEntitiesWithImages = async (
+  ids: string[],
+  table: string,
+  imageTable: string,
+  foreignKey: string,
+  imageColumn: string
+) => {
   try {
     const response = await fetch("/api/delete-entity-with-images", {
       method: "DELETE",
@@ -11,7 +17,7 @@ const deleteEntityWithImages = async (id: string, table: string) => {
         // you would include a user's session token here. Example:
         // 'Authorization': `Bearer ${(await supabaseClient.auth.getSession())?.data.session?.access_token || ''}`
       },
-      body: JSON.stringify({ id, table }),
+      body: JSON.stringify({ ids, table, imageTable, foreignKey, imageColumn }),
     });
 
     if (!response.ok) {
@@ -30,4 +36,4 @@ const deleteEntityWithImages = async (id: string, table: string) => {
   }
 };
 
-export default deleteEntityWithImages;
+export default deleteEntitiesWithImages;

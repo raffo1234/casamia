@@ -68,7 +68,7 @@ export default function Property({
             <h1
               className="mb-8 leading-tight font-flaviotte"
               style={{
-                fontSize: "clamp(60px,41.6901408451px + 3.661971831vw,112px)",
+                fontSize: "clamp(16px, 6vw + .5rem, 63px)",
               }}
             >
               {title}

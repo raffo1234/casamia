@@ -2,7 +2,7 @@ import { getAdminPropertiesUserKey } from "@/constants";
 import { mutate } from "swr";
 import DeleteButton from "./DeleteButton";
 import { useState } from "react";
-import deleteEntityWithImages from "@/lib/deleteEntityWithImages";
+import deleteEntitiesWithImages from "@/lib/deleteEntitiesWithImages";
 
 export default function DeleteProperty({
   id,
@@ -21,7 +21,13 @@ export default function DeleteProperty({
 
     setIsDeleting(true);
 
-    await deleteEntityWithImages(id, "property");
+    await deleteEntitiesWithImages(
+      [id],
+      "property",
+      "property_image",
+      "property_id",
+      "image_url"
+    );
 
     await mutate(getAdminPropertiesUserKey(userId));
     setIsDeleting(false);
