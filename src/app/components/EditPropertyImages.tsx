@@ -58,6 +58,7 @@ export default function EditPropertyImages({
             parentColumnValue={propertyId}
             images={property.property_image}
             table="property_image"
+            parentSlugValue={property.slug}
           />
         </div>
       ) : null}

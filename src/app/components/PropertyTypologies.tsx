@@ -6,7 +6,6 @@ import useSWR from "swr";
 import { Icon } from "@iconify/react";
 import DeletePropertyType from "./DeletePropertyType";
 import Link from "next/link";
-import Image from "next/image";
 import EditLink from "./EditButton";
 import Title from "./Title";
 import HeaderTitle from "./HeaderTitle";
@@ -73,11 +72,15 @@ export default function PropertyTypologies({
             stock,
             bedroom_count,
             bathroom_count,
-          typology_image,
+            typology_image,
           }) => {
             return (
               <div key={id}>
-                <FirstImage src={typology_image[0]?.image_url} title={name} />
+                <Link
+                  href={`/admin/property/edit/${propertyId}/typologies/edit/${id}/images`}
+                >
+                  <FirstImage src={typology_image[0]?.image_url} title={name} />
+                </Link>
                 <div className="flex gap-2 item-center w-full justify-center">
                   <EditLink
                     href={`/admin/property/edit/${propertyId}/typologies/edit/${id}`}

@@ -28,7 +28,7 @@ export default function EditTypologyImages() {
   const { data: typology, isLoading } = useSWR(typologyId, () =>
     fetcher(typologyId)
   );
-  
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
@@ -59,6 +59,7 @@ export default function EditTypologyImages() {
             parentColumnValue={typologyId}
             images={typology.typology_image}
             table="typology_image"
+            parentSlugValue={typology.slug}
           />
         </div>
       ) : null}

@@ -132,6 +132,7 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
       ) : null}
       {currentImage && (
         <div className="w-full relative" ref={imageContainerRef}>
+          
           <Link
             href={`/inmueble/${currentImage.propertySlug}/imagenes?imagen=${currentImageIndex}`}
             className="w-full aspect-5/4 mx-auto cursor-pointer"

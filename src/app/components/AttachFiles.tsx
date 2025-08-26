@@ -100,9 +100,9 @@ export default function AttachFiles({
   const attachFiles = async (files: CustomFile[]) => {
     setIsAttaching(true);
 
-    const now = Date.now().toString();
     for (let index = 0; index < files.length; index++) {
       const customFile = files[index];
+      const now = Date.now().toString();
 
       if (customFile.state !== CustomFileState.selected) {
         console.info(
@@ -138,7 +138,7 @@ export default function AttachFiles({
 
       const filename = sanitize(`${now}_${customFile.file.name}`);
       const publicUrl = `${process.env.NEXT_PUBLIC_PUBLIC_DEVELOPMENT_URL}/${keyPrefix}_${parentColumnValue}/${filename}`;
-
+      console.log("Public URL:", publicUrl);
       const { id: insertedId } = await insertNewFile(
         table,
         parentColumnKey,

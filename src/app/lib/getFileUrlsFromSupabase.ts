@@ -11,7 +11,7 @@ export const getFileUrlsFromSupabase = async (
     const { data, error } = await supabase
       .from(tableName)
       .select(column)
-      .in(foreignKeyColumn, ids); // 🔹 query all ids in one call
+      .in(foreignKeyColumn, ids);
 
     if (error) {
       console.error(`Supabase query failed for table ${tableName}:`, error);
@@ -23,7 +23,7 @@ export const getFileUrlsFromSupabase = async (
 
     const fileUrls: string[] = (data as unknown as { [key: string]: string }[])
       .map((item) => item[column])
-      .filter((url): url is string => Boolean(url)); // filter out nulls
+      .filter((url): url is string => Boolean(url));
 
     return fileUrls;
   } catch (error) {

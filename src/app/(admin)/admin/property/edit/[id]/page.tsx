@@ -23,7 +23,7 @@ export default async function Page({ params }: { params: Params }) {
     <>
       <div className="flex items-center justify-between">
         <HeaderTitle>
-          <Title>Editar Inmueble</Title>
+          <Title>Inmueble</Title>
           <BackLink href={`/admin/property`}></BackLink>
         </HeaderTitle>
       </div>

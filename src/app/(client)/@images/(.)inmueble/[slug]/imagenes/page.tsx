@@ -55,7 +55,7 @@ export default function Page() {
 
   return (
     <Suspense>
-      <ImageSliderFullScreen images={imagesToSlider} />
+      <ImageSliderFullScreen images={imagesToSlider} onClose={()=>history.back()} />
     </Suspense>
   );
 }

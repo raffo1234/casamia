@@ -4,7 +4,6 @@ import React, { useEffect, useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { parseAsInteger, useQueryState } from "nuqs";
-import { useRouter } from "next/navigation";
 
 interface ImageProp {
   src: string;
@@ -12,9 +11,14 @@ interface ImageProp {
   propertyTitle: string;
 }
 
-const ImageSliderFullScreen = ({ images }: { images: ImageProp[] }) => {
+const ImageSliderFullScreen = ({
+  images,
+  onClose,
+}: {
+  images: ImageProp[];
+  onClose: () => void;
+}) => {
   const multipleImages = images.length > 1;
-  const router = useRouter();
   const [touchStart, setTouchStart] = useState(0);
 
   const [currentImageIndex, setCurrentImageIndex] = useQueryState(
@@ -83,7 +87,7 @@ const ImageSliderFullScreen = ({ images }: { images: ImageProp[] }) => {
   useEffect(() => {
     const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        router.back();
+        onClose();
       }
     };
 
@@ -91,7 +95,7 @@ const ImageSliderFullScreen = ({ images }: { images: ImageProp[] }) => {
     return () => {
       window.removeEventListener("keydown", handleEscapeKey);
     };
-  }, [router]);
+  }, [onClose]);
 
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
@@ -102,12 +106,12 @@ const ImageSliderFullScreen = ({ images }: { images: ImageProp[] }) => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 bg-black z-50 px-2 md:px-12 h-full w-full">
+    <div className="fixed top-0 left-0 bg-black px-2 md:px-12 h-full w-full z-[51]">
       {multipleImages ? (
         <>
           <button
             onClick={goToPreviousImage}
-            aria-label="Image anterior"
+            aria-label="Imagen anterior"
             className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full left-0 top-0 bottom-0"
           >
             <svg
@@ -128,7 +132,7 @@ const ImageSliderFullScreen = ({ images }: { images: ImageProp[] }) => {
           </button>
           <button
             onClick={goToNextImage}
-            aria-label="Image siguiente"
+            aria-label="Imagen siguiente"
             className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full right-0 top-0 bottom-0"
           >
             <svg
@@ -190,7 +194,7 @@ const ImageSliderFullScreen = ({ images }: { images: ImageProp[] }) => {
           {currentImageIndex + 1}&nbsp;/&nbsp;{images.length}
         </div>
         <button
-          onClick={router.back}
+          onClick={onClose}
           title="Ir a la propiedad"
           aria-label="Volver a la propiedad"
           className="cursor-pointer flex items-center justify-center rounded-full w-13 h-13 text-black bg-yellow-400"

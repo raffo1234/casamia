@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
-import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
-import { getKeyFromUrl } from "@/lib/getKeyFromUrl";
 import { deleteSupabaseRecord } from "@/lib/deleteSupabaseRecord";
-import { getR2Client } from "@/lib/getR2Client";
 import { getFileUrlsFromSupabase } from "@/lib/getFileUrlsFromSupabase";
-
-const r2 = getR2Client();
+import { deleteFilesFromR2 } from "@/lib/deleteFilesFromR2";
 
 export async function DELETE(request: Request) {
   const { ids, table, imageTable, foreignKey, imageColumn } =
@@ -31,35 +27,9 @@ export async function DELETE(request: Request) {
     }
 
     if (fileUrls && fileUrls.length > 0) {
-      try {
-        const fileKeysToDelete = fileUrls
-          .map(getKeyFromUrl)
-          .filter((key): key is string => key !== null);
-
-        if (fileKeysToDelete.length > 0) {
-          if (!r2) {
-            console.warn("Skipping R2 deletion due to missing configuration.");
-          } else {
-            const deleteParams = {
-              Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME!,
-              Delete: {
-                Objects: fileKeysToDelete.map((key) => ({ Key: key })),
-                Quiet: true,
-              },
-            };
-            const deleteCommand = new DeleteObjectsCommand(deleteParams);
-            await r2.send(deleteCommand);
-            console.warn(
-              `Successfully deleted ${fileKeysToDelete.length} files from R2.`
-            );
-          }
-        }
-      } catch (r2Error) {
-        console.error("Cloudflare R2 deletion failed on server:", r2Error);
-      }
+      await deleteFilesFromR2(fileUrls);
     }
 
-    
     const error = await deleteSupabaseRecord(ids, table);
 
     if (error) {

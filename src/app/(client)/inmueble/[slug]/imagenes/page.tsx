@@ -37,7 +37,6 @@ export default function Page() {
     () => (propertySlug ? fetcherProperty(propertySlug) : null)
   );
 
-  console.log("property id", property?.id);
   const { data: images, isLoading: isLoadingImages } = useSWR(
     `${property?.id}-images`,
     () => (property ? fetcherImages(property.id) : null)
@@ -62,7 +61,10 @@ export default function Page() {
 
   return (
     <Suspense>
-      <ImageSliderFullScreen images={imagesToSlider} />
+      <ImageSliderFullScreen
+        images={imagesToSlider}
+        onClose={() => history.back()}
+      />
     </Suspense>
   );
 }
