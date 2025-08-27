@@ -406,163 +406,25 @@ export default function EditPropertyInformation({
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold text-xl">Dormitorios</h2>
               <fieldset className="flex items-center gap-4 w-full">
-                <div className="w-1/2">
-                  <input
-                    {...register("bedroom_count")}
-                    type="radio"
-                    id="bedroom_count_1"
-                    value={1}
-                    className="peer hidden"
-                    defaultChecked
-                  />
-                  <label
-                    htmlFor="bedroom_count_1"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    1
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    {...register("bedroom_count")}
-                    value={2}
-                    type="radio"
-                    id="bedroom_count_2"
-                    className="peer hidden"
-                  />
-                  <label
-                    htmlFor="bedroom_count_2"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    2
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    {...register("bedroom_count")}
-                    value={3}
-                    type="radio"
-                    id="bedroom_count_3"
-                    className="peer hidden"
-                  />
-                  <label
-                    htmlFor="bedroom_count_3"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    3
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    {...register("bedroom_count")}
-                    value={4}
-                    type="radio"
-                    id="bedroom_count_4"
-                    className="peer hidden"
-                  />
-                  <label
-                    htmlFor="bedroom_count_4"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    4
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    {...register("bedroom_count")}
-                    value={5}
-                    type="radio"
-                    id="bedroom_count_5"
-                    className="peer hidden"
-                  />
-                  <label
-                    htmlFor="bedroom_count_5"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    5
-                  </label>
-                </div>
+                <input
+                  type="number"
+                  defaultValue={1}
+                  {...register("bedroom_count")}
+                  required
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                />
               </fieldset>
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
               <h2 className="font-semibold text-xl">Ba&ntilde;os</h2>
               <fieldset className="flex items-center gap-4 w-full">
-                <div className="w-1/2">
-                  <input
-                    {...register("bathroom_count")}
-                    type="radio"
-                    id="bathroom_count_1"
-                    value={1}
-                    className="peer hidden"
-                    defaultChecked
-                  />
-                  <label
-                    htmlFor="bathroom_count_1"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    1
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    {...register("bathroom_count")}
-                    value={2}
-                    type="radio"
-                    id="bathroom_count_2"
-                    className="peer hidden"
-                  />
-                  <label
-                    htmlFor="bathroom_count_2"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    2
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    {...register("bathroom_count")}
-                    value={3}
-                    type="radio"
-                    id="bathroom_count_3"
-                    className="peer hidden"
-                  />
-                  <label
-                    htmlFor="bathroom_count_3"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    3
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    {...register("bathroom_count")}
-                    value={4}
-                    type="radio"
-                    id="bathroom_count_4"
-                    className="peer hidden"
-                  />
-                  <label
-                    htmlFor="bathroom_count_4"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    4
-                  </label>
-                </div>
-                <div className="w-1/2">
-                  <input
-                    {...register("bathroom_count")}
-                    value={5}
-                    type="radio"
-                    id="bathroom_count_5"
-                    className="peer hidden"
-                  />
-                  <label
-                    htmlFor="bathroom_count_5"
-                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
-                  >
-                    5
-                  </label>
-                </div>
+                <input
+                  type="number"
+                  defaultValue={1}
+                  {...register("bathroom_count")}
+                  required
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                />
               </fieldset>
             </div>
             <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
