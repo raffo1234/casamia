@@ -92,38 +92,26 @@ export default function PropertyTypologies({
                     <p>{name}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Icon
-                      icon="material-symbols-light:bedroom-parent-outline"
-                      className="text-2xl"
-                    />
+                    <Icon icon="carbon:area" className="text-2xl" />
                     <p>
                       {size} m<sup>2</sup>
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Icon
-                      icon="material-symbols-light:bedroom-parent-outline"
-                      className="text-2xl"
-                    />
+                    <Icon icon="ic:outline-bed" className="text-2xl" />
                     <p>Dormitorios: {bedroom_count}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Icon
-                      icon="material-symbols-light:shower-outline"
-                      className="text-2xl"
-                    />
+                    <Icon icon="lucide-lab:shower" className="text-2xl" />
                     <p>Ba&ntilde;os: {bathroom_count}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Icon
-                      icon="material-symbols-light:elevator-outline"
-                      className="text-2xl"
-                    />
+                    <Icon icon="grommet-icons:ascend" className="text-2xl" />
                     <p>Piso: {floor}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Icon
-                      icon="material-symbols-light:production-quantity-limits"
+                      icon="map:grocery-or-supermarket"
                       className="text-2xl"
                     />
                     <p>Disponibles: {stock}</p>

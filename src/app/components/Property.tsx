@@ -126,9 +126,9 @@ export default function Property({
                       {phase === PropertyPhase.PLANOS ||
                       phase === PropertyPhase.CONSTRUCCION ? (
                         <span className="text-sm">
-                          Entrega:{" "}
+                          Entrega: <br />
                           {delivery_at &&
-                            format(new Date(delivery_at), "dd MMMM, yyyy", {
+                            format(new Date(delivery_at), "MMMM, yyyy", {
                               locale: es,
                             })}
                         </span>

@@ -18,6 +18,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { generateUniqueSlug } from "@/lib/supabase/generateUniqueSlug";
 import toast from "react-hot-toast";
+import FormSection from "./FormSection";
+import FormSectionTitle from "./FormSectionTitle";
+import FormInputLabel from "./FormInputLabel";
+import MonthPicker from "./MonthPicker";
 
 type Inputs = {
   title: string;
@@ -76,9 +80,13 @@ export default function EditPropertyInformation({
     mutate: mutateProperty,
   } = useSWR(id, () => fetcher(id));
 
-  const { reset, register, handleSubmit, control } = useForm<Inputs>({
+  const { reset, register, handleSubmit, control, watch } = useForm<Inputs>({
     mode: "onBlur",
   });
+
+  const hasDeliveryAt =
+    watch("phase") === PropertyPhase.CONSTRUCCION ||
+    watch("phase") === PropertyPhase.PLANOS;
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     let newSlug = null;
@@ -126,14 +134,10 @@ export default function EditPropertyInformation({
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start gap-6">
           <div className="flex-1 flex flex-col gap-7">
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">
-                Informaci&oacute;n General
-              </h2>
+            <FormSection>
+              <FormSectionTitle>Informaci&oacute;n General</FormSectionTitle>
               <fieldset>
-                <label htmlFor="title" className="inline-block mb-2 text-sm">
-                  Titulo
-                </label>
+                <FormInputLabel htmlFor="title">T&iacute;tulo</FormInputLabel>
                 <input
                   type="text"
                   id="title"
@@ -143,12 +147,12 @@ export default function EditPropertyInformation({
                 />
               </fieldset>
               <fieldset>
-                <label htmlFor="slug" className="inline-block mb-2 text-sm">
+                <FormInputLabel htmlFor="slug">
                   Slug{" "}
                   <span className="text-xs block font-semibold mt-1">
                     Es usado en el URL del inmueble
                   </span>
-                </label>
+                </FormInputLabel>
                 <input
                   disabled
                   type="text"
@@ -159,9 +163,7 @@ export default function EditPropertyInformation({
                 />
               </fieldset>
               <fieldset>
-                <label htmlFor="location" className="inline-block mb-2 text-sm">
-                  Ubicacion
-                </label>
+                <FormInputLabel htmlFor="location">Ubicacion</FormInputLabel>
                 <input
                   type="text"
                   id="location"
@@ -171,12 +173,9 @@ export default function EditPropertyInformation({
                 />
               </fieldset>
               <fieldset>
-                <label
-                  htmlFor="description"
-                  className="inline-block mb-2 text-sm"
-                >
+                <FormInputLabel htmlFor="description">
                   Descripcion
-                </label>
+                </FormInputLabel>
                 <textarea
                   id="decription"
                   {...register("description")}
@@ -184,9 +183,9 @@ export default function EditPropertyInformation({
                   className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
                 />
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">Estado</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Estado</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -256,9 +255,9 @@ export default function EditPropertyInformation({
                   </label>
                 </div>
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">Tipo</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Tipo</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -306,13 +305,13 @@ export default function EditPropertyInformation({
                   </label>
                 </div>
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">Empresa</h2>
-              <p>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Empresa</FormSectionTitle>
+              <FormInputLabel htmlFor="company_id">
                 Por defecto, la autoría de esta publicación se asignará a tu
                 perfil. Puedes cambiarlo seleccionando una empresa.
-              </p>
+              </FormInputLabel>
               <fieldset className="flex items-center gap-4 w-full">
                 <select
                   id="company_id"
@@ -330,9 +329,9 @@ export default function EditPropertyInformation({
                   })}
                 </select>
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">Fase</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Fase</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -402,11 +401,38 @@ export default function EditPropertyInformation({
                   </label>
                 </div>
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">Dormitorios</h2>
+              {hasDeliveryAt ? (
+                <fieldset>
+                  <FormInputLabel htmlFor="delivery_at">
+                    Fecha de Entrega
+                  </FormInputLabel>
+                  <div>
+                    <Controller
+                      name="delivery_at"
+                      rules={{
+                        required: hasDeliveryAt
+                          ? "La fecha de entrega es obligatoria"
+                          : false,
+                      }}
+                      control={control}
+                      render={({ field }) => (
+                        <MonthPicker
+                          value={
+                            field.value ? new Date(field.value) : undefined
+                          }
+                          onChange={field.onChange}
+                        />
+                      )}
+                    />
+                  </div>
+                </fieldset>
+              ) : null}
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Dormitorios</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <input
+                  id="bedroom_count"
                   type="number"
                   defaultValue={1}
                   {...register("bedroom_count")}
@@ -414,9 +440,9 @@ export default function EditPropertyInformation({
                   className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
                 />
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">Ba&ntilde;os</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Ba&ntilde;os</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <input
                   type="number"
@@ -426,9 +452,9 @@ export default function EditPropertyInformation({
                   className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
                 />
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold text-xl">Detalles</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Detalles</FormSectionTitle>
               <div className="flex gap-5 items-center">
                 <fieldset>
                   <div className="flex gap-5 items-center">
@@ -512,7 +538,7 @@ export default function EditPropertyInformation({
                   />
                 </fieldset>
               </div>
-            </div>
+            </FormSection>
             <footer className="justify-end flex items-center gap-2">
               <Link
                 href={`/admin/property`}
