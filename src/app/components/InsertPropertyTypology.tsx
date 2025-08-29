@@ -2,10 +2,11 @@
 
 import { supabase } from "@/lib/supabase";
 import { mutate } from "swr";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { NumericFormat } from "react-number-format";
 
 type TypologyInputs = {
   name: string;
@@ -21,7 +22,7 @@ export default function InsertPropertyTypology({
   propertyId: string;
 }) {
   const router = useRouter();
-  const { register, reset, handleSubmit } = useForm<TypologyInputs>({
+  const { register, reset, handleSubmit, control } = useForm<TypologyInputs>({
     mode: "onBlur",
   });
   async function insertData(data: TypologyInputs) {
@@ -47,7 +48,7 @@ export default function InsertPropertyTypology({
       <fieldset className="flex flex-col gap-4">
         <div>
           <label htmlFor="name" className="block font-bold mb-2 font-manrope">
-            Name
+            Nombre
           </label>
           <input
             type="text"
@@ -59,7 +60,7 @@ export default function InsertPropertyTypology({
         </div>
         <div>
           <label htmlFor="size" className="block font-bold mb-2 font-manrope">
-            Size
+            Area
           </label>
           <input
             type="number"
@@ -86,14 +87,27 @@ export default function InsertPropertyTypology({
         </div>
         <div>
           <label htmlFor="price" className="block font-bold mb-2 font-manrope">
-            Price
+            Precio
           </label>
-          <input
-            type="text"
-            id="price"
-            {...register("price")}
-            required
-            className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+          <Controller
+            name="price"
+            control={control}
+            render={({ field }) => (
+              <NumericFormat
+                type="text"
+                id="price"
+                required
+                thousandSeparator=","
+                decimalSeparator="."
+                decimalScale={2}
+                value={field.value}
+                onValueChange={(values) => {
+                  field.onChange(values.floatValue);
+                }}
+                inputMode="numeric"
+                className="w-full -m-[1px] px-3 py-2.5 focus:z-10 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+              />
+            )}
           />
         </div>
         <footer className="flex items-center gap-2 pt-4 mt-4 justify-end">

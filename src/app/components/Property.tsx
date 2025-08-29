@@ -1,3 +1,5 @@
+"use client";
+
 import Typologies from "./Typologies";
 import { Icon } from "@iconify/react";
 import { PropertyPhase } from "@/types/propertyState";
@@ -8,6 +10,7 @@ import GetInTouch from "./GetInTouch";
 import PropertyImages from "./PropertyImages";
 import Image from "next/image";
 import { PropertyType } from "@/types/propertyType";
+import { getFormattedPrice } from "@/lib/getFormattedPrice";
 
 export default function Property({
   property,
@@ -27,6 +30,7 @@ export default function Property({
     phase,
     delivery_at,
     price,
+    currency,
     location,
     company,
   } = property;
@@ -114,7 +118,7 @@ export default function Property({
                 <tbody>
                   <tr className="flex">
                     <td className="flex-1 p-4 border-r rounded-bl-lg border-slate-300">
-                      S/. {price}
+                      {getFormattedPrice(currency, price)}
                     </td>
                     <td className="flex-1 p-4 border-r border-slate-300">
                       {bedroom_count}
@@ -127,10 +131,12 @@ export default function Property({
                       phase === PropertyPhase.CONSTRUCCION ? (
                         <span className="text-sm">
                           Entrega: <br />
-                          {delivery_at &&
-                            format(new Date(delivery_at), "MMMM, yyyy", {
-                              locale: es,
-                            })}
+                          <span className="capitalize">
+                            {delivery_at &&
+                              format(new Date(delivery_at), "MMMM, yyyy", {
+                                locale: es,
+                              })}
+                          </span>
                         </span>
                       ) : (
                         phase

@@ -24,6 +24,7 @@ const fetcher = async (propertySlug: string) => {
       bathroom_count,
       phase,
       price,
+      currency,
       location,
       bedroom_count,
       company_id,

@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from "react";
 import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import FormSkeleton from "./FormSkeleton";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -17,6 +17,8 @@ import TypologyAdminTabs from "./TypologyAdminTabs";
 import FormSection from "./FormSection";
 import FormSectionTitle from "./FormSectionTitle";
 import FormInputLabel from "./FormInputLabel";
+import { NumericFormat } from "react-number-format";
+import { CurrencyCode } from "@/enums/currencyCodes";
 
 type Inputs = {
   size: string;
@@ -27,6 +29,7 @@ type Inputs = {
   bedroom_count: number;
   stock: string;
   floor: string;
+  currency: string;
 };
 
 async function fetcher(typologyId: string) {
@@ -53,7 +56,7 @@ export default function EditPropertyType({
     isLoading,
   } = useSWR(`${typologyId}-no-images`, () => fetcher(typologyId));
 
-  const { reset, register, handleSubmit } = useForm<Inputs>({
+  const { reset, register, control, handleSubmit } = useForm<Inputs>({
     mode: "onBlur",
     defaultValues: useMemo(() => {
       return typology;
@@ -127,6 +130,74 @@ export default function EditPropertyType({
                 className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
               />
             </fieldset>
+          </FormSection>
+          <FormSection>
+            <FormSectionTitle>Precio</FormSectionTitle>
+            <div className="flex gap-5 items-center">
+              <div>
+                <label className="inline-block mb-2 text-sm">Moneda</label>
+                <div className="flex items-center">
+                  <div className="w-1/2">
+                    <input
+                      {...register("currency")}
+                      value={CurrencyCode.PEN}
+                      type="radio"
+                      id="currency_soles"
+                      className="peer hidden"
+                      defaultChecked
+                      required
+                    />
+                    <label
+                      htmlFor="currency_soles"
+                      className="relative flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-l-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:z-10 peer-checked:bg-cyan-50"
+                    >
+                      Soles
+                    </label>
+                  </div>
+                  <div className="w-1/2 -ml-[1px]">
+                    <input
+                      {...register("currency")}
+                      value={CurrencyCode.USD}
+                      type="radio"
+                      id="currency_dolares"
+                      className="peer hidden"
+                      required
+                    />
+                    <label
+                      htmlFor="currency_dolares"
+                      className="flex relative items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-r-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:z-10 peer-checked:bg-cyan-50"
+                    >
+                      Dolares
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label htmlFor="price" className="inline-block mb-2 text-sm">
+                  Precio
+                </label>
+                <Controller
+                  name="price"
+                  control={control}
+                  render={({ field }) => (
+                    <NumericFormat
+                      type="text"
+                      id="price"
+                      required
+                      thousandSeparator=","
+                      decimalSeparator="."
+                      decimalScale={2}
+                      value={field.value}
+                      onValueChange={(values) => {
+                        field.onChange(values.floatValue);
+                      }}
+                      inputMode="numeric"
+                      className="w-full -m-[1px] px-3 py-2.5 focus:z-10 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                    />
+                  )}
+                />
+              </div>
+            </div>
           </FormSection>
           <FormSection>
             <FormSectionTitle>Detalles</FormSectionTitle>

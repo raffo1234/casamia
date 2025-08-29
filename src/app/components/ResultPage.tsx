@@ -5,6 +5,7 @@ import PropertiesList from "./PropertiesList";
 import { PropertyState } from "@/types/propertyState";
 import { PropertyType as PropertyTypeDb } from "@/types/propertyType";
 import { useParams } from "next/navigation";
+import { propertyQuery } from "@/queries/property";
 
 const columnsToSearch = [
   "title",
@@ -18,29 +19,6 @@ const columnsToSearch = [
   "bathroom_count",
   "bedroom_count",
 ];
-
-const query = `
-          id,
-          title,
-          description,
-          user_id,
-          type,
-          property_image (
-            image_url
-          ),
-          user!property_user_id_fkey (
-            id,
-            email,
-            name,
-            image_url
-          ),
-          company!property_company_id_fkey (
-            id,
-            name,
-            image_url,
-            logo_url
-          )
-        `;
 
 export default function ResultPage({
   userEmail,
@@ -85,7 +63,7 @@ export default function ResultPage({
 
     let queryBuilder = supabase
       .from("property")
-      .select(query)
+      .select(propertyQuery)
       .eq("state", PropertyState.ACTIVE)
       .eq("type", propertyType.toUpperCase());
 

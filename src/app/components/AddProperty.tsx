@@ -3,7 +3,6 @@
 import { supabase } from "@/lib/supabase";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import {
-  PropertyCurrency,
   PropertyPhase,
   PropertyState,
   PropertyType,
@@ -13,6 +12,7 @@ import { NumericFormat } from "react-number-format";
 import Link from "next/link";
 import Title from "./Title";
 import slugify from "slugify";
+import { CurrencyCode } from "@/enums/currencyCodes";
 
 type Inputs = {
   title: string;
@@ -436,7 +436,7 @@ export default function AddProperty({ userId }: { userId: string }) {
                         <div className="w-1/2">
                           <input
                             {...register("currency")}
-                            value={PropertyCurrency.SOLES}
+                            value={CurrencyCode.PEN}
                             type="radio"
                             id="currency_soles"
                             className="peer hidden"
@@ -451,7 +451,7 @@ export default function AddProperty({ userId }: { userId: string }) {
                         <div className="w-1/2 -ml-[1px]">
                           <input
                             {...register("currency")}
-                            value={PropertyCurrency.DOLARES}
+                            value={CurrencyCode.USD}
                             type="radio"
                             id="currency_dolares"
                             className="peer hidden"

@@ -24,7 +24,9 @@ export enum Permissions {
   ELIMINAR_INMUEBLE = "ELIMINAR_INMUEBLE",
 }
 
-export enum PropertyCurrency {
-  SOLES = "SOLES",
-  DOLARES = "DOLARES",
-}
+export type CurrencyCode = "PEN" | "USD";
+
+export const currencySymbols: Record<string, string> = {
+  PEN: "S/.",
+  USD: "$",
+};

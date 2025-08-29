@@ -23,6 +23,7 @@ export type PropertyType = {
   delivery_at?: Date | number | string;
   price?: string;
   location?: string;
+  currency?: string;
   property_image?: {
     id: string;
     image_url: string;

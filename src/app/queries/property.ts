@@ -3,6 +3,7 @@ export const propertyQuery = `
   title,
   slug,
   price,
+  currency,
   user_id,
   property_image (
     id,
@@ -28,6 +29,8 @@ export const favoriteQuery = `
     id,
     slug,
     title,
+    price,
+    currency,
     user_id,
     property_image (
       id,

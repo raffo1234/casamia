@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PropertyType } from "@/types/propertyType";
 import { Suspense } from "react";
+import { getFormattedPrice } from "@/lib/getFormattedPrice";
 
 export default function PropertyItem({
   property,
@@ -14,7 +15,8 @@ export default function PropertyItem({
   property: PropertyType;
   userEmail: string | undefined | null;
 }) {
-  const { id, slug, price, user, property_image, title, company } = property;
+  const { id, slug, price, currency, user, property_image, title, company } =
+    property;
 
   return (
     <article className="group bg-white rounded-3xl">
@@ -65,7 +67,7 @@ export default function PropertyItem({
               title={title}
               className=" font-semibold font-gilroy-medium text-xl"
             >
-              S/. {price}
+              {getFormattedPrice(currency, price)}
             </Link>
             <Suspense>
               <Like

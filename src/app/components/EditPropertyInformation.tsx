@@ -6,7 +6,6 @@ import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import {
-  PropertyCurrency,
   PropertyPhase,
   PropertyState,
   PropertyType,
@@ -22,6 +21,7 @@ import FormSection from "./FormSection";
 import FormSectionTitle from "./FormSectionTitle";
 import FormInputLabel from "./FormInputLabel";
 import MonthPicker from "./MonthPicker";
+import { CurrencyCode } from "@/enums/currencyCodes";
 
 type Inputs = {
   title: string;
@@ -466,10 +466,11 @@ export default function EditPropertyInformation({
                         <div className="w-1/2">
                           <input
                             {...register("currency")}
-                            value={PropertyCurrency.SOLES}
+                            value={CurrencyCode.PEN}
                             type="radio"
                             id="currency_soles"
                             className="peer hidden"
+                            defaultChecked
                           />
                           <label
                             htmlFor="currency_soles"
@@ -481,7 +482,7 @@ export default function EditPropertyInformation({
                         <div className="w-1/2 -ml-[1px]">
                           <input
                             {...register("currency")}
-                            value={PropertyCurrency.DOLARES}
+                            value={CurrencyCode.USD}
                             type="radio"
                             id="currency_dolares"
                             className="peer hidden"

@@ -6,6 +6,7 @@ import TypologiesGrid from "./TypologiesGrid";
 import { Icon } from "@iconify/react";
 import FirstImage from "./FirstImage";
 import { TypologyType } from "@/types/TypologyType";
+import { getFormattedPrice } from "@/lib/getFormattedPrice";
 
 const fetcher = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -19,7 +20,7 @@ const fetcher = async (propertyId: string) => {
 };
 
 function Typology({ typology }: { typology: TypologyType }) {
-  const { name, id, size, bedroom_count, bathroom_count, price, floor } =
+  const { name, id, currency, size, bedroom_count, bathroom_count, price, floor } =
     typology;
 
   return (
@@ -28,7 +29,7 @@ function Typology({ typology }: { typology: TypologyType }) {
       <div className="flex flex-col gap-0.5">
         <p className="text-xl font-light my-4">{name}</p>
         <div className="justify-center flex items-center p-3 bg-cyan-50 rounded-b-3xl">
-          <p className="font-semibold text-2xl font-gilroy-bold">S/. {price}</p>
+          <p className="font-semibold text-2xl font-gilroy-bold"> {getFormattedPrice(currency, price)}</p>
         </div>
         <div
           className="grid gap-0.5 rounded-md"

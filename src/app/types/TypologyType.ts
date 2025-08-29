@@ -5,6 +5,7 @@ export type TypologyType = {
   name: string;
   description: string;
   size: string;
+  currency: string;
   price: string;
   bathroom_count: string;
   bedroom_count: string;

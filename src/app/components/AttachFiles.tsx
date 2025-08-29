@@ -187,7 +187,7 @@ export default function AttachFiles({
             fontSize={42}
           />
           <Icon
-            icon="f7:arrow-up-doc-fill"
+            icon="mage:image-upload"
             className={`
               ${isAttaching ? "opacity-0" : "opacity-100"}
               text-gray-700 absolute left-0 top-0 group-hover:text-cyan-400 transition-all duration-300`}
