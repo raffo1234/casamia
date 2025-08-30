@@ -85,59 +85,59 @@ export default function Property({
             >
               {location}
             </h2>
-            <div className="border border-slate-300 rounded-xl">
-              <table className="w-full text-center border-collapse border-spacing-0">
+            <div className="border border-slate-500 rounded-xl">
+              <table className="table-fixed w-full text-center border-collapse border-spacing-0">
                 <thead>
-                  <tr className="flex">
-                    <th className="flex-1 p-4 border-b border-r rounded-tl-lg border-slate-300">
+                  <tr>
+                    <th className="p-4 border-b border-r rounded-tl-lg border-slate-500">
                       <Icon
                         icon="ri:price-tag-3-line"
-                        className="inline-block text-xl"
+                        className="inline-block text-2xl"
                       />
                     </th>
-                    <th className="flex-1 p-4 border-b border-r border-slate-300">
+                    <th className="p-4 border-b border-r border-slate-500">
                       <Icon
                         icon="lucide:bed-double"
-                        className="inline-block text-xl"
+                        className="inline-block text-2xl"
                       />
                     </th>
-                    <th className="flex-1 p-4 border-b border-r border-slate-300">
+                    <th className="p-4 border-b border-r border-slate-500">
                       <Icon
                         icon="lucide-lab:shower"
-                        className="inline-block text-xl"
+                        className="inline-block text-2xl"
                       />
                     </th>
-                    <th className="flex-1 p-4 border-b rounded-tr-lg border-slate-300">
+                    <th className="p-4 border-b rounded-tr-lg border-slate-500">
                       <Icon
                         icon="solar:calendar-linear"
-                        className="inline-block text-xl"
+                        className="inline-block text-2xl"
                       />
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="flex">
-                    <td className="flex-1 p-4 border-r rounded-bl-lg border-slate-300">
+                  <tr>
+                    <td className="p-4 border-r text-xl font-semibold rounded-bl-lg border-slate-500">
                       {getFormattedPrice(currency, price)}
                     </td>
-                    <td className="flex-1 p-4 border-r border-slate-300">
+                    <td className="p-4 border-r text-xl font-semibold border-slate-500">
                       {bedroom_count}
                     </td>
-                    <td className="flex-1 p-4 border-r border-slate-300">
+                    <td className="p-4 border-r text-xl font-semibold border-slate-500">
                       {bathroom_count}
                     </td>
-                    <td className="flex-1 p-4 text-sm rounded-br-lg">
+                    <td className="p-4 text-xl font-semibold rounded-br-lg">
                       {phase === PropertyPhase.PLANOS ||
                       phase === PropertyPhase.CONSTRUCCION ? (
-                        <span className="text-sm">
-                          Entrega: <br />
-                          <span className="capitalize">
+                        <div className="text-sm">
+                          Entrega:
+                          <div className="capitalize">
                             {delivery_at &&
                               format(new Date(delivery_at), "MMMM, yyyy", {
                                 locale: es,
                               })}
-                          </span>
-                        </span>
+                          </div>
+                        </div>
                       ) : (
                         phase
                       )}
