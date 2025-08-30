@@ -26,7 +26,7 @@ export default function FavoritesWrapper({
     data: { property: PropertyType }[] | null;
     error: Error | null;
   };
-
+  console.log(rawLikes)
   if (error) {
     throw new Error(
       `Failed to fetch initial liked properties: ${

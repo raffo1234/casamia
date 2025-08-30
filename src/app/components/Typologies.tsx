@@ -1,27 +1,24 @@
 "use client";
 
-import { supabase } from "@/lib/supabase";
-import useSWR from "swr";
 import TypologiesGrid from "./TypologiesGrid";
 import { Icon } from "@iconify/react";
 import FirstImage from "./FirstImage";
 import { TypologyType } from "@/types/TypologyType";
 import { getFormattedPrice } from "@/lib/getFormattedPrice";
+import { useTypologies } from "@/hooks/useTypologies"; // Assuming the hook is in a 'hooks' folder
 
-const fetcher = async (propertyId: string) => {
-  const { data, error } = await supabase
-    .from("typology")
-    .select("*, typology_image(id, image_url)")
-    .eq("property_id", propertyId)
-    .order("created_at", { ascending: true });
-
-  if (error) throw error;
-  return data;
-};
-
+// Typology component remains the same for clarity
 function Typology({ typology }: { typology: TypologyType }) {
-  const { name, id, currency, size, bedroom_count, bathroom_count, price, floor } =
-    typology;
+  const {
+    name,
+    id,
+    currency,
+    size,
+    bedroom_count,
+    bathroom_count,
+    price,
+    floor,
+  } = typology;
 
   return (
     <article key={id} className="relative mb-4">
@@ -29,7 +26,10 @@ function Typology({ typology }: { typology: TypologyType }) {
       <div className="flex flex-col gap-0.5">
         <p className="text-xl font-light my-4">{name}</p>
         <div className="justify-center flex items-center p-3 bg-cyan-50 rounded-b-3xl">
-          <p className="font-semibold text-2xl font-gilroy-bold"> {getFormattedPrice(currency, price)}</p>
+          <p className="font-semibold text-2xl font-gilroy-bold">
+            {" "}
+            {getFormattedPrice(currency, price)}
+          </p>
         </div>
         <div
           className="grid gap-0.5 rounded-md"
@@ -62,7 +62,7 @@ function Typology({ typology }: { typology: TypologyType }) {
               icon="carbon:skill-level"
               className="text-xl text-[#8C75FF]"
             />
-            <p className="text-sm">Pisos: {floor}</p>
+            <p className="text-sm truncate">Pisos: {floor}</p>
           </div>
         </div>
       </div>
@@ -71,21 +71,43 @@ function Typology({ typology }: { typology: TypologyType }) {
 }
 
 export default function Typologies({ propertyId }: { propertyId: string }) {
-  const { data: typologies = [] } = useSWR(
-    `${propertyId}-typology-with-images`,
-    () => fetcher(propertyId)
-  );
+  const {
+    typologies,
+    uniqueBedroomCounts,
+    selectedBedroomCount,
+    setSelectedBedroomCount,
+    isLoading,
+  } = useTypologies(propertyId);
 
-  return typologies.length > 0 ? (
+  if (!typologies && isLoading) {
+    return <div>Cargando...</div>;
+  }
+
+  if (typologies.length === 0) {
+    return null;
+  }
+
+  return (
     <div className="mt-20 md:mt-30">
       <h3 className="mb-6 text-sm text-slate-700">
         Encuentra tu modelo ideal:
       </h3>
+      <nav className="my-6 flex gap-2 items-center flex-wrap">
+        {uniqueBedroomCounts.map((count) => (
+          <button
+            key={count}
+            onClick={() => setSelectedBedroomCount(count)}
+            className={`${selectedBedroomCount === count ? "bg-slate-200/50" : ""} px-5 rounded-full py-3 font-semibold text-sm`}
+          >
+            {count} {count === 1 ? "Dormitorio" : "Dormitorios"}
+          </button>
+        ))}
+      </nav>
       <TypologiesGrid>
-        {typologies.map((typology) => {
-          return <Typology key={typology.id} typology={typology} />;
-        })}
+        {typologies.map((typology) => (
+          <Typology key={typology.id} typology={typology} />
+        ))}
       </TypologiesGrid>
     </div>
-  ) : null;
+  );
 }
