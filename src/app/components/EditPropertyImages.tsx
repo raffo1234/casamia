@@ -12,9 +12,20 @@ import BackLink from "./BackLink";
 async function fetcher(id: string) {
   const { data, error } = await supabase
     .from("property")
-    .select("*, property_image(id, image_url)")
+    .select(
+      `
+      *,
+      property_image!inner (
+        id,
+        image_url,
+        sort_order
+      )
+    `
+    )
     .eq("id", id)
+    .order("sort_order", { ascending: true, referencedTable: "property_image" })
     .single();
+
   if (error) throw error;
   return data;
 }
@@ -53,10 +64,15 @@ export default function EditPropertyImages({
       </div>
       {property.property_image.length > 0 ? (
         <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-          <h2 className="font-semibold text-xl">Imágenes</h2>
+          <h2 className="font-semibold text-xl">
+            Imágenes <br />
+            <span className="text-gray-400 text-sm font-normal">
+              Arrastra para cambiar
+            </span>
+          </h2>
           <ImagesEdition
+            parentColumnKey="property_id"
             parentColumnValue={propertyId}
-            images={property.property_image}
             table="property_image"
             parentSlugValue={property.slug}
           />

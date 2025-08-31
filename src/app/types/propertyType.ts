@@ -27,6 +27,7 @@ export type PropertyType = {
   property_image?: {
     id: string;
     image_url: string;
+    sort_order: number;
   }[];
   user?: UserType;
   company?: CompanyType;

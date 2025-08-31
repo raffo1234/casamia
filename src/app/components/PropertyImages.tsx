@@ -11,7 +11,7 @@ const fetcher = async (propertyId: string) => {
     .from("property_image")
     .select("id, image_url")
     .eq("property_id", propertyId)
-    .order("created_at", { ascending: true });
+    .order("sort_order", { ascending: true });
   if (error) throw error;
   return data;
 };

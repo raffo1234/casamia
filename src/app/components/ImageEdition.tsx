@@ -3,20 +3,25 @@
 import Image from "next/image";
 import DeleteButton from "./DeleteButton";
 import deleteImage from "@/lib/deleteImage";
-import { useState } from "react";
+import { HTMLAttributes, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function ImageEdition({
   image,
   parentColumnValue,
   table,
   openModal,
+  isCover,
+  dragHandleProps,
 }: {
   image: { image_url: string; id: string };
   parentColumnValue: string;
   table: string;
   openModal: () => void;
+  isCover?: boolean;
+  dragHandleProps?: HTMLAttributes<HTMLButtonElement>;
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const { image_url, id } = image;
@@ -30,15 +35,15 @@ export default function ImageEdition({
     setIsDeleting(true);
     await deleteImage(id, table);
 
-    await mutate(parentColumnValue);
+    await mutate([table, parentColumnValue]);
     setIsDeleting(false);
     toast.success("Imagen eliminada exitosamente.");
   };
 
   return (
     <>
-      <article key={id}>
-        <button onClick={openModal}>
+      <article key={id} className="relative">
+        <button onClick={openModal} className="relative">
           <Image
             key={image_url}
             src={image_url}
@@ -47,6 +52,21 @@ export default function ImageEdition({
             width={400}
             height={300}
           />
+          {isCover ? (
+            <span
+              className="absolute left-1/2 -translate-x-1/2 bottom-3 bg-cyan-100 backdrop-blur-sm
+      py-1 px-3 rounded-lg text-xs font-semibold uppercase
+      shadow-sm"
+            >
+              Portada
+            </span>
+          ) : null}
+        </button>
+        <button
+          {...dragHandleProps}
+          className="cursor-grab absolute p-2 w-11 h-11 flex transition-colors duration-300 items-center justify-center top-1 right-1 rounded-full bg-white hover:bg-slate-100"
+        >
+          <Icon icon="fluent:drag-24-regular" fontSize={28}></Icon>
         </button>
         <footer className="flex justify-center border-x border-b border-gray-100 -mt-3 pt-6 pb-3 px-4 rounded-b-xl">
           <DeleteButton isDeleting={isDeleting} onClick={() => onDelete(id)} />

@@ -13,9 +13,20 @@ import TypologyAdminTabs from "./TypologyAdminTabs";
 async function fetcher(id: string) {
   const { data, error } = await supabase
     .from("typology")
-    .select("*, typology_image(id, image_url)")
+    .select(
+      `
+      *,
+      typology_image!inner (
+        id,
+        image_url,
+        sort_order
+      )
+    `
+    )
     .eq("id", id)
+    .order("sort_order", { ascending: true, referencedTable: "typology_image" })
     .single();
+
   if (error) throw error;
   return data;
 }
@@ -30,7 +41,7 @@ export default function EditTypologyImages() {
   );
 
   if (isLoading) return <div>Loading...</div>;
-
+  console.log(typology);
   return (
     <>
       <HeaderTitle>
@@ -42,7 +53,7 @@ export default function EditTypologyImages() {
         <h2 className="font-semibold text-xl">
           Subir Imágenes <br />{" "}
           <span className="text-gray-400 text-sm font-normal">
-            Las im&aacute;genes adjuntas serán parte de este inmueble
+            Las im&aacute;genes adjuntas serán parte de esta tipologia
           </span>
         </h2>
         <AttachFiles
@@ -54,10 +65,15 @@ export default function EditTypologyImages() {
       </div>
       {typology.typology_image.length > 0 ? (
         <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-          <h2 className="font-semibold text-xl">Imágenes</h2>
+          <h2 className="font-semibold text-xl">
+            Imágenes <br />
+            <span className="text-gray-400 text-sm font-normal">
+              Arrastra para cambiar
+            </span>
+          </h2>
           <ImagesEdition
+            parentColumnKey="typology_id"
             parentColumnValue={typologyId}
-            images={typology.typology_image}
             table="typology_image"
             parentSlugValue={typology.slug}
           />

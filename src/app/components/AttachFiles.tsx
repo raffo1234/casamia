@@ -138,7 +138,7 @@ export default function AttachFiles({
 
       const filename = sanitize(`${now}_${customFile.file.name}`);
       const publicUrl = `${process.env.NEXT_PUBLIC_PUBLIC_DEVELOPMENT_URL}/${keyPrefix}_${parentColumnValue}/${filename}`;
-      console.log("Public URL:", publicUrl);
+
       const { id: insertedId } = await insertNewFile(
         table,
         parentColumnKey,
@@ -155,7 +155,7 @@ export default function AttachFiles({
         });
       }
 
-      await mutate(parentColumnValue);
+      await mutate(["property_images", parentColumnValue]);
     }
     setIsAttaching(false);
     setFiles([]);
