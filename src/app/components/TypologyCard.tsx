@@ -2,11 +2,13 @@ import { Icon } from "@iconify/react";
 import FirstImage from "./FirstImage";
 import { TypologyType } from "@/types/TypologyType";
 import { getFormattedPrice } from "@/lib/getFormattedPrice";
+import Link from "next/link";
 
 export default function TypologyCard({ typology }: { typology: TypologyType }) {
   const {
     name,
     id,
+    slug,
     currency,
     size,
     bedroom_count,
@@ -17,7 +19,11 @@ export default function TypologyCard({ typology }: { typology: TypologyType }) {
 
   return (
     <article key={id} className="relative mb-4">
-      <FirstImage src={typology.typology_image[0]?.image_url} title={name} />
+      <Link
+        href={`/inmueble/typology/${slug}/imagenes?imagen=0`}
+      >
+        <FirstImage src={typology.typology_image[0]?.image_url} title={name} />
+      </Link>
       <div className="flex flex-col gap-0.5">
         <p className="text-xl font-light my-4">{name}</p>
         <div className="justify-center flex items-center p-3 bg-cyan-50 rounded-b-3xl">

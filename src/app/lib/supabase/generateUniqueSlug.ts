@@ -2,9 +2,9 @@ import slugify from "slugify";
 import { supabase } from "../supabase";
 
 export const generateUniqueSlug = async (
+  table: string,
   title: string,
-  currentId?: string,
-  currentTitle?: string
+  id: string
 ) => {
   const baseSlug = slugify(title, {
     lower: true,
@@ -12,20 +12,14 @@ export const generateUniqueSlug = async (
     locale: "es",
   });
 
-  if (currentId && currentTitle && title === currentTitle) {
-    return null;
-  }
-
   let slug = baseSlug;
   let counter = 1;
 
   while (true) {
-    let query = supabase.from("property").select("slug");
+    let query = supabase.from(table).select("slug").eq("slug", slug);
 
-    query = query.or(`slug.eq.${slug},slug.is.null`);
-
-    if (currentId) {
-      query = query.neq("id", currentId);
+    if (id) {
+      query = query.neq("id", id);
     }
 
     const { data, error } = await query;

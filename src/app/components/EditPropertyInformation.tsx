@@ -94,7 +94,7 @@ export default function EditPropertyInformation({
     const companyId = data.company_id === "" ? null : data.company_id;
 
     if (data.title !== property.title || !property.slug) {
-      newSlug = await generateUniqueSlug(data.title, property.id);
+      newSlug = await generateUniqueSlug("property", data.title, property.id);
     }
 
     const { property_image, ...rest } = data;

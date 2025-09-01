@@ -8,7 +8,7 @@ import FormSkeleton from "./FormSkeleton";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 import Title from "./Title";
 import HeaderTitle from "./HeaderTitle";
@@ -19,6 +19,7 @@ import FormSectionTitle from "./FormSectionTitle";
 import FormInputLabel from "./FormInputLabel";
 import { NumericFormat } from "react-number-format";
 import { CurrencyCode } from "@/enums/currencyCodes";
+import { generateUniqueSlug } from "@/lib/supabase/generateUniqueSlug";
 
 type Inputs = {
   size: string;
@@ -29,7 +30,11 @@ type Inputs = {
   bedroom_count: number;
   stock: string;
   floor: string;
+  slug: string;
   currency: string;
+  typology_image?: {
+    image_url: string;
+  }[];
 };
 
 async function fetcher(typologyId: string) {
@@ -49,7 +54,6 @@ export default function EditPropertyType({
   propertyId: string;
   typologyId: string;
 }) {
-  const router = useRouter();
   const {
     data: typology,
     error,
@@ -64,14 +68,28 @@ export default function EditPropertyType({
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const newSlug = await generateUniqueSlug(
+      "typology",
+      data.name,
+      typology.id
+    );
+    
+    const { typology_image, ...rest } = data;
     try {
-      await supabase.from("typology").update(data).eq("id", typologyId);
+      const updatePayload = { ...rest, slug: newSlug };
+
+      await supabase
+        .from("typology")
+        .update(updatePayload)
+        .eq("id", typologyId);
 
       await mutate(typologyId);
       toast.success("Updated successfully");
-      router.push(`/admin/property/edit/${propertyId}/typologies`);
     } catch (error) {
       console.error(error);
+      console.error({ typology_image });
+    } finally {
+      redirect(`/admin/property/edit/${propertyId}/typologies`);
     }
   };
 
@@ -108,6 +126,16 @@ export default function EditPropertyType({
                     locale: es,
                   }
                 )}
+                className="disabled:bg-slate-100 w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+              />
+            </fieldset>
+            <fieldset>
+              <FormInputLabel htmlFor="slug">Slug</FormInputLabel>
+              <input
+                type="text"
+                id="slug"
+                disabled
+                value={typology.slug}
                 className="disabled:bg-slate-100 w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
               />
             </fieldset>

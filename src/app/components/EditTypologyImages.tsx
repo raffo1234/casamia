@@ -16,7 +16,7 @@ async function fetcher(id: string) {
     .select(
       `
       *,
-      typology_image!inner (
+      typology_image (
         id,
         image_url,
         sort_order
@@ -39,6 +39,10 @@ export default function EditTypologyImages() {
   const { data: typology, isLoading } = useSWR(typologyId, () =>
     fetcher(typologyId)
   );
+
+  if (!typologyId || (!isLoading && !typology)) {
+    return <div>Tipología no encontrada.</div>;
+  }
 
   if (isLoading) return <div>Loading...</div>;
   console.log(typology);
@@ -63,7 +67,7 @@ export default function EditTypologyImages() {
           keyPrefix="typology"
         />
       </div>
-      {typology.typology_image.length > 0 ? (
+      {typology?.typology_image && typology.typology_image.length > 0 ? (
         <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
           <h2 className="font-semibold text-xl">
             Imágenes <br />

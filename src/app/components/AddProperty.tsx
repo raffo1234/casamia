@@ -47,7 +47,6 @@ export default function AddProperty({ userId }: { userId: string }) {
         .insert([{ ...data, user_id: userId, slug }]);
 
       console.warn(error);
-      // await mutate(createdProperty?.id, createdProperty);
 
       reset();
       window.location.href = "/admin/property";

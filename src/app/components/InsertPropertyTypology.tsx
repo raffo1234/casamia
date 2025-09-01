@@ -7,6 +7,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { NumericFormat } from "react-number-format";
+import slugify from "slugify";
 
 type TypologyInputs = {
   name: string;
@@ -25,10 +26,16 @@ export default function InsertPropertyTypology({
   const { register, reset, handleSubmit, control } = useForm<TypologyInputs>({
     mode: "onBlur",
   });
-  async function insertData(data: TypologyInputs) {
+  async function onSubmit(data: TypologyInputs) {
+    const slug = slugify(data.name, {
+      lower: true,
+      strict: true,
+      locale: "es",
+    });
+
     const { error } = await supabase
       .from("typology")
-      .insert([{ ...data, property_id: propertyId }])
+      .insert([{ ...data, property_id: propertyId, slug }])
       .select()
       .single();
 
@@ -44,7 +51,7 @@ export default function InsertPropertyTypology({
   }
 
   return (
-    <form onSubmit={handleSubmit(insertData)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="flex flex-col gap-4">
         <div>
           <label htmlFor="name" className="block font-bold mb-2 font-manrope">

@@ -2,6 +2,7 @@ import { TypologyImageType } from "./TypologyImageType";
 
 export type TypologyType = {
   id: string;
+  slug: string;
   name: string;
   description: string;
   size: string;
