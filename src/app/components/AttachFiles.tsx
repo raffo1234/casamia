@@ -155,7 +155,7 @@ export default function AttachFiles({
         });
       }
 
-      await mutate(["property_images", parentColumnValue]);
+      await mutate([table, parentColumnValue]);
     }
     setIsAttaching(false);
     setFiles([]);
