@@ -86,65 +86,49 @@ export default function Property({
               {location}
             </h2>
             <div className="border border-slate-500 rounded-xl">
-              <table className="table-fixed w-full text-center border-collapse border-spacing-0">
-                <thead>
-                  <tr>
-                    <th className="p-4 border-b border-r rounded-tl-lg border-slate-500">
-                      <Icon
-                        icon="ri:price-tag-3-line"
-                        className="inline-block text-2xl"
-                      />
-                    </th>
-                    <th className="p-4 border-b border-r border-slate-500">
-                      <Icon
-                        icon="lucide:bed-double"
-                        className="inline-block text-2xl"
-                      />
-                    </th>
-                    <th className="p-4 border-b border-r border-slate-500">
-                      <Icon
-                        icon="lucide-lab:shower"
-                        className="inline-block text-2xl"
-                      />
-                    </th>
-                    <th className="p-4 border-b rounded-tr-lg border-slate-500">
-                      <Icon
-                        icon="solar:calendar-linear"
-                        className="inline-block text-2xl"
-                      />
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="p-4 border-r text-xl font-semibold rounded-bl-lg border-slate-500">
-                      {getFormattedPrice(currency, price)}
-                    </td>
-                    <td className="p-4 border-r text-xl font-semibold border-slate-500">
-                      {bedroom_count}
-                    </td>
-                    <td className="p-4 border-r text-xl font-semibold border-slate-500">
-                      {bathroom_count}
-                    </td>
-                    <td className="p-4 text-xl font-semibold rounded-br-lg">
-                      {phase === PropertyPhase.PLANOS ||
-                      phase === PropertyPhase.CONSTRUCCION ? (
-                        <div className="text-sm">
-                          Entrega:
-                          <div className="capitalize">
-                            {delivery_at &&
-                              format(new Date(delivery_at), "MMMM, yyyy", {
-                                locale: es,
-                              })}
-                          </div>
-                        </div>
-                      ) : (
-                        phase
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="flex item-center">
+                <div className="p-4 truncate flex-3 flex items-center justify-center text-xs border-b border-r rounded-tl-lg border-slate-500">
+                  PRECIO
+                </div>
+                <div className="p-4 flex-1 flex justify-center items-center border-b border-r border-slate-500">
+                  <Icon
+                    icon="lucide:bed-double"
+                    className="inline-block text-xl"
+                  />
+                </div>
+                <div className="flex-1 flex items-center justify-center p-4 border-b border-r border-slate-500">
+                  <Icon icon="lucide-lab:shower" className="text-xl" />
+                </div>
+                <div className="truncate text-xs uppercase flex-1 justify-center flex items-center p-4 border-b rounded-tr-lg border-slate-500">
+                  Entrega
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="flex-3 truncate flex justify-center p-4 border-r font-semibold rounded-bl-lg border-slate-500">
+                  {getFormattedPrice(currency, price)}
+                </div>
+                <div className="flex-1 flex justify-center p-4 border-r font-semibold border-slate-500">
+                  {bedroom_count}
+                </div>
+                <div className="flex-1 flex justify-center p-4 border-r font-semibold border-slate-500">
+                  {bathroom_count}
+                </div>
+                <div className="flex-1 px-4 py-2 flex justify-center font-semibold rounded-br-lg">
+                  {phase === PropertyPhase.PLANOS ||
+                  phase === PropertyPhase.CONSTRUCCION ? (
+                    <div className="text-xs">
+                      <div className="capitalize">
+                        {delivery_at &&
+                          format(new Date(delivery_at), "MMM, yyyy", {
+                            locale: es,
+                          })}
+                      </div>
+                    </div>
+                  ) : (
+                    phase
+                  )}
+                </div>
+              </div>
             </div>
           </div>
           <div className="relative lg:w-1/2">
