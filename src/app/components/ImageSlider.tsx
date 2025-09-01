@@ -105,7 +105,7 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
     const index = Number.isNaN(currentImageIndex) ? 0 : currentImageIndex;
     return images[index] || images[0];
   }, [images, currentImageIndex]);
-  
+
   return (
     <div className="relative pl-12 md:pr-12 w-full mx-auto">
       {multipleImages ? (
@@ -132,7 +132,6 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
       ) : null}
       {currentImage && (
         <div className="w-full relative" ref={imageContainerRef}>
-          
           <Link
             href={`/inmueble/${currentImage.propertySlug}/imagenes?imagen=${currentImageIndex}`}
             className="w-full aspect-5/4 mx-auto cursor-pointer"

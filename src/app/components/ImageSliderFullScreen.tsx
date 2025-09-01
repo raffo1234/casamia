@@ -73,14 +73,27 @@ const ImageSliderFullScreen = ({
       }
     };
 
+    const handleScrollNavigation = (event: WheelEvent) => {
+      event.preventDefault();
+      if (event.deltaY > 0) {
+        goToNextImage();
+      } else if (event.deltaY < 0) {
+        goToPreviousImage();
+      }
+    };
+
     window.addEventListener("keydown", handleKeyboardNavigation);
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchend", handleTouchEnd, { passive: true });
+    window.addEventListener("wheel", handleScrollNavigation, {
+      passive: false,
+    }); 
 
     return () => {
       window.removeEventListener("keydown", handleKeyboardNavigation);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("wheel", handleScrollNavigation); 
     };
   }, [goToNextImage, goToPreviousImage, touchStart, multipleImages]);
 
