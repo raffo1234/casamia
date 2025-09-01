@@ -3,6 +3,7 @@ import FirstImage from "./FirstImage";
 import { TypologyType } from "@/types/TypologyType";
 import { getFormattedPrice } from "@/lib/getFormattedPrice";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 export default function TypologyCard({ typology }: { typology: TypologyType }) {
   const {
@@ -17,11 +18,12 @@ export default function TypologyCard({ typology }: { typology: TypologyType }) {
     floor,
   } = typology;
 
+  const params = useParams();
+  const propertySlug = params.slug as string;
+
   return (
     <article key={id} className="relative mb-4">
-      <Link
-        href={`/inmueble/typology/${slug}/imagenes?imagen=0`}
-      >
+      <Link href={`/inmueble/${propertySlug}/tipologia/${slug}/imagenes`}>
         <FirstImage src={typology.typology_image[0]?.image_url} title={name} />
       </Link>
       <div className="flex flex-col gap-0.5">

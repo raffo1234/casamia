@@ -11,18 +11,21 @@ export const metadata: Metadata = {
 export default async function ClientLayout({
   children,
   modal,
-  images,
+  propertyImages,
+  typologyImages,
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;
-  images: React.ReactNode;
+  propertyImages: React.ReactNode;
+  typologyImages: React.ReactNode;
 }>) {
   return (
     <div className="bg-slate-50 min-h-lvh">
       <Header />
       <Main>{children}</Main>
       {modal}
-      {images}
+      {propertyImages}
+      {typologyImages}
     </div>
   );
 }

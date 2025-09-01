@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useCallback, useMemo, useState } from "react";
+import { useEffect, useCallback, useMemo, useState, useRef } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { parseAsInteger, useQueryState } from "nuqs";
@@ -20,6 +20,7 @@ const ImageSliderFullScreen = ({
 }) => {
   const multipleImages = images.length > 1;
   const [touchStart, setTouchStart] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [currentImageIndex, setCurrentImageIndex] = useQueryState(
     "imagen",
@@ -27,112 +28,53 @@ const ImageSliderFullScreen = ({
   );
 
   const goToNextImage = useCallback(() => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
+    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   }, [images.length, setCurrentImageIndex]);
 
   const goToPreviousImage = useCallback(() => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   }, [images.length, setCurrentImageIndex]);
 
-  const currentImage = useMemo(() => {
-    return images[currentImageIndex];
-  }, [images, currentImageIndex]);
+  const currentImage = useMemo(
+    () => images[currentImageIndex],
+    [images, currentImageIndex]
+  );
 
   useEffect(() => {
-    if (!multipleImages) {
-      return;
-    }
-
-    const handleKeyboardNavigation = (event: KeyboardEvent) => {
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        goToPreviousImage();
-      } else if (event.key === "ArrowRight") {
-        event.preventDefault();
-        goToNextImage();
-      }
-    };
-
-    const handleTouchStart = (event: TouchEvent) => {
-      setTouchStart(event.touches[0].clientX);
-    };
-
-    const handleTouchEnd = (event: TouchEvent) => {
-      const touchEnd = event.changedTouches[0].clientX;
-      const swipeDistance = touchEnd - touchStart;
-      const swipeThreshold = 50;
-
-      if (swipeDistance > swipeThreshold) {
-        goToPreviousImage();
-      } else if (swipeDistance < -swipeThreshold) {
-        goToNextImage();
-      }
-    };
-
-    const handleScrollNavigation = (event: WheelEvent) => {
-      event.preventDefault();
-      if (event.deltaY > 0) {
-        goToNextImage();
-      } else if (event.deltaY < 0) {
-        goToPreviousImage();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyboardNavigation);
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchend", handleTouchEnd, { passive: true });
-    window.addEventListener("wheel", handleScrollNavigation, {
-      passive: false,
-    }); 
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyboardNavigation);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchend", handleTouchEnd);
-      window.removeEventListener("wheel", handleScrollNavigation); 
-    };
-  }, [goToNextImage, goToPreviousImage, touchStart, multipleImages]);
-
-  useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-
-    window.addEventListener("keydown", handleEscapeKey);
-    return () => {
-      window.removeEventListener("keydown", handleEscapeKey);
-    };
-  }, [onClose]);
-
-  useEffect(() => {
+    containerRef.current?.focus();
     document.body.classList.add("overflow-hidden");
-
-    return () => {
-      document.body.classList.remove("overflow-hidden");
-    };
+    return () => document.body.classList.remove("overflow-hidden");
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 bg-black px-2 md:px-12 h-full w-full z-[51]">
-      {multipleImages ? (
+    <div
+      ref={containerRef}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowLeft") goToPreviousImage();
+        if (e.key === "ArrowRight") goToNextImage();
+        if (e.key === "Escape") onClose();
+      }}
+      onTouchStart={(e) => setTouchStart(e.touches[0].clientX)}
+      onTouchEnd={(e) => {
+        const swipeDistance = e.changedTouches[0].clientX - touchStart;
+        if (swipeDistance > 50) goToPreviousImage();
+        if (swipeDistance < -50) goToNextImage();
+      }}
+      onWheel={(e) => {
+        e.preventDefault();
+        if (e.deltaY > 0) goToNextImage();
+        if (e.deltaY < 0) goToPreviousImage();
+      }}
+      className="fixed top-0 left-0 bg-black px-2 md:px-12 h-full w-full z-[51] outline-none"
+    >
+      {multipleImages && (
         <>
           <button
             onClick={goToPreviousImage}
-            aria-label="Imagen anterior"
-            className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full left-0 top-0 bottom-0"
+            className="hidden md:flex outline-none absolute w-12 text-white items-center justify-center h-full left-0 top-0 bottom-0"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
               <path
                 fill="none"
                 stroke="currentColor"
@@ -145,15 +87,9 @@ const ImageSliderFullScreen = ({
           </button>
           <button
             onClick={goToNextImage}
-            aria-label="Imagen siguiente"
-            className="hidden md:flex outline-none absolute w-12 text-white items-center-safe justify-center h-full right-0 top-0 bottom-0"
+            className="hidden md:flex outline-none absolute w-12 text-white items-center justify-center h-full right-0 top-0 bottom-0"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
               <path
                 fill="none"
                 stroke="currentColor"
@@ -165,7 +101,8 @@ const ImageSliderFullScreen = ({
             </svg>
           </button>
         </>
-      ) : null}
+      )}
+
       {currentImage && (
         <div className="relative h-full w-full">
           <Image
@@ -175,8 +112,9 @@ const ImageSliderFullScreen = ({
             width={400}
             height={300}
           />
-          {multipleImages ? (
-            <div className="w-full items-center flex gap-3 flex-wrap justify-center absolute bottom-3 left-0 right-0">
+
+          {multipleImages && (
+            <div className="w-full flex gap-3 justify-center absolute bottom-3 left-0 right-0">
               {images.map((image) => (
                 <button
                   key={image.src}
@@ -186,7 +124,7 @@ const ImageSliderFullScreen = ({
                     );
                     setCurrentImageIndex(index);
                   }}
-                  className={`relative w-3 h-3 cursor-pointer outline-0`}
+                  className="relative w-3 h-3 cursor-pointer outline-0"
                 >
                   <div
                     className={`${
@@ -194,22 +132,21 @@ const ImageSliderFullScreen = ({
                       images.findIndex((img) => img.src === image.src)
                         ? "bg-yellow-400 w-4 h-4"
                         : "bg-gray-300"
-                    } absolute left-0.5 -translate-x-1/2 top-0.5 -translate-y-1/2 w-3 h-3 rounded-full cursor-pointer outline-0 transition-all duration-300`}
+                    } absolute left-0.5 -translate-x-1/2 top-0.5 -translate-y-1/2 w-3 h-3 rounded-full transition-all duration-300`}
                   ></div>
                 </button>
               ))}
             </div>
-          ) : null}
+          )}
         </div>
       )}
+
       <div className="absolute z-20 flex items-center top-3 right-3 rounded-[50px]">
         <div className="flex items-center text-lg h-13 px-4 mr-2 bg-white text-slate-600 bg-opacity-20 rounded-full">
           {currentImageIndex + 1}&nbsp;/&nbsp;{images.length}
         </div>
         <button
           onClick={onClose}
-          title="Ir a la propiedad"
-          aria-label="Volver a la propiedad"
           className="cursor-pointer flex items-center justify-center rounded-full w-13 h-13 text-black bg-yellow-400"
         >
           <Icon

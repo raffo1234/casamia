@@ -1,10 +1,10 @@
 "use client";
 
 import TypologiesGrid from "./TypologiesGrid";
-import { useTypologies } from "@/hooks/useTypologies"; // Assuming the hook is in a 'hooks' folder
+import { useTypologies } from "@/hooks/useTypologies";
 import TypologyCard from "./TypologyCard";
 
-export default function Typologies({ propertyId }: { propertyId: string }) {
+export default function Typologies({propertyId }: { propertyId: string }) {
   const {
     typologies,
     uniqueBedroomCounts,
@@ -23,7 +23,7 @@ export default function Typologies({ propertyId }: { propertyId: string }) {
           <button
             key={count}
             onClick={() => setSelectedBedroomCount(count)}
-            className={`${selectedBedroomCount === count ? "bg-slate-200/50" : ""} px-5 rounded-full py-3 font-semibold text-sm`}
+            className={`${selectedBedroomCount === count ? "bg-slate-200/50" : ""} cursor-pointer px-5 rounded-full py-3 font-semibold text-sm`}
           >
             {count} {count === 1 ? "Dormitorio" : "Dormitorios"}
           </button>
