@@ -11,6 +11,8 @@ import PropertyImages from "./PropertyImages";
 import Image from "next/image";
 import { PropertyType } from "@/types/propertyType";
 import { getFormattedPrice } from "@/lib/getFormattedPrice";
+import Link from "next/link";
+import New from "./New";
 
 export default function Property({
   property,
@@ -34,6 +36,7 @@ export default function Property({
     location,
     google_map,
     company,
+    created_at,
   } = property;
 
   return (
@@ -42,7 +45,7 @@ export default function Property({
         <div className="flex items-center justify-between w-full px-6 py-4 pr-20 sm:px-14 bg-slate-100 rounded-t-3xl">
           <div className="flex gap-3 items-center-safe">
             <span className="font-light">Por: </span>
-            <a
+            <Link
               href={`/empresa/${company.id}`}
               title={company.name}
               className="flex gap-3 text-lg items-center-safe"
@@ -57,7 +60,7 @@ export default function Property({
               <span className="transition-colors border-b-2 hover:border-slate-300 border-slate-400">
                 {company.name}
               </span>
-            </a>
+            </Link>
           </div>
           <GetInTouch
             propertyId={id}
@@ -70,6 +73,9 @@ export default function Property({
       <div className="sm:px-6 px-4 md:px-14 sm:pt-30 pt-12">
         <div className="lg:flex items-center-safe">
           <div className="mb-10 lg:w-1/2 lg:pr-20 lg:mb-0">
+            <div className="mb-3">
+              <New createdAt={created_at} />
+            </div>
             <h1
               className="mb-8 leading-tight font-flaviotte"
               style={{
