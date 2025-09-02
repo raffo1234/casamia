@@ -6,6 +6,7 @@ import "./globals.css";
 import Slider from "./components/Slider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/next";
 
 const roboto = Roboto({
   weight: ["300", "400", "700", "800"],
@@ -60,6 +61,7 @@ export default async function RootLayout({
           <GlobalModal />
           <Slider />
         </NuqsAdapter>
+        <Analytics />
       </body>
     </html>
   );
