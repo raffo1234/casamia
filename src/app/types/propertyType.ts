@@ -22,6 +22,7 @@ export type PropertyType = {
   phase?: string;
   delivery_at?: Date | number | string;
   price?: string;
+  google_map?: string;
   location?: string;
   currency?: string;
   property_image?: {

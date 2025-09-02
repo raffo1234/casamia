@@ -32,6 +32,7 @@ export default function Property({
     price,
     currency,
     location,
+    google_map,
     company,
   } = property;
 
@@ -77,14 +78,22 @@ export default function Property({
             >
               {title}
             </h1>
-            <h2
+            <a
+              title={location}
+              target="_blank"
+              href={google_map}
               style={{
                 margin: "clamp(20px,5vw,35px) 0 clamp(40px,5vw,70px) 0",
               }}
-              className="text-lg font-light"
+              className="flex hover:text-slate-800 text-slate-600 gap-2 text-lg font-light uppercase"
             >
+              <Icon
+                icon="clarity:map-marker-line"
+                className="flex-shrink-0"
+                fontSize={24}
+              ></Icon>
               {location}
-            </h2>
+            </a>
             <div className="border border-slate-500 rounded-xl">
               <div className="flex item-center">
                 <div className="p-4 truncate flex-3 flex items-center justify-center text-xs border-b border-r rounded-tl-lg border-slate-500">

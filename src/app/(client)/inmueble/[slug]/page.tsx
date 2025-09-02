@@ -29,6 +29,7 @@ export default async function Page({ params }: { params: Params }) {
       price,
       currency,
       location,
+      google_map,
       bedroom_count,
       company_id,
       user!property_user_id_fkey (
