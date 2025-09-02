@@ -1,5 +1,6 @@
 "use client";
 
+import TextareaAutosize from "react-textarea-autosize";
 import { NumericFormat } from "react-number-format";
 import { useEffect } from "react";
 import useSWR, { mutate } from "swr";
@@ -187,11 +188,21 @@ export default function EditPropertyInformation({
                 <FormInputLabel htmlFor="description">
                   Descripcion
                 </FormInputLabel>
-                <textarea
-                  id="decription"
-                  {...register("description")}
-                  required
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                <Controller
+                  name="description"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextareaAutosize
+                      {...field}
+                      id="decription"
+                      autoFocus
+                      minRows={2}
+                      placeholder=""
+                      aria-label=""
+                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100 focus:border-cyan-500"
+                    />
+                  )}
                 />
               </fieldset>
             </FormSection>
