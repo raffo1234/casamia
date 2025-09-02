@@ -85,7 +85,7 @@ export default function Property({
               style={{
                 margin: "clamp(20px,5vw,35px) 0 clamp(40px,5vw,70px) 0",
               }}
-              className="flex hover:text-slate-800 text-slate-600 gap-2 text-lg font-light uppercase"
+              className="flex w-fit hover:text-slate-800 text-slate-600 gap-2 text-lg font-light uppercase"
             >
               <Icon
                 icon="clarity:map-marker-line"
@@ -141,7 +141,7 @@ export default function Property({
             </div>
           </div>
           <div className="relative lg:w-1/2">
-            <div className="absolute top-0 left-0 z-10">
+            <div className="absolute top-3 left-3 md:left-15 z-10">
               <Like size={24} propertyId={id} userEmail={userEmail} />
             </div>
             <PropertyImages

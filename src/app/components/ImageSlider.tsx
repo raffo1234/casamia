@@ -39,7 +39,7 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
   }, [images, currentImageIndex]);
 
   return (
-    <div className="relative pl-12 md:pr-12 w-full mx-auto">
+    <div className="relative md:px-12 w-full mx-auto">
       {multipleImages && (
         <button
           onClick={goToPreviousImage}
