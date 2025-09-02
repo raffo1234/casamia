@@ -4,7 +4,7 @@ import TypologiesGrid from "./TypologiesGrid";
 import { useTypologies } from "@/hooks/useTypologies";
 import TypologyCard from "./TypologyCard";
 
-export default function Typologies({propertyId }: { propertyId: string }) {
+export default function Typologies({ propertyId }: { propertyId: string }) {
   const {
     typologies,
     uniqueBedroomCounts,
@@ -12,6 +12,8 @@ export default function Typologies({propertyId }: { propertyId: string }) {
     setSelectedBedroomCount,
     isLoading,
   } = useTypologies(propertyId);
+
+  if (typologies.length === 0) return null;
 
   return (
     <div className="mt-20 md:mt-30 pb-10">
@@ -30,7 +32,7 @@ export default function Typologies({propertyId }: { propertyId: string }) {
         ))}
       </nav>
       <TypologiesGrid>
-        {typologies.length === 0 || isLoading ? (
+        {isLoading ? (
           <div className="rounded-3xl animate-pulse bg-slate-200 h-[400px]" />
         ) : (
           typologies.map((typology) => (
