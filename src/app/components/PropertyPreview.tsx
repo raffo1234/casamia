@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Property from "./Property";
 import useSWR from "swr";
 import { PropertyState } from "@/types/propertyState";
@@ -68,6 +68,8 @@ export default function PropertyPreview({
   const router = useRouter();
   const propertySlug = Array.isArray(slug) ? slug[0] : slug;
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const { data: property } = useSWR(propertySlug, () =>
     propertySlug ? fetcher(propertySlug) : null
   );
@@ -82,20 +84,9 @@ export default function PropertyPreview({
   );
 
   useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        router.back();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscapeKey);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscapeKey);
-    };
-  }, [router]);
-
-  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+    }
     document.body.classList.add("overflow-hidden");
 
     return () => {
@@ -105,6 +96,13 @@ export default function PropertyPreview({
 
   return (
     <div
+      ref={containerRef}
+      tabIndex={-1}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          router.back();
+        }
+      }}
       onClick={handleOverlayClick}
       className="fixed top-0 left-0 z-30 w-full h-full overflow-auto transition-all duration-200 cursor-pointer bg-black/60 lg:p-6 bg-opacity-40"
     >
