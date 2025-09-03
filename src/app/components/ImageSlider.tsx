@@ -60,7 +60,7 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
       {currentImage && (
         <div
           ref={containerRef}
-          tabIndex={0} 
+          tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === "ArrowLeft") goToPreviousImage();
             if (e.key === "ArrowRight") goToNextImage();
@@ -76,12 +76,12 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
         >
           <Link
             href={`/inmueble/${currentImage.propertySlug}/imagenes?imagen=${currentImageIndex}`}
-            className="w-full aspect-5/4 mx-auto cursor-pointer"
+            className="mx-auto cursor-pointer"
           >
             <Image
               src={currentImage.src}
               alt={currentImage.propertyTitle}
-              className="w-full aspect-5/4 mx-auto object-cover rounded-3xl"
+              className="w-full aspect-5/4 object-cover rounded-3xl"
               width={400}
               height={300}
             />
@@ -93,14 +93,17 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
                 <button
                   key={image.src}
                   onClick={() => {
-                    const index = images.findIndex((img) => img.src === image.src);
+                    const index = images.findIndex(
+                      (img) => img.src === image.src
+                    );
                     setCurrentImageIndex(index);
                   }}
                   className="relative w-3 h-3 cursor-pointer outline-0"
                 >
                   <div
                     className={`${
-                      currentImageIndex === images.findIndex((img) => img.src === image.src)
+                      currentImageIndex ===
+                      images.findIndex((img) => img.src === image.src)
                         ? "bg-yellow-400 w-4 h-4"
                         : "bg-gray-300"
                     } absolute left-0.5 -translate-x-1/2 top-0.5 -translate-y-1/2 w-3 h-3 rounded-full transition-all duration-300`}

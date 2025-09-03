@@ -12,7 +12,7 @@ export enum PropertyType {
 export enum PropertyPhase {
   PLANOS = "PLANOS",
   CONSTRUCCION = "EN CONSTRUCCIÓN",
-  READY = "ENTREGA INMEDIATA",
+  READY = "INMEDIATA",
 }
 
 export enum Permissions {

@@ -30,7 +30,9 @@ export default async function Index() {
       >
         Tu nuevo hogar <br /> te espera.
       </h1>
-      <SearchForm />
+      <Suspense>
+        <SearchForm />
+      </Suspense>
       <PropertiesGrid>
         <Suspense>
           <Home properties={properties} userEmail={userEmail} />

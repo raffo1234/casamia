@@ -48,7 +48,7 @@ export default function EditPropertyImages({
         <BackLink href={`/admin/property/edit/${propertyId}`} />
       </HeaderTitle>
       <PropertyAdminTabs />
-      <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
+      <div className="flex p-7 mb-6 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
         <h2 className="font-semibold text-xl">
           Subir Imágenes <br />{" "}
           <span className="text-gray-400 text-sm font-normal">

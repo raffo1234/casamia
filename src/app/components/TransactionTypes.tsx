@@ -1,13 +1,12 @@
 "use client";
 
 import { TransactionType } from "@/types/TransactionType";
-import React from "react";
 
 export default function TransactionTypes({
   selectedType,
   onSelect,
 }: {
-  selectedType: TransactionType;
+  selectedType: TransactionType | null;
   onSelect: (type: TransactionType) => void;
 }) {
   return (
@@ -15,6 +14,7 @@ export default function TransactionTypes({
       {Object.values(TransactionType).map((type) => (
         <button
           key={type}
+          type="button"
           onClick={() => onSelect(type)}
           className={`
             px-4 py-2 rounded-full text-sm capitalize transition-colors duration-200

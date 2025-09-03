@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import Aside from "@/components/Aside";
 import ProfilePopover from "@/components/ProfilePopover";
 import Logo from "@/components/Logo";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Admin Casamia",
@@ -25,7 +26,9 @@ export default async function AdminLayout({
           <h1>
             <Logo />
           </h1>
-          <ProfilePopover />
+          <Suspense>
+            <ProfilePopover />
+          </Suspense>
         </div>
       </header>
       <main className="flex items-start w-full min-h-lvh relative">

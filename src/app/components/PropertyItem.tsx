@@ -25,7 +25,9 @@ export default function PropertyItem({
           <FirstImage title={title} src={property_image?.at(0)?.image_url} />
         </Link>
         <div className="md:opacity-0 group-hover:opacity-100 duration-300 transition-all sm:invisible group-hover:visible absolute left-0 top-0 p-3">
-          <Like propertyId={id} userEmail={userEmail} />
+          <Suspense>
+            <Like propertyId={id} userEmail={userEmail} />
+          </Suspense>
         </div>
       </div>
       <div className="p-3 sm:p-5 sm:pt-7 relative">

@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { PropertyType } from "@/types/propertyType";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 type Params = Promise<{ slug: string[] }>;
 
@@ -67,5 +68,9 @@ export default async function Page({ params }: { params: Params }) {
     redirect("/404");
   }
 
-  return <Property property={property} userEmail={userEmail} />;
+  return (
+    <Suspense>
+      <Property property={property} userEmail={userEmail} />;
+    </Suspense>
+  );
 }

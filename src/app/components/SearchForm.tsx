@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { PropertyType } from "@/types/propertyState";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import TransactionTypes from "./TransactionTypes";
@@ -18,19 +18,40 @@ export default function SearchForm() {
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
 
-  const [propertyType, setPropertyType] = useState<PropertyType>(
-    (params.category as string)?.toLowerCase() ===
-      PropertyType.HOUSE.toLowerCase()
-      ? PropertyType.HOUSE
-      : PropertyType.APARTMENT
-  );
+  const urlToPropertyTypeMap: { [key: string]: PropertyType } = {
+    casas: PropertyType.HOUSE,
+    departamentos: PropertyType.APARTMENT,
+  };
 
-  const [transactionType, setTransactionType] = useState<TransactionType>(
-    (params.transaction as string)?.toLowerCase() ===
-      TransactionType.ALQUILER.toLowerCase()
-      ? TransactionType.ALQUILER
-      : TransactionType.VENTA
-  );
+  const [propertyType, setPropertyType] = useState<PropertyType>(() => {
+    const categoryParam = (params.category as string)?.toLowerCase();
+
+    const mappedType = categoryParam
+      ? urlToPropertyTypeMap[categoryParam]
+      : undefined;
+
+    if (mappedType) {
+      return mappedType;
+    }
+
+    return PropertyType.APARTMENT;
+  });
+
+  const [transactionType, setTransactionType] =
+    useState<TransactionType | null>(() => {
+      const transactionParam = (params.transaction as string)?.toLowerCase();
+
+      if (
+        transactionParam &&
+        Object.values(TransactionType).includes(
+          transactionParam as TransactionType
+        )
+      ) {
+        return transactionParam as TransactionType;
+      }
+
+      return null;
+    });
 
   const decodedSearchWord = params.searchWord
     ? decodeURIComponent(params.searchWord as string)
@@ -38,35 +59,67 @@ export default function SearchForm() {
 
   const { register, handleSubmit } = useForm<Inputs>({
     defaultValues: {
+      type: propertyType,
       keywords: decodedSearchWord,
     },
   });
 
   const { ref, ...rest } = register("keywords");
 
-  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
-    const trimmedSearchWord = formData.keywords
-      ? formData.keywords.trim()
-      : formData.keywords;
-    let path: string;
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
+    async (formData) => {
+      const trimmedSearchWord = formData.keywords
+        ? formData.keywords.trim()
+        : formData.keywords;
 
-    const property = propertyType.toLowerCase();
-    const transaction = transactionType.toLowerCase();
+      const property = propertyType.toLowerCase();
 
-    if (formData.keywords) {
-      const encodedSearchWord = encodeURIComponent(trimmedSearchWord);
-      path = `/${property}/${transaction}/buscar/${encodedSearchWord}`;
-    } else {
-      path = `/${property}/${transaction}`;
+      let path: string;
+
+      if (transactionType) {
+        const transaction = transactionType.toLowerCase();
+
+        if (trimmedSearchWord) {
+          const encodedSearchWord = encodeURIComponent(trimmedSearchWord);
+          path = `/${property}/${transaction}/buscar/${encodedSearchWord}`;
+        } else {
+          path = `/${property}/${transaction}`;
+        }
+      } else {
+        if (trimmedSearchWord) {
+          const encodedSearchWord = encodeURIComponent(trimmedSearchWord);
+          path = `/${property}/buscar/${encodedSearchWord}`;
+        } else {
+          path = `/${property}`;
+        }
+      }
+
+      router.push(path);
+    },
+    [propertyType, transactionType, router]
+  );
+
+  // Use useEffect to trigger navigation when transactionType changes
+  useEffect(() => {
+    // Only submit if a transaction type has been selected
+    if (transactionType) {
+      handleSubmit(onSubmit)();
     }
-    router.push(path);
-  };
+  }, [transactionType, handleSubmit, onSubmit]);
 
-  const handlePropertyTypeClick = (type: PropertyType) => {
+  const handlePropertyTypeClick = useCallback((type: PropertyType) => {
     setPropertyType(type);
     setIsOpen(false);
     inputRef.current?.focus();
-  };
+  }, []);
+
+  const handleTransactionSelect = useCallback((type: TransactionType) => {
+    setTransactionType(type);
+  }, []);
+
+  const handleDropdownToggle = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
   return (
     <form
@@ -75,17 +128,14 @@ export default function SearchForm() {
     >
       <TransactionTypes
         selectedType={transactionType}
-        onSelect={setTransactionType}
+        onSelect={handleTransactionSelect}
       />
       <div className="w-full hover:bg-white hover:border-yellow-400 focus-within:bg-white focus-within:border-yellow-300 border-2 transition-colors duration-500 border-gray-100 flex items-center bg-gray-100 rounded-full p-1 gap-3">
-        <div
-          onMouseEnter={() => setIsOpen(true)}
-          onMouseLeave={() => setIsOpen(false)}
-          className="relative group"
-        >
+        <div className="relative group">
           <button
             type="button"
             className="h-[52px] pl-6 pr-3 bg-black text-white rounded-full flex items-center gap-1"
+            onClick={handleDropdownToggle}
           >
             <span>
               {propertyType === PropertyType.APARTMENT ? "Depas" : "Casas"}

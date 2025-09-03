@@ -1,10 +1,13 @@
 import AdminRoles from "@/components/AdminRoles";
+import { Suspense } from "react";
 
 export default function Page() {
   return (
     <>
       <h1 className="mb-6 font-semibold text-lg block">Roles</h1>
-      <AdminRoles />
+      <Suspense>
+        <AdminRoles />
+      </Suspense>
     </>
   );
 }

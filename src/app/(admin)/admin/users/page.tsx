@@ -1,6 +1,7 @@
 import UsersTable from "@/components/UsersTable";
 import { supabase } from "@/lib/supabase";
 import { UserType } from "@/types/userType";
+import { Suspense } from "react";
 
 export default async function Page() {
   const { data: users } = (await supabase
@@ -18,5 +19,9 @@ export default async function Page() {
     )
     .order("created_at", { ascending: false })) as { data: UserType[] | null };
 
-  return <UsersTable users={users} />;
+  return (
+    <Suspense>
+      <UsersTable users={users} />
+    </Suspense>
+  );
 }

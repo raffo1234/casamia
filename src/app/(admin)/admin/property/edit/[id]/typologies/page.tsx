@@ -1,9 +1,14 @@
 import PropertyTypologies from "@/components/PropertyTypologies";
+import { Suspense } from "react";
 
 type Params = Promise<{ id: string }>;
 
 export default async function Page({ params }: { params: Params }) {
   const { id } = await params;
 
-  return <PropertyTypologies propertyId={id} />;
+  return (
+    <Suspense>
+      <PropertyTypologies propertyId={id} />
+    </Suspense>
+  );
 }

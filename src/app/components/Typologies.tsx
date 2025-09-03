@@ -3,6 +3,7 @@
 import TypologiesGrid from "./TypologiesGrid";
 import { useTypologies } from "@/hooks/useTypologies";
 import TypologyCard from "./TypologyCard";
+import { Suspense } from "react";
 
 export default function Typologies({ propertyId }: { propertyId: string }) {
   const {
@@ -32,13 +33,19 @@ export default function Typologies({ propertyId }: { propertyId: string }) {
         ))}
       </nav>
       <TypologiesGrid>
-        {isLoading ? (
-          <div className="rounded-3xl animate-pulse bg-slate-200 h-[400px]" />
-        ) : (
-          typologies.map((typology) => (
-            <TypologyCard key={typology.id} typology={typology} />
-          ))
-        )}
+        <Suspense>
+          {isLoading ? (
+            <>
+              <div className="rounded-3xl animate-pulse bg-slate-200 h-[400px]" />
+              <div className="rounded-3xl animate-pulse bg-slate-200 h-[400px]" />
+              <div className="rounded-3xl animate-pulse bg-slate-200 h-[400px]" />
+            </>
+          ) : (
+            typologies.map((typology) => (
+              <TypologyCard key={typology.id} typology={typology} />
+            ))
+          )}
+        </Suspense>
       </TypologiesGrid>
     </div>
   );

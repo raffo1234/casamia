@@ -1,6 +1,7 @@
 import ProfilePopover from "@/components/ProfilePopover";
 import Logo from "@/components/Logo";
 import HightLightSelect from "./HighLightSelect";
+import { Suspense } from "react";
 
 export default function Header() {
   return (
@@ -9,7 +10,9 @@ export default function Header() {
         <Logo />
         <div className="flex items-center gap-4">
           <HightLightSelect />
-          <ProfilePopover />
+          <Suspense>
+            <ProfilePopover />
+          </Suspense>
         </div>
       </nav>
     </header>

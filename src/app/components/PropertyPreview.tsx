@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { Suspense, useCallback, useEffect, useRef } from "react";
 import Property from "./Property";
 import useSWR from "swr";
 import { PropertyState } from "@/types/propertyState";
@@ -109,7 +109,9 @@ export default function PropertyPreview({
     >
       <div className="animate-slide-up pb-20 cursor-default mx-auto relative lg:rounded-3xl bg-white min-h-lvh">
         <div className="mx-auto w-full">
-          <Property property={property} userEmail={userEmail} />
+          <Suspense>
+            <Property property={property} userEmail={userEmail} />
+          </Suspense>
         </div>
       </div>
       <button

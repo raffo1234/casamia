@@ -4,11 +4,15 @@ import { UserType } from "@/types/userType";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
+import Title from "./Title";
+import HeaderTitle from "./HeaderTitle";
 
 export default function UsersTable({ users }: { users: UserType[] | null }) {
   return (
-    <div className="max-w-[1200px] mx-auto w-full">
-      <h1 className="mb-6 font-semibold text-lg block">Usuarios</h1>
+    <div className="w-full">
+      <HeaderTitle>
+        <Title>Usuarios</Title>
+      </HeaderTitle>
       <div
         className="grid gap-3"
         style={{

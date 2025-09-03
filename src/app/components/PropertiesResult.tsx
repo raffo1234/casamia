@@ -28,23 +28,25 @@ const columnsToSearch = [
 const fetcher = async (
   searchTerms: string,
   category: string,
-  transactionType: string
+  transactionType?: string
 ) => {
   const orConditions = columnsToSearch
     .map((column) => `${column}.ilike.%${searchTerms}%`)
     .join(",");
 
-  const propertyType = category.toLowerCase().toUpperCase();
-  const transaction = transactionType.toLowerCase();
+  const propertyType = category.toUpperCase();
 
   let query = supabase
     .from("property")
     .select(propertyQuery)
     .eq("state", PropertyState.ACTIVE)
     .eq("type", propertyType)
-    .eq("transaction_type", transaction)
     .order("created_at", { ascending: false })
     .limit(4);
+
+  if (transactionType) {
+    query = query.eq("transaction_type", transactionType.toLowerCase());
+  }
 
   if (searchTerms) {
     query = query.or(orConditions);
@@ -66,20 +68,20 @@ export default function PropertiesResult({
     : searchTerms;
   const category = params.category as string;
 
-  const transactionType = params.transaction as string;
+  const transactionType = params.transaction as string | undefined;
 
   const { data: properties = [], isLoading } = useSWR(
-    `${userEmail}-${searchTerms}-${category}-${transactionType}-result-properties-first-ones`,
+    `${userEmail}-${searchTerms}-${category}-${transactionType || ""}-result-properties-first-ones`,
     () => fetcher(decodedSearchWord, category as string, transactionType)
   );
 
   if (isLoading)
     return (
       <PropertiesGrid>
-        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
-        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
-        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
-        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl"></div>
+        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl animate-pulse"></div>
+        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl animate-pulse"></div>
+        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl animate-pulse"></div>
+        <div className="bg-slate-100 w-full aspect-[5/4] rounded-3xl animate-pulse"></div>
       </PropertiesGrid>
     );
 

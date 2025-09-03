@@ -1,10 +1,9 @@
 "use client";
 
-import { Icon } from "@iconify/react";
 import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
 import ImageSlider from "./ImageSlider";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 
 const fetcher = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -28,7 +27,6 @@ export default function PropertyImages({
   const { data: images, isLoading } = useSWR(`${propertyId}-images`, () =>
     fetcher(propertyId)
   );
-  const imageClassName = "w-full aspect-[5/4] object-cover rounded-3xl";
 
   const imagesToSlider = useMemo(
     () =>
@@ -42,21 +40,18 @@ export default function PropertyImages({
   );
 
   return (
-    <div className="relative w-full">
+    <>
       {isLoading ? (
-        <div
-          className={`${imageClassName} ${
-            images?.length === 0 || isLoading ? "opacity-100" : "opacity-0"
-          } absolute left-0 top-0 h-full transition-opacity duration-500 bg-gray-100 rounded-xl w-full aspect-[5/4] flex justify-center items-center`}
-        >
-          <Icon
-            icon="solar:gallery-broken"
-            fontSize={64}
-            className="text-gray-400"
-          />
+        <div className={`relative md:px-12 flex justify-center items-center`}>
+          <div className="animate-pulse aspect-5/4 rounded-3xl bg-slate-100 h-full w-full"></div>
         </div>
-      ) : null}
-      <ImageSlider images={imagesToSlider} />
-    </div>
+      ) : (
+        <Suspense>
+          <div className="animate-fade-in">
+            <ImageSlider images={imagesToSlider} />
+          </div>
+        </Suspense>
+      )}
+    </>
   );
 }

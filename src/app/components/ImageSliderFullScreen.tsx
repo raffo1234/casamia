@@ -66,7 +66,7 @@ const ImageSliderFullScreen = ({
         if (e.deltaY > 0) goToNextImage();
         if (e.deltaY < 0) goToPreviousImage();
       }}
-      className="fixed top-0 left-0 bg-black px-2 md:px-12 h-full w-full z-[51] outline-none"
+      className="fixed animate-fade-in top-0 left-0 bg-black px-2 md:px-12 h-full w-full z-[51] outline-none"
     >
       {multipleImages && (
         <>
@@ -102,7 +102,6 @@ const ImageSliderFullScreen = ({
           </button>
         </>
       )}
-
       {currentImage && (
         <div className="relative h-full w-full">
           <Image
@@ -112,7 +111,6 @@ const ImageSliderFullScreen = ({
             width={400}
             height={300}
           />
-
           {multipleImages && (
             <div className="w-full flex gap-3 justify-center absolute bottom-3 left-0 right-0">
               {images.map((image) => (

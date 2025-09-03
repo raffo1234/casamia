@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: Params }) {
     .select("id, name, slug, logo_url, description")
     .eq("slug", slug)
     .single();
-  
+
   const { data: properties } = (await supabase
     .from("property")
     .select(propertyQuery)
@@ -35,7 +35,9 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <SearchForm />
+      <Suspense>
+        <SearchForm />
+      </Suspense>
       <div className="mb-5">
         <div className="mb-10 flex gap-3 justify-between items-center-safe">
           {company ? (

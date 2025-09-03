@@ -5,6 +5,7 @@ import PropertyAdminTabs from "@/components/PropertyAdminTabs";
 import Title from "@/components/Title";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
+import { Suspense } from "react";
 
 type Params = Promise<{ id: string }>;
 
@@ -27,8 +28,10 @@ export default async function Page({ params }: { params: Params }) {
           <BackLink href={`/admin/property`}></BackLink>
         </HeaderTitle>
       </div>
-      <PropertyAdminTabs />
-      <EditPropertyInformation id={id} userId={user?.id} />
+      <Suspense>
+        <PropertyAdminTabs />
+        <EditPropertyInformation id={id} userId={user?.id} />
+      </Suspense>
     </>
   );
 }

@@ -9,8 +9,8 @@ export default async function Page() {
 
   return (
     <>
-      <SearchForm />
       <Suspense>
+        <SearchForm />
         <PropertiesResult userEmail={userEmail} />
       </Suspense>
     </>

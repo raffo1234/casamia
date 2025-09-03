@@ -18,13 +18,13 @@ const columnsToSearch = [
   "size",
   "bathroom_count",
   "bedroom_count",
-  "transaction_type"
+  "transaction_type",
 ];
 
 const fetcherTotal = async (
   decodedSearchWord: string,
   propertyType: string,
-  transactionType: string
+  transactionType?: string // Make the parameter optional
 ): Promise<number> => {
   const orConditions = columnsToSearch
     .map((column) => `${column}.ilike.%${decodedSearchWord}%`)
@@ -34,8 +34,15 @@ const fetcherTotal = async (
     .from("property")
     .select("id", { count: "exact", head: true })
     .eq("state", PropertyState.ACTIVE)
-    .eq("type", propertyType.toUpperCase())
-    .eq("transaction_type", transactionType.toLowerCase()); // Add the transaction type filter
+    .eq("type", propertyType.toUpperCase());
+
+  // Conditionally add the transaction type filter
+  if (transactionType) {
+    supabaseQuery = supabaseQuery.eq(
+      "transaction_type",
+      transactionType.toLowerCase()
+    );
+  }
 
   if (decodedSearchWord) {
     supabaseQuery = supabaseQuery.or(orConditions);
@@ -55,7 +62,7 @@ const fetcherPage = async (
   pageSize: number,
   decodedSearchWord: string,
   propertyType: string,
-  transactionType: string
+  transactionType?: string // Make the parameter optional
 ) => {
   const orConditions = columnsToSearch
     .map((column) => `${column}.ilike.%${decodedSearchWord}%`)
@@ -65,8 +72,15 @@ const fetcherPage = async (
     .from("property")
     .select(propertyQuery)
     .eq("state", PropertyState.ACTIVE)
-    .eq("type", propertyType.toUpperCase())
-    .eq("transaction_type", transactionType.toLowerCase()); // Add the transaction type filter
+    .eq("type", propertyType.toUpperCase());
+
+  // Conditionally add the transaction type filter
+  if (transactionType) {
+    queryBuilder = queryBuilder.eq(
+      "transaction_type",
+      transactionType.toLowerCase()
+    );
+  }
 
   if (decodedSearchWord) {
     queryBuilder = queryBuilder.or(orConditions);
@@ -100,13 +114,13 @@ export default function ResultPage({
     : searchTerms;
   const propertyType = params.category as string;
 
-  const transactionType = params.transaction as string;
+  const transactionType = params.transaction as string | undefined;
 
   return (
     <PropertiesList
       userEmail={userEmail}
-      swrKeyPage={`${userEmail}-${searchTerms}-${propertyType}-${transactionType}-properties-home-page`}
-      swrKeyTotal={`${userEmail}-${searchTerms}-${propertyType}-${transactionType}-properties-home-total`}
+      swrKeyPage={`${userEmail}-${searchTerms}-${propertyType}-${transactionType || ""}-properties-home-page`}
+      swrKeyTotal={`${userEmail}-${searchTerms}-${propertyType}-${transactionType || ""}-properties-home-total`}
       fetcherPage={(index, pageSize) =>
         fetcherPage(
           index,

@@ -35,7 +35,9 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <SearchForm />
+      <Suspense>
+        <SearchForm />
+      </Suspense>
       <div className="mb-5">
         <div className="mb-10 flex gap-3 justify-between items-center-safe">
           {user ? (

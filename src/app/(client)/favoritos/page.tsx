@@ -12,7 +12,9 @@ export default function Page() {
 
   return (
     <>
-      <SearchForm />
+      <Suspense>
+        <SearchForm />
+      </Suspense>
       {userId && userEmail ? (
         <Suspense>
           <FavoritesWrapper userId={userId} userEmail={userEmail} />
@@ -23,7 +25,9 @@ export default function Page() {
             Necesitas iniciar sesión para poder ver tu lista de inmuebles
             favoritos.
           </h1>
-          <GoogleLoginButton />
+          <Suspense>
+            <GoogleLoginButton />
+          </Suspense>
           <div className="flex justify-center w-[160px] rounded-full items-center mx-auto bg-slate-300 aspect-square bg-opacity-5">
             <Icon
               icon="solar:gallery-favourite-bold"

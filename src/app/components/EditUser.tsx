@@ -93,27 +93,12 @@ export default function EditUser({ userId }: { userId: string }) {
                     Nombre
                   </label>
                   <input
+                    disabled
                     type="text"
                     id="name"
                     {...register("name")}
                     required
-                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="username"
-                    className="inline-block mb-2 text-sm"
-                  >
-                    Username
-                  </label>
-                  <input
-                    disabled
-                    type="text"
-                    id="username"
-                    {...register("username")}
-                    required
-                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                    className="disabled:bg-slate-100 w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
                   />
                 </div>
                 <div>
@@ -126,7 +111,7 @@ export default function EditUser({ userId }: { userId: string }) {
                     id="email"
                     {...register("email")}
                     required
-                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                    className="disabled:bg-slate-100 w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
                   />
                 </div>
                 <div>

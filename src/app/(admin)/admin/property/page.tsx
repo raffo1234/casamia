@@ -3,6 +3,7 @@ import HeaderTitle from "@/components/HeaderTitle";
 import Title from "@/components/Title";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
+import { Suspense } from "react";
 
 export default async function Page() {
   const session = await auth();
@@ -21,7 +22,9 @@ export default async function Page() {
       <HeaderTitle>
         <Title>Inmuebles</Title>
       </HeaderTitle>
-      <AdminPropertiesList userId={userId} userRoleId={user?.role_id} />
+      <Suspense>
+        <AdminPropertiesList userId={userId} userRoleId={user?.role_id} />
+      </Suspense>
     </>
   );
 }

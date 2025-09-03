@@ -13,6 +13,7 @@ import { PropertyType } from "@/types/propertyType";
 import { getFormattedPrice } from "@/lib/getFormattedPrice";
 import Link from "next/link";
 import New from "./New";
+import { Suspense } from "react";
 
 export default function Property({
   property,
@@ -140,7 +141,7 @@ export default function Property({
                       </div>
                     </div>
                   ) : (
-                    phase
+                    <>{phase}</>
                   )}
                 </div>
               </div>
@@ -148,13 +149,17 @@ export default function Property({
           </div>
           <div className="relative lg:w-1/2">
             <div className="absolute top-3 left-3 md:left-15 z-10">
-              <Like size={24} propertyId={id} userEmail={userEmail} />
+              <Suspense>
+                <Like size={24} propertyId={id} userEmail={userEmail} />
+              </Suspense>
             </div>
-            <PropertyImages
-              propertyTitle={title}
-              propertyId={id}
-              propertySlug={slug}
-            />
+            <Suspense>
+              <PropertyImages
+                propertyTitle={title}
+                propertyId={id}
+                propertySlug={slug}
+              />
+            </Suspense>
           </div>
         </div>
         {property.description ? (
@@ -165,7 +170,9 @@ export default function Property({
             </p>
           </div>
         ) : null}
-        <Typologies propertyId={property.id} />
+        <Suspense>
+          <Typologies propertyId={property.id} />
+        </Suspense>
       </div>
     </>
   );
