@@ -5,6 +5,8 @@ import { PropertyType } from "@/types/propertyState";
 import { useRef, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import TransactionTypes from "./TransactionTypes";
+import { TransactionType } from "@/types/TransactionType";
 type Inputs = {
   type: string;
   keywords: string;
@@ -15,11 +17,21 @@ export default function SearchForm() {
   const router = useRouter();
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
-  const [typeInput, setTypeInput] = useState<string>(
-    params.category === PropertyType.HOUSE.toLowerCase()
+
+  const [propertyType, setPropertyType] = useState<PropertyType>(
+    (params.category as string)?.toLowerCase() ===
+      PropertyType.HOUSE.toLowerCase()
       ? PropertyType.HOUSE
       : PropertyType.APARTMENT
   );
+
+  const [transactionType, setTransactionType] = useState<TransactionType>(
+    (params.transaction as string)?.toLowerCase() ===
+      TransactionType.ALQUILER.toLowerCase()
+      ? TransactionType.ALQUILER
+      : TransactionType.VENTA
+  );
+
   const decodedSearchWord = params.searchWord
     ? decodeURIComponent(params.searchWord as string)
     : undefined;
@@ -33,23 +45,25 @@ export default function SearchForm() {
   const { ref, ...rest } = register("keywords");
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
-    const propertyType = typeInput.toLowerCase();
     const trimmedSearchWord = formData.keywords
       ? formData.keywords.trim()
       : formData.keywords;
     let path: string;
 
+    const property = propertyType.toLowerCase();
+    const transaction = transactionType.toLowerCase();
+
     if (formData.keywords) {
       const encodedSearchWord = encodeURIComponent(trimmedSearchWord);
-      path = `/${propertyType}/buscar/${encodedSearchWord}`;
+      path = `/${property}/${transaction}/buscar/${encodedSearchWord}`;
     } else {
-      path = `/${propertyType}`;
+      path = `/${property}/${transaction}`;
     }
     router.push(path);
   };
 
-  const handleOnClick = (type: PropertyType) => {
-    setTypeInput(type);
+  const handlePropertyTypeClick = (type: PropertyType) => {
+    setPropertyType(type);
     setIsOpen(false);
     inputRef.current?.focus();
   };
@@ -59,6 +73,10 @@ export default function SearchForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="mb-20 w-full max-w-[600px] mx-auto relative z-10"
     >
+      <TransactionTypes
+        selectedType={transactionType}
+        onSelect={setTransactionType}
+      />
       <div className="w-full hover:bg-white hover:border-yellow-400 focus-within:bg-white focus-within:border-yellow-300 border-2 transition-colors duration-500 border-gray-100 flex items-center bg-gray-100 rounded-full p-1 gap-3">
         <div
           onMouseEnter={() => setIsOpen(true)}
@@ -70,7 +88,7 @@ export default function SearchForm() {
             className="h-[52px] pl-6 pr-3 bg-black text-white rounded-full flex items-center gap-1"
           >
             <span>
-              {typeInput === PropertyType.APARTMENT ? "Depas" : "Casas"}
+              {propertyType === PropertyType.APARTMENT ? "Depas" : "Casas"}
             </span>
             <div className="w-6">
               <svg
@@ -99,13 +117,13 @@ export default function SearchForm() {
             <div className="bg-white shadow-md rounded-[30px] p-2 flex flex-col">
               <button
                 type="button"
-                onClick={() => handleOnClick(PropertyType.APARTMENT)}
+                onClick={() => handlePropertyTypeClick(PropertyType.APARTMENT)}
                 className="w-full text-left px-5 py-3 hover:bg-slate-100 rounded-full"
               >
                 Depas
               </button>
               <button
-                onClick={() => handleOnClick(PropertyType.HOUSE)}
+                onClick={() => handlePropertyTypeClick(PropertyType.HOUSE)}
                 type="button"
                 className="w-full text-left px-5 py-3 hover:bg-slate-100 rounded-full"
               >
@@ -123,7 +141,7 @@ export default function SearchForm() {
             }}
             type="search"
             className="w-full font-light flex-grow placeholder:text-gray-400 border-transparent border-2 focus:outline-none py-3 bg-transparent"
-            placeholder={`Buscar ${typeInput.toLowerCase()}. Ejemplo: San Isidro`}
+            placeholder={`Buscar ${propertyType.toLowerCase()}. Ejemplo: San Isidro`}
           />
         </div>
         <button

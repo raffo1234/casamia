@@ -23,6 +23,7 @@ import FormSectionTitle from "./FormSectionTitle";
 import FormInputLabel from "./FormInputLabel";
 import MonthPicker from "./MonthPicker";
 import { CurrencyCode } from "@/enums/currencyCodes";
+import { TransactionType } from "@/types/TransactionType";
 
 type Inputs = {
   title: string;
@@ -39,6 +40,7 @@ type Inputs = {
   price: string;
   created_at: string;
   delivery_at: string;
+  transaction_type: TransactionType;
   currency: string;
   property_image?: {
     image_url: string;
@@ -273,6 +275,56 @@ export default function EditPropertyInformation({
                         className="block"
                       />
                       <span>Publicado</span>
+                    </span>
+                  </label>
+                </div>
+              </fieldset>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Transaci&oacute;n</FormSectionTitle>
+              <fieldset className="flex items-center gap-4 w-full">
+                <div className="w-1/2">
+                  <input
+                    {...register("transaction_type")}
+                    type="radio"
+                    id="venta"
+                    value={TransactionType.VENTA}
+                    className="peer hidden"
+                    defaultChecked
+                  />
+                  <label
+                    htmlFor="venta"
+                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
+                  >
+                    <span className="flex items-center flex-col gap-1">
+                      <Icon
+                        icon="solar:document-add-broken"
+                        fontSize={24}
+                        className="block"
+                      />
+                      <span>Venta</span>
+                    </span>
+                  </label>
+                </div>
+                <div className="w-1/2">
+                  <input
+                    {...register("transaction_type")}
+                    value={TransactionType.ALQUILER}
+                    type="radio"
+                    id="alquiler"
+                    className="peer hidden"
+                  />
+                  <label
+                    htmlFor="alquiler"
+                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
+                  >
+                    <span className="flex items-center flex-col gap-1">
+                      <Icon
+                        icon="solar:checklist-minimalistic-broken"
+                        fontSize={24}
+                        className="block"
+                      />
+                      <span>Alquiler</span>
                     </span>
                   </label>
                 </div>

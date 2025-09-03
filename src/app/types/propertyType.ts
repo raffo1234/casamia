@@ -1,4 +1,5 @@
 import { CompanyType } from "./companyType";
+import { TransactionType } from "./TransactionType";
 import { UserType } from "./userType";
 
 type Typology = {
@@ -33,4 +34,6 @@ export type PropertyType = {
   user?: UserType;
   company?: CompanyType;
   typologies?: Typology[];
+  transaction_type: TransactionType;
+  created_at: string;
 };

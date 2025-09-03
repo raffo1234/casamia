@@ -22,32 +22,35 @@ const columnsToSearch = [
   "size",
   "bathroom_count",
   "bedroom_count",
+  "transaction_type",
 ];
 
-const fetcher = async (searchTerms: string, category: string) => {
+const fetcher = async (
+  searchTerms: string,
+  category: string,
+  transactionType: string
+) => {
   const orConditions = columnsToSearch
     .map((column) => `${column}.ilike.%${searchTerms}%`)
     .join(",");
 
   const propertyType = category.toLowerCase().toUpperCase();
+  const transaction = transactionType.toLowerCase();
 
-  const { data } = searchTerms
-    ? ((await supabase
-        .from("property")
-        .select(propertyQuery)
-        .eq("state", PropertyState.ACTIVE)
-        .eq("type", propertyType)
-        .or(orConditions)
-        .order("created_at", { ascending: false })
-        .limit(4)) as { data: PropertyTypeDb[] | null })
-    : ((await supabase
-        .from("property")
-        .select(propertyQuery)
-        .eq("type", propertyType)
-        .eq("state", PropertyState.ACTIVE)
-        .order("created_at", { ascending: false })
-        .limit(4)) as { data: PropertyTypeDb[] | null });
+  let query = supabase
+    .from("property")
+    .select(propertyQuery)
+    .eq("state", PropertyState.ACTIVE)
+    .eq("type", propertyType)
+    .eq("transaction_type", transaction)
+    .order("created_at", { ascending: false })
+    .limit(4);
 
+  if (searchTerms) {
+    query = query.or(orConditions);
+  }
+
+  const { data } = (await query) as { data: PropertyTypeDb[] | null };
   return data;
 };
 
@@ -63,9 +66,11 @@ export default function PropertiesResult({
     : searchTerms;
   const category = params.category as string;
 
+  const transactionType = params.transaction as string;
+
   const { data: properties = [], isLoading } = useSWR(
-    `${userEmail}-${searchTerms}-${category}-result-properties-first-ones`,
-    () => fetcher(decodedSearchWord, category as string)
+    `${userEmail}-${searchTerms}-${category}-${transactionType}-result-properties-first-ones`,
+    () => fetcher(decodedSearchWord, category as string, transactionType)
   );
 
   if (isLoading)
