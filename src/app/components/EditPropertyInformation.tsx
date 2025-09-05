@@ -2,7 +2,7 @@
 
 import TextareaAutosize from "react-textarea-autosize";
 import { NumericFormat } from "react-number-format";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
@@ -24,6 +24,9 @@ import FormInputLabel from "./FormInputLabel";
 import MonthPicker from "./MonthPicker";
 import { CurrencyCode } from "@/enums/currencyCodes";
 import { TransactionType } from "@/types/TransactionType";
+import FormFooter from "./FormFooter";
+import SecondaryButton from "./SecondaryButton";
+import PrimaryButton from "./PrimaryButton";
 
 type Inputs = {
   title: string;
@@ -74,6 +77,8 @@ export default function EditPropertyInformation({
   id: string;
   userId: string;
 }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { data: companies } = useSWR(`${userId}-companies`, () =>
     fetcherCompany(userId)
   );
@@ -101,7 +106,9 @@ export default function EditPropertyInformation({
       newSlug = await generateUniqueSlug("property", data.title, property.id);
     }
 
+    setIsSubmitting(true);
     const { property_image, ...rest } = data;
+
     try {
       const updatePayload = { ...rest };
       if (newSlug) {
@@ -121,6 +128,7 @@ export default function EditPropertyInformation({
       console.error(err);
       console.error({ property_image });
     } finally {
+      setIsSubmitting(false);
       redirect("/admin/property");
     }
   };
@@ -614,20 +622,14 @@ export default function EditPropertyInformation({
                 </fieldset>
               </div>
             </FormSection>
-            <footer className="justify-end flex items-center gap-2">
-              <Link
-                href={`/admin/property`}
-                className="font-semibold disabled:border-gray-100 disabled:bg-gray-100 inline-block py-3 px-10 bg-white text-sm border border-gray-100 rounded-lg transition-colors hover:border-gray-200 duration-500 active:border-gray-300"
-              >
+            <FormFooter>
+              <SecondaryButton href={`/admin/property`}>
                 Cancelar
-              </Link>
-              <button
-                type="submit"
-                className="text-white font-semibold disabled:border-gray-100 disabled:bg-gray-100 inline-block py-3 px-10 text-sm bg-cyan-500 hover:bg-cyan-400 transition-colors duration-500 rounded-lg"
-              >
+              </SecondaryButton>
+              <PrimaryButton isLoading={isSubmitting} label="Guardar">
                 Guardar
-              </button>
-            </footer>
+              </PrimaryButton>
+            </FormFooter>
           </div>
         </div>
       </form>

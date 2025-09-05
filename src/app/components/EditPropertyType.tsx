@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
@@ -20,6 +20,9 @@ import FormInputLabel from "./FormInputLabel";
 import { NumericFormat } from "react-number-format";
 import { CurrencyCode } from "@/enums/currencyCodes";
 import { generateUniqueSlug } from "@/lib/supabase/generateUniqueSlug";
+import PrimaryButton from "./PrimaryButton";
+import SecondaryButton from "./SecondaryButton";
+import FormFooter from "./FormFooter";
 
 type Inputs = {
   size: string;
@@ -54,6 +57,7 @@ export default function EditPropertyType({
   propertyId: string;
   typologyId: string;
 }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     data: typology,
     error,
@@ -73,8 +77,10 @@ export default function EditPropertyType({
       data.name,
       typology.id
     );
-    
+
     const { typology_image, ...rest } = data;
+    setIsSubmitting(true);
+
     try {
       const updatePayload = { ...rest, slug: newSlug };
 
@@ -84,11 +90,11 @@ export default function EditPropertyType({
         .eq("id", typologyId);
 
       await mutate(typologyId);
-      toast.success("Updated successfully");
+      toast.success("Guardado correctamente!");
     } catch (error) {
       console.error(error);
-      console.error({ typology_image });
     } finally {
+      setIsSubmitting(false);
       redirect(`/admin/property/edit/${propertyId}/typologies`);
     }
   };
@@ -279,12 +285,16 @@ export default function EditPropertyType({
               />
             </fieldset>
           </FormSection>
-          <footer className="flex items-center gap-2 pt-4 mt-4 justify-end">
-            <Link href={`/admin/property/edit/${propertyId}/typologies`}>
-              Cancel
-            </Link>
-            <button type="submit">Guardar</button>
-          </footer>
+          <FormFooter>
+            <SecondaryButton
+              href={`/admin/property/edit/${propertyId}/typologies`}
+            >
+              Cancelar
+            </SecondaryButton>
+            <PrimaryButton isLoading={isSubmitting} label="Guardar">
+              Guardar
+            </PrimaryButton>
+          </FormFooter>
         </div>
       </form>
     </>

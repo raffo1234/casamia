@@ -30,6 +30,8 @@ export default async function Page({ params }: { params: Params }) {
       </div>
       <Suspense>
         <PropertyAdminTabs />
+      </Suspense>
+      <Suspense>
         <EditPropertyInformation id={id} userId={user?.id} />
       </Suspense>
     </>
