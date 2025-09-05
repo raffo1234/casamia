@@ -165,7 +165,7 @@ export default function Property({
         {property.description ? (
           <div className="pt-20">
             <h3 className="mb-6 text-sm text-slate-700">Conoce m&aacute;s</h3>
-            <p className="whitespace-pre-line text-3xl font-light leading-relaxed">
+            <p className="whitespace-pre-line sm:text-2xl lg:text-3xl font-light leading-relaxed">
               {property.description}
             </p>
           </div>

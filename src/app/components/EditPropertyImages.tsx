@@ -8,6 +8,7 @@ import PropertyAdminTabs from "./PropertyAdminTabs";
 import Title from "./Title";
 import HeaderTitle from "./HeaderTitle";
 import BackLink from "./BackLink";
+import { Suspense } from "react";
 
 async function fetcher(id: string) {
   const { data, error } = await supabase
@@ -47,7 +48,9 @@ export default function EditPropertyImages({
         <Title>Imagenes</Title>
         <BackLink href={`/admin/property/edit/${propertyId}`} />
       </HeaderTitle>
-      <PropertyAdminTabs />
+      <Suspense>
+        <PropertyAdminTabs />
+      </Suspense>
       <div className="flex p-7 mb-6 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
         <h2 className="font-semibold text-xl">
           Subir Imágenes <br />{" "}
