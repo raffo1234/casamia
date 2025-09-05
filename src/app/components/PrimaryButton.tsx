@@ -1,23 +1,29 @@
+import Link from "next/link";
 import Spinner from "./Spinner";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: React.ReactNode;
+  title: string;
   isLoading?: boolean;
+  href?: string;
 }
 
 export default function PrimaryButton({
-  label,
+  title,
   isLoading = false,
+  href,
   ...props
 }: Props) {
-  return (
-    <button
-      disabled={isLoading}
-      className="relative animate-opacity text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-      {...props}
-    >
+  const className =
+    "w-fit relative animate-opacity text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700";
+
+  return href ? (
+    <Link href={href} className={className}>
+      {title}
+    </Link>
+  ) : (
+    <button disabled={isLoading} className={className} {...props}>
       <span className={`${isLoading ? "opacity-0" : "opacity-100"}`}>
-        {label}
+        {title}
       </span>
       <span
         className={`${isLoading ? "opacity-100" : "opacity-0"} text-slate-300 absolute flex justify-center items-center left-0 top-0 w-full h-full`}

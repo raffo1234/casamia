@@ -8,6 +8,8 @@ import { Suspense } from "react";
 import Home from "@/components/Home";
 import { PropertyType } from "@/types/propertyType";
 import HomePage from "@/components/HomePage";
+import PrimaryButton from "@/components/PrimaryButton";
+import NoItems from "@/components/NoItems";
 
 export default async function Index() {
   const session = await auth();
@@ -33,14 +35,18 @@ export default async function Index() {
       <Suspense>
         <SearchForm />
       </Suspense>
-      <PropertiesGrid>
-        <Suspense>
-          <Home properties={properties} userEmail={userEmail} />
-        </Suspense>
-        <Suspense>
-          <HomePage userEmail={userEmail} />
-        </Suspense>
-      </PropertiesGrid>
+      {properties && properties.length < 0 ? (
+        <PropertiesGrid>
+          <Suspense>
+            <Home properties={properties} userEmail={userEmail} />
+          </Suspense>
+          <Suspense>
+            <HomePage userEmail={userEmail} />
+          </Suspense>
+        </PropertiesGrid>
+      ) : (
+        <NoItems />
+      )}
     </>
   );
 }
