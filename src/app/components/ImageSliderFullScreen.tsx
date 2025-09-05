@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useMemo, useState, useRef } from "react";
+import { useCallback, useMemo, useState, useRef } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { parseAsInteger, useQueryState } from "nuqs";
@@ -49,11 +49,18 @@ const ImageSliderFullScreen = ({
         if (e.key === "ArrowRight") goToNextImage();
         if (e.key === "Escape") onClose();
       }}
-      onTouchStart={(e) => setTouchStart(e.touches[0].clientX)}
+      onTouchStart={(e) => {
+        if (e.touches.length === 1) {
+          setTouchStart(e.touches[0].clientX);
+        }
+      }}
       onTouchEnd={(e) => {
-        const swipeDistance = e.changedTouches[0].clientX - touchStart;
-        if (swipeDistance > 50) goToPreviousImage();
-        if (swipeDistance < -50) goToNextImage();
+        if (e.changedTouches.length === 1 && touchStart !== 0) {
+          const swipeDistance = e.changedTouches[0].clientX - touchStart;
+          if (swipeDistance > 50) goToPreviousImage();
+          if (swipeDistance < -50) goToNextImage();
+        }
+        setTouchStart(0);
       }}
       onWheel={(e) => {
         e.preventDefault();

@@ -66,11 +66,18 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
             if (e.key === "ArrowRight") goToNextImage();
             if (e.key === "Escape") router.back();
           }}
-          onTouchStart={(e) => setTouchStart(e.touches[0].clientX)}
+          onTouchStart={(e) => {
+            if (e.touches.length === 1) {
+              setTouchStart(e.touches[0].clientX);
+            }
+          }}
           onTouchEnd={(e) => {
-            const swipeDistance = e.changedTouches[0].clientX - touchStart;
-            if (swipeDistance > 50) goToPreviousImage();
-            if (swipeDistance < -50) goToNextImage();
+            if (e.changedTouches.length === 1 && touchStart !== 0) {
+              const swipeDistance = e.changedTouches[0].clientX - touchStart;
+              if (swipeDistance > 50) goToPreviousImage();
+              if (swipeDistance < -50) goToNextImage();
+            }
+            setTouchStart(0);
           }}
           className="w-full relative focus:outline-none"
         >
