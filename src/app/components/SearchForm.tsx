@@ -14,6 +14,7 @@ type Inputs = {
 
 export default function SearchForm() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -99,9 +100,7 @@ export default function SearchForm() {
     [propertyType, transactionType, router]
   );
 
-  // Use useEffect to trigger navigation when transactionType changes
   useEffect(() => {
-    // Only submit if a transaction type has been selected
     if (transactionType) {
       handleSubmit(onSubmit)();
     }
@@ -121,6 +120,25 @@ export default function SearchForm() {
     setIsOpen((prev) => !prev);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -131,7 +149,7 @@ export default function SearchForm() {
         onSelect={handleTransactionSelect}
       />
       <div className="w-full hover:bg-white hover:border-yellow-400 focus-within:bg-white focus-within:border-yellow-300 border-2 transition-colors duration-500 border-gray-100 flex items-center bg-gray-100 rounded-full p-1 gap-3">
-        <div className="relative group">
+        <div ref={dropdownRef} className="relative group">
           <button
             type="button"
             className="h-[52px] pl-6 pr-3 bg-black text-white rounded-full flex items-center gap-1"
