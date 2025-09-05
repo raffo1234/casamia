@@ -150,7 +150,7 @@ export default function Property({
           <div className="relative lg:w-1/2">
             <div className="absolute top-3 left-3 md:left-15 z-10">
               <Suspense>
-                <Like size={24} propertyId={id} userEmail={userEmail} />
+                <Like size={29} propertyId={id} userEmail={userEmail} />
               </Suspense>
             </div>
             <Suspense>

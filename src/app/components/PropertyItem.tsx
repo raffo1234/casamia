@@ -26,7 +26,7 @@ export default function PropertyItem({
         </Link>
         <div className="md:opacity-0 group-hover:opacity-100 duration-300 transition-all sm:invisible group-hover:visible absolute left-0 top-0 p-3">
           <Suspense>
-            <Like propertyId={id} userEmail={userEmail} />
+            <Like size={20} propertyId={id} userEmail={userEmail} />
           </Suspense>
         </div>
       </div>
@@ -39,11 +39,11 @@ export default function PropertyItem({
           >
             <Image
               src={company.logo_url}
-              className="object-cover rounded-full bg-gray-100"
+              className="w-15 h-15 sm:w-13 sm:h-13 object-cover rounded-full bg-gray-100"
               alt={company.name}
               title={company.name}
-              width={50}
-              height={50}
+              width={52}
+              height={52}
             />
           </Link>
         ) : user ? (
@@ -54,11 +54,11 @@ export default function PropertyItem({
           >
             <Image
               src={user?.image_url}
-              className="object-cover rounded-full bg-gray-100"
+              className="w-15 h-15 sm:w-13 sm:h-13 object-cover rounded-full bg-gray-100"
               alt={user?.name}
               title={user?.name}
-              width={50}
-              height={50}
+              width={52}
+              height={52}
             />
           </Link>
         ) : null}
@@ -73,6 +73,7 @@ export default function PropertyItem({
             </Link>
             <Suspense>
               <Like
+                size={20}
                 propertyId={id}
                 userEmail={userEmail}
                 hasCounter

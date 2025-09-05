@@ -123,7 +123,7 @@ export default function Like({
     if (userEmail) {
       mutateByUser();
     }
-  }, [isLoadingUser]);
+  }, [isLoadingUser, mutateByUser, userEmail]);
 
   if (isLoadingUser || isLoadingByUser || isLoadingByProperty) return null;
 
@@ -219,7 +219,9 @@ export default function Like({
         )}
       </span>
       {hasCounter ? (
-        <span className="block text-xs min-w-2">{countByProperty}</span>
+        <span className="block text-sm md:text-xs min-w-2">
+          {countByProperty}
+        </span>
       ) : null}
     </button>
   );
