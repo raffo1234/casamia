@@ -10,6 +10,7 @@ import Home from "./Home";
 import ResultPage from "./ResultPage";
 import { useParams } from "next/navigation";
 import { propertyQuery } from "@/queries/property";
+import NoItems from "./NoItems";
 
 const columnsToSearch = [
   "title",
@@ -85,7 +86,7 @@ export default function PropertiesResult({
       </PropertiesGrid>
     );
 
-  return (
+  return properties && properties.length > 0 ? (
     <PropertiesGrid>
       <Suspense>
         <Home properties={properties} userEmail={userEmail} />
@@ -94,5 +95,7 @@ export default function PropertiesResult({
         <ResultPage userEmail={userEmail} />
       </Suspense>
     </PropertiesGrid>
+  ) : (
+    <NoItems />
   );
 }

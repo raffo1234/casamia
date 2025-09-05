@@ -11,6 +11,7 @@ import PropertiesGrid from "@/components/PropertiesGrid";
 import Home from "@/components/Home";
 import CompanyPage from "@/components/CompanyPage";
 import Link from "next/link";
+import NoItems from "@/components/NoItems";
 
 type Params = Promise<{ slug: string[] }>;
 
@@ -71,14 +72,18 @@ export default async function Page({ params }: { params: Params }) {
         </div>
         <p className="text-lg mb-30">{company?.description}</p>
       </div>
-      <PropertiesGrid>
-        <Suspense>
-          <Home properties={properties} userEmail={userEmail} />
-        </Suspense>
-        <Suspense>
-          <CompanyPage companyId={company?.id} userEmail={userEmail} />
-        </Suspense>
-      </PropertiesGrid>
+      {properties && properties.length > 0 ? (
+        <PropertiesGrid>
+          <Suspense>
+            <Home properties={properties} userEmail={userEmail} />
+          </Suspense>
+          <Suspense>
+            <CompanyPage companyId={company?.id} userEmail={userEmail} />
+          </Suspense>
+        </PropertiesGrid>
+      ) : (
+        <NoItems />
+      )}
     </>
   );
 }

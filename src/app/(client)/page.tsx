@@ -35,7 +35,7 @@ export default async function Index() {
       <Suspense>
         <SearchForm />
       </Suspense>
-      {properties && properties.length < 0 ? (
+      {properties && properties.length > 0 ? (
         <PropertiesGrid>
           <Suspense>
             <Home properties={properties} userEmail={userEmail} />

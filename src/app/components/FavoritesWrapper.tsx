@@ -6,6 +6,7 @@ import { Suspense, use } from "react";
 import PropertiesGrid from "./PropertiesGrid";
 import Home from "./Home";
 import FavoritePage from "./FavoritePage";
+import NoItems from "./NoItems";
 
 export default function FavoritesWrapper({
   userId,
@@ -26,7 +27,7 @@ export default function FavoritesWrapper({
     data: { property: PropertyType }[] | null;
     error: Error | null;
   };
-  console.log(rawLikes)
+
   if (error) {
     throw new Error(
       `Failed to fetch initial liked properties: ${
@@ -44,7 +45,7 @@ export default function FavoritesWrapper({
         .map((likeItem) => likeItem.property)
     : null;
 
-  return (
+  return properties && properties.length > 0 ? (
     <PropertiesGrid>
       <Suspense>
         <Home properties={properties} userEmail={userEmail} />
@@ -53,5 +54,7 @@ export default function FavoritesWrapper({
         <FavoritePage userId={userId} userEmail={userEmail} />
       </Suspense>
     </PropertiesGrid>
+  ) : (
+    <NoItems />
   );
 }
