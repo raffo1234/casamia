@@ -7,7 +7,7 @@ export default function GoogleLoginButton() {
     <button
       type="submit"
       onClick={() => signIn("google")}
-      className="max-w-[400px] flex w-full text-sm px-3 gap-3 cursor-pointer hover:border-blue-200 hover:bg-slate-100  py-2 items-center transition-colors duration-300 rounded-full border border-gray-300"
+      className="flex w-full text-sm px-3 gap-3 cursor-pointer hover:border-blue-200 hover:bg-slate-100  py-2 items-center transition-colors duration-300 rounded-full border border-gray-300"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,8 @@ export default function GoogleLoginButton() {
           d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
         />
       </svg>
-      <span className="flex-1">Continuar con Google</span>
+      <span className="flex-1 hidden sm:block">Continuar con Google</span>
+      <span className="flex-1 sm:hidden">Login</span>
     </button>
   );
 }

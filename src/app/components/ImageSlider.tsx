@@ -86,7 +86,6 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
               height={300}
             />
           </Link>
-
           {multipleImages && (
             <div className="w-full items-center flex gap-3 flex-wrap justify-center absolute bottom-3 left-0 right-0">
               {images.map((image) => (
