@@ -16,7 +16,7 @@ async function fetcher(id: string) {
     .select(
       `
       *,
-      property_image!inner (
+      typology_image!inner (
         id,
         image_url,
         sort_order

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import ImageSliderFullScreen from "./ImageSliderFullScreen";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SortableImageEdition } from "./SortableImageEdition";
@@ -171,7 +171,9 @@ export default function ImagesEdition({
         </SortableContext>
       </DndContext>
       {isOpen ? (
-        <ImageSliderFullScreen images={imagesToSlider} onClose={closeModal} />
+        <Suspense>
+          <ImageSliderFullScreen images={imagesToSlider} onClose={closeModal} />
+        </Suspense>
       ) : null}
     </>
   );

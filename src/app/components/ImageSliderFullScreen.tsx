@@ -40,12 +40,6 @@ const ImageSliderFullScreen = ({
     [images, currentImageIndex]
   );
 
-  useEffect(() => {
-    containerRef.current?.focus();
-    document.body.classList.add("overflow-hidden");
-    return () => document.body.classList.remove("overflow-hidden");
-  }, []);
-
   return (
     <div
       ref={containerRef}
@@ -66,7 +60,7 @@ const ImageSliderFullScreen = ({
         if (e.deltaY > 0) goToNextImage();
         if (e.deltaY < 0) goToPreviousImage();
       }}
-      className="fixed animate-fade-in top-0 left-0 bg-black px-2 md:px-12 h-full w-full z-[51] outline-none"
+      className="fixed top-0 left-0 bg-black px-2 md:px-12 h-full w-full z-[51] outline-none"
     >
       {multipleImages && (
         <>
@@ -107,7 +101,7 @@ const ImageSliderFullScreen = ({
           <Image
             src={currentImage.src}
             alt={currentImage.propertyTitle}
-            className="h-full w-full object-contain"
+            className="h-full animate-fade-in w-full object-contain"
             width={400}
             height={300}
           />
@@ -138,7 +132,6 @@ const ImageSliderFullScreen = ({
           )}
         </div>
       )}
-
       <div className="absolute z-20 flex items-center top-3 right-3 rounded-[50px]">
         <div className="flex items-center text-lg h-13 px-4 mr-2 bg-white text-slate-600 bg-opacity-20 rounded-full">
           {currentImageIndex + 1}&nbsp;/&nbsp;{images.length}

@@ -42,15 +42,15 @@ export default function ImageEdition({
 
   return (
     <>
-      <article key={id} className="relative">
-        <button onClick={openModal} className="relative">
+      <article key={id} className="relative animate-fade-in">
+        <button onClick={openModal} className="relative w-full aspect-[5/4]">
           <Image
             key={image_url}
             src={image_url}
             alt={id}
             className="w-full aspect-[5/4] object-cover rounded-xl bg-gray-100"
-            width={400}
-            height={300}
+            width={500}
+            height={400}
           />
           {isCover ? (
             <span
