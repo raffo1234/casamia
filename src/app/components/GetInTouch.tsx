@@ -89,7 +89,7 @@ export default function GetInTouch({
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
-    mode: "onBlur",
+    mode: "onChange",
     resolver: zodResolver(formSchema),
   });
 
