@@ -7,6 +7,7 @@ import { PropertyState } from "@/types/propertyState";
 import { supabase } from "@/lib/supabase";
 import { PropertyType } from "@/types/propertyType";
 import { useParams, useRouter } from "next/navigation";
+import RelatedProperties from "./RelatedProperties";
 
 const fetcher = async (propertySlug: string) => {
   const { data } = (await supabase
@@ -112,6 +113,14 @@ export default function PropertyPreview({
           <Suspense>
             <Property property={property} userEmail={userEmail} />
           </Suspense>
+          {property?.id ? (
+            <Suspense>
+              <RelatedProperties
+                propertyId={property.id}
+                userEmail={userEmail}
+              />
+            </Suspense>
+          ) : null}
         </div>
       </div>
       <button

@@ -1,4 +1,5 @@
 import Property from "@/components/Property";
+import RelatedProperties from "@/components/RelatedProperties";
 import { auth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 import { PropertyType } from "@/types/propertyType";
@@ -69,8 +70,13 @@ export default async function Page({ params }: { params: Params }) {
   }
 
   return (
-    <Suspense>
-      <Property property={property} userEmail={userEmail} />;
-    </Suspense>
+    <>
+      <Suspense>
+        <Property property={property} userEmail={userEmail} />
+      </Suspense>
+      <Suspense>
+        <RelatedProperties propertyId={property.id} userEmail={userEmail} />
+      </Suspense>
+    </>
   );
 }
