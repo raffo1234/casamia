@@ -12,6 +12,7 @@ export default function PropertiesList({
   swrKeyPage,
   fetcherPage,
   fetcherTotal,
+  initPage = 1,
 }: {
   userEmail: string | undefined | null;
   swrKeyTotal: string;
@@ -21,15 +22,15 @@ export default function PropertiesList({
     pageSize: number
   ) => Promise<PropertyType[] | null>;
   fetcherTotal: () => Promise<number>;
+  initPage?: number;
 }) {
-  const initPage = 1;
   const pageSize = 4;
   const [page, setPage] = useState(initPage);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const { data: total } = useSWR(swrKeyTotal, fetcherTotal);
   const totalPages = total ? Math.ceil((total - pageSize) / pageSize) : 0;
   const pages = [];
-  
+
   for (let i = initPage; i < page; i++) {
     pages.push(
       <PageComponent

@@ -26,7 +26,7 @@ export default function InfiniteScrollSentinel({
       },
       {
         root: null,
-        rootMargin: "50%",
+        rootMargin: "30%",
         threshold: 1.0,
       }
     );

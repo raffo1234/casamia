@@ -14,6 +14,7 @@ import { getFormattedPrice } from "@/lib/getFormattedPrice";
 import Link from "next/link";
 import New from "./New";
 import { Suspense } from "react";
+import RelatedProperties from "./RelatedProperties";
 
 export default function Property({
   property,
@@ -43,7 +44,7 @@ export default function Property({
   return (
     <>
       {company ? (
-        <div className="flex items-center justify-between w-full px-6 py-4 pr-20 lg:px-20 bg-slate-100 lg:rounded-t-3xl">
+        <div className="flex items-center justify-between w-full py-4 pr-20 bg-slate-100 lg:rounded-t-3xl">
           <div className="flex gap-3 items-center-safe">
             <span className="font-light">Por: </span>
             <Link
