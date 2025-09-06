@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import FormSkeleton from "./FormSkeleton";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 import Title from "./Title";
@@ -78,11 +77,10 @@ export default function EditPropertyType({
       typology.id
     );
 
-    const { typology_image, ...rest } = data;
     setIsSubmitting(true);
 
     try {
-      const updatePayload = { ...rest, slug: newSlug };
+      const updatePayload = { ...data, slug: newSlug };
 
       await supabase
         .from("typology")
@@ -115,7 +113,9 @@ export default function EditPropertyType({
           href={`/admin/property/edit/${propertyId}/typologies`}
         ></BackLink>
       </HeaderTitle>
-      <TypologyAdminTabs />
+      <Suspense>
+        <TypologyAdminTabs />
+      </Suspense>
       <form onSubmit={handleSubmit(onSubmit)} id="editProperty">
         <div className="flex flex-col gap-6">
           <FormSection>
@@ -291,7 +291,7 @@ export default function EditPropertyType({
             >
               Cancelar
             </SecondaryButton>
-            <PrimaryButton isLoading={isSubmitting} label="Guardar">
+            <PrimaryButton isLoading={isSubmitting} title="Guardar">
               Guardar
             </PrimaryButton>
           </FormFooter>

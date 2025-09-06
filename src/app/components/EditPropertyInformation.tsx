@@ -14,7 +14,6 @@ import {
 import FormSkeleton from "./FormSkeleton";
 import { Icon } from "@iconify/react";
 import { getAdminPropertiesUserKey } from "@/constants";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { generateUniqueSlug } from "@/lib/supabase/generateUniqueSlug";
 import toast from "react-hot-toast";
@@ -626,7 +625,7 @@ export default function EditPropertyInformation({
               <SecondaryButton href={`/admin/property`}>
                 Cancelar
               </SecondaryButton>
-              <PrimaryButton isLoading={isSubmitting} label="Guardar">
+              <PrimaryButton isLoading={isSubmitting} title="Guardar">
                 Guardar
               </PrimaryButton>
             </FormFooter>

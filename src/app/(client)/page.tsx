@@ -8,7 +8,6 @@ import { Suspense } from "react";
 import Home from "@/components/Home";
 import { PropertyType } from "@/types/propertyType";
 import HomePage from "@/components/HomePage";
-import PrimaryButton from "@/components/PrimaryButton";
 import NoItems from "@/components/NoItems";
 
 export default async function Index() {

@@ -132,7 +132,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         type="button"
         disabled={uploading || !file}
         onClick={handleUpload}
-        label={uploading ? "Cargando..." : "Cargar Imagen"}
+        title={uploading ? "Cargando..." : "Cargar Imagen"}
       />
       {error && <p className="error-message">Error: {error}</p>}
       {message && <p className="success-message">Success: {message}</p>}

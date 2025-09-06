@@ -9,6 +9,7 @@ import HeaderTitle from "./HeaderTitle";
 import BackLink from "./BackLink";
 import { useParams } from "next/navigation";
 import TypologyAdminTabs from "./TypologyAdminTabs";
+import { Suspense } from "react";
 
 async function fetcher(id: string) {
   const { data, error } = await supabase
@@ -50,7 +51,9 @@ export default function EditTypologyImages() {
         <Title>Typologia Imagenes</Title>
         <BackLink href={`/admin/property/edit/${propertyId}/typologies`} />
       </HeaderTitle>
-      <TypologyAdminTabs />
+      <Suspense>
+        <TypologyAdminTabs />
+      </Suspense>
       <div className="flex p-7 flex-col gap-4">
         <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
           <h2 className="font-semibold text-xl">

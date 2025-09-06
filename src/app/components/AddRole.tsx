@@ -74,7 +74,7 @@ export default function AddRole() {
             </button>
             <PrimaryButton
               type="submit"
-              label="Agregar"
+              title="Agregar"
               isLoading={isLoading}
             />
           </div>
