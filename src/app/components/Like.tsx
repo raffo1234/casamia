@@ -137,7 +137,7 @@ export default function Like({
           ${hasPadding ? "p-2" : ""}
           ${
             hasBg ? "bg-black" : ""
-          } transition-opacity rounded-full duration-300 flex gap-1 items-center`}
+          } transition-opacity animate-fade-in rounded-full duration-300 flex gap-1 items-center`}
     >
       <span className="text-yellow-400">
         {isLiking ? (
