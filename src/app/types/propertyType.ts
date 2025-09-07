@@ -1,4 +1,5 @@
 import { CompanyType } from "./companyType";
+import { PropertyImageType } from "./PropertyImageType";
 import { TransactionType } from "./TransactionType";
 import { UserType } from "./userType";
 
@@ -26,11 +27,7 @@ export type PropertyType = {
   google_map?: string;
   location?: string;
   currency?: string;
-  property_image?: {
-    id: string;
-    image_url: string;
-    sort_order: number;
-  }[];
+  property_image?: PropertyImageType[];
   user?: UserType | null;
   company?: CompanyType | null;
   typologies?: Typology[];

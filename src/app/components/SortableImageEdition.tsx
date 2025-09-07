@@ -5,8 +5,8 @@ import ImageEdition from "./ImageEdition";
 interface ImageEditionProps {
   parentColumnValue: string;
   table: string;
-  openModal: () => void;
   isCover?: boolean;
+  buildHref: (index: number) => string;
 }
 
 interface SortableImageEditionProps extends ImageEditionProps {
@@ -15,10 +15,13 @@ interface SortableImageEditionProps extends ImageEditionProps {
     image_url: string;
     sort_order: number;
   };
+  imageIndex: number;
 }
 
 export function SortableImageEdition({
   image,
+  imageIndex,
+  buildHref,
   ...props
 }: SortableImageEditionProps) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -31,7 +34,12 @@ export function SortableImageEdition({
 
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
-      <ImageEdition image={image} dragHandleProps={listeners} {...props} />
+      <ImageEdition
+        image={image}
+        href={buildHref(imageIndex)}
+        dragHandleProps={listeners}
+        {...props}
+      />
     </div>
   );
 }

@@ -40,6 +40,10 @@ export default function EditPropertyImages({
     fetcher(propertyId)
   );
 
+  const buildHref = (index: number) => {
+    return `/admin/property/edit/${propertyId}/images/slider/?imagen=${index}`;
+  };
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
@@ -77,7 +81,7 @@ export default function EditPropertyImages({
             parentColumnKey="property_id"
             parentColumnValue={propertyId}
             table="property_image"
-            parentSlugValue={property.slug}
+            buildHref={buildHref}
           />
         </div>
       ) : null}

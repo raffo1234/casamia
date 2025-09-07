@@ -7,21 +7,22 @@ import { HTMLAttributes, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Link from "next/link";
 
 export default function ImageEdition({
   image,
   parentColumnValue,
   table,
-  openModal,
   isCover,
   dragHandleProps,
+  href,
 }: {
   image: { image_url: string; id: string };
   parentColumnValue: string;
   table: string;
-  openModal: () => void;
   isCover?: boolean;
   dragHandleProps?: HTMLAttributes<HTMLButtonElement>;
+  href: string;
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const { image_url, id } = image;
@@ -43,7 +44,10 @@ export default function ImageEdition({
   return (
     <>
       <article key={id} className="relative animate-fade-in">
-        <button onClick={openModal} className="relative w-full aspect-[5/4]">
+        <Link
+          href={href}
+          className="relative w-full aspect-[5/4]"
+        >
           <Image
             key={image_url}
             src={image_url}
@@ -61,7 +65,7 @@ export default function ImageEdition({
               Portada
             </span>
           ) : null}
-        </button>
+        </Link>
         <button
           {...dragHandleProps}
           className="cursor-grab absolute p-2 w-11 h-11 flex transition-colors duration-300 items-center justify-center top-1 right-1 rounded-full bg-white hover:bg-slate-100"

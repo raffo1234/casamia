@@ -41,6 +41,10 @@ export default function EditTypologyImages() {
     fetcher(typologyId)
   );
 
+  const buildHref = (index: number) => {
+    return `/admin/property/edit/${propertyId}/typologies/edit/${typologyId}/images/slider?imagen=${index}`;
+  };
+
   if (!typologyId || (!isLoading && !typology)) {
     return <div>Tipología no encontrada.</div>;
   }
@@ -84,7 +88,7 @@ export default function EditTypologyImages() {
                 parentColumnKey="typology_id"
                 parentColumnValue={typologyId}
                 table="typology_image"
-                parentSlugValue={typology.slug}
+                buildHref={buildHref}
               />
             )}
           </div>

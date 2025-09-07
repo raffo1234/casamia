@@ -1,8 +1,5 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
-import ImageSliderFullScreen from "./ImageSliderFullScreen";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SortableImageEdition } from "./SortableImageEdition";
 import useSWR from "swr";
 import { supabase } from "@/lib/supabase";
@@ -35,17 +32,13 @@ export default function ImagesEdition({
   parentColumnValue,
   table,
   parentColumnKey,
-  parentSlugValue,
+  buildHref,
 }: {
   parentColumnValue: string;
   table: string;
   parentColumnKey: string;
-  parentSlugValue: string;
+  buildHref: (index: number) => string;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   const { data: images, mutate } = useSWR<ImageRow[]>(
     [table, parentColumnValue],
     async () => {
@@ -59,37 +52,11 @@ export default function ImagesEdition({
     }
   );
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModal = (index: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("imagen", index.toString());
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("imagen");
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-    setIsOpen(false);
-  };
-
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, {
       activationConstraint: { delay: 120, tolerance: 8 },
     })
-  );
-
-  const imagesToSlider = useMemo(
-    () =>
-      (images ?? []).map((img) => ({
-        src: img.image_url,
-        propertySlug: parentSlugValue,
-        propertyTitle: parentSlugValue,
-      })),
-    [images, parentSlugValue]
   );
 
   const handleDragEnd = async (event: DragEndEvent) => {
@@ -163,18 +130,14 @@ export default function ImagesEdition({
                 image={image}
                 parentColumnValue={parentColumnValue}
                 table={table}
-                openModal={() => openModal(index)}
                 isCover={index === 0}
+                buildHref={buildHref}
+                imageIndex={index}
               />
             ))}
           </section>
         </SortableContext>
       </DndContext>
-      {isOpen ? (
-        <Suspense>
-          <ImageSliderFullScreen images={imagesToSlider} onClose={closeModal} />
-        </Suspense>
-      ) : null}
     </>
   );
 }
