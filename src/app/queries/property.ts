@@ -25,7 +25,7 @@ export const propertyQuery = `
 `;
 
 export const favoriteQuery = `
-  property(
+  property (
     id,
     slug,
     title,
@@ -36,14 +36,14 @@ export const favoriteQuery = `
       id,
       image_url
     ),
-    user!property_user_id_fkey (
+    user:user!property_user_id_fkey (
       id,
       name,
       email,
       image_url,
       slug
     ),
-    company!property_company_id_fkey (
+    company:company!property_company_id_fkey (
       id,
       name,
       slug,

@@ -68,7 +68,7 @@ const fetcherTotal = async (
   return count || 0;
 };
 
-export default function HomePage({
+export default function FavoritePage({
   userEmail,
   userId,
 }: {
@@ -83,10 +83,10 @@ export default function HomePage({
   return (
     <PropertiesList
       userEmail={userEmail}
-      swrKeyPage="liked-properties-page" // Change SWR keys to reflect "liked" properties
-      swrKeyTotal="liked-properties-total" // Change SWR keys
-      fetcherPage={getFetcherPageWithUser} // Pass the wrapped function
-      fetcherTotal={getFetcherTotalWithUser} // Pass the wrapped function
+      swrKeyPage="liked-properties-page"
+      swrKeyTotal="liked-properties-total"
+      fetcherPage={getFetcherPageWithUser}
+      fetcherTotal={getFetcherTotalWithUser}
     />
   );
 }

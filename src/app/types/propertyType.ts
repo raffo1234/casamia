@@ -31,8 +31,8 @@ export type PropertyType = {
     image_url: string;
     sort_order: number;
   }[];
-  user?: UserType;
-  company?: CompanyType;
+  user?: UserType | null;
+  company?: CompanyType | null;
   typologies?: Typology[];
   transaction_type: TransactionType;
   created_at: string;

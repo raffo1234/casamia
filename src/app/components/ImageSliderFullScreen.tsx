@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState, useRef } from "react";
+import { useCallback, useMemo, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { parseAsInteger, useQueryState } from "nuqs";
@@ -39,6 +39,16 @@ const ImageSliderFullScreen = ({
     () => images[currentImageIndex],
     [images, currentImageIndex]
   );
+
+  useEffect(() => {
+    if (multipleImages) {
+      const nextIndex = (currentImageIndex + 1) % images.length;
+      const prevIndex = (currentImageIndex - 1 + images.length) % images.length;
+
+      new window.Image().src = images[nextIndex].src;
+      new window.Image().src = images[prevIndex].src;
+    }
+  }, [currentImageIndex, images, multipleImages]);
 
   return (
     <div
@@ -116,21 +126,15 @@ const ImageSliderFullScreen = ({
           />
           {multipleImages && (
             <div className="w-full flex gap-3 justify-center absolute bottom-3 left-0 right-0">
-              {images.map((image) => (
+              {images.map((image, index) => (
                 <button
                   key={image.src}
-                  onClick={() => {
-                    const index = images.findIndex(
-                      (img) => img.src === image.src
-                    );
-                    setCurrentImageIndex(index);
-                  }}
+                  onClick={() => setCurrentImageIndex(index)}
                   className="relative w-3 h-3 cursor-pointer outline-0"
                 >
                   <div
                     className={`${
-                      currentImageIndex ===
-                      images.findIndex((img) => img.src === image.src)
+                      currentImageIndex === index
                         ? "bg-yellow-400 w-4 h-4"
                         : "bg-gray-300"
                     } absolute left-0.5 -translate-x-1/2 top-0.5 -translate-y-1/2 w-3 h-3 rounded-full transition-all duration-300`}

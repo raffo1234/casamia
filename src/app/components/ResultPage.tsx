@@ -24,7 +24,7 @@ const columnsToSearch = [
 const fetcherTotal = async (
   decodedSearchWord: string,
   propertyType: string,
-  transactionType?: string // Make the parameter optional
+  transactionType?: string
 ): Promise<number> => {
   const orConditions = columnsToSearch
     .map((column) => `${column}.ilike.%${decodedSearchWord}%`)
@@ -36,7 +36,6 @@ const fetcherTotal = async (
     .eq("state", PropertyState.ACTIVE)
     .eq("type", propertyType.toUpperCase());
 
-  // Conditionally add the transaction type filter
   if (transactionType) {
     supabaseQuery = supabaseQuery.eq(
       "transaction_type",
@@ -62,7 +61,7 @@ const fetcherPage = async (
   pageSize: number,
   decodedSearchWord: string,
   propertyType: string,
-  transactionType?: string // Make the parameter optional
+  transactionType?: string
 ) => {
   const orConditions = columnsToSearch
     .map((column) => `${column}.ilike.%${decodedSearchWord}%`)
@@ -74,7 +73,6 @@ const fetcherPage = async (
     .eq("state", PropertyState.ACTIVE)
     .eq("type", propertyType.toUpperCase());
 
-  // Conditionally add the transaction type filter
   if (transactionType) {
     queryBuilder = queryBuilder.eq(
       "transaction_type",

@@ -11,6 +11,8 @@ export default async function Page() {
     <>
       <Suspense>
         <SearchForm />
+      </Suspense>
+      <Suspense>
         <PropertiesResult userEmail={userEmail} />
       </Suspense>
     </>
