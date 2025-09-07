@@ -4,28 +4,14 @@ import useSWR from "swr";
 import AttachFiles from "./AttachFiles";
 import ImagesEdition from "./ImagesEdition";
 import { supabase } from "@/lib/supabase";
-import PropertyAdminTabs from "./PropertyAdminTabs";
-import Title from "./Title";
-import HeaderTitle from "./HeaderTitle";
-import BackLink from "./BackLink";
-import { Suspense } from "react";
+import GridAdminImages from "./GridAdminImages";
 
-async function fetcher(id: string) {
+async function fetcher(propertyId: string) {
   const { data, error } = await supabase
-    .from("property")
-    .select(
-      `
-      *,
-      property_image!inner (
-        id,
-        image_url,
-        sort_order
-      )
-    `
-    )
-    .eq("id", id)
-    .order("sort_order", { ascending: true, referencedTable: "property_image" })
-    .single();
+    .from("property_image")
+    .select("id, image_url, sort_order")
+    .eq("property_id", propertyId)
+    .order("sort_order", { ascending: true });
 
   if (error) throw error;
   return data;
@@ -36,7 +22,7 @@ export default function EditPropertyImages({
 }: {
   propertyId: string;
 }) {
-  const { data: property, isLoading } = useSWR(propertyId, () =>
+  const { data: images, isLoading } = useSWR([propertyId, "images"], () =>
     fetcher(propertyId)
   );
 
@@ -44,17 +30,8 @@ export default function EditPropertyImages({
     return `/admin/property/edit/${propertyId}/images/slider/?imagen=${index}`;
   };
 
-  if (isLoading) return <div>Loading...</div>;
-
   return (
     <>
-      <HeaderTitle>
-        <Title>Imagenes</Title>
-        <BackLink href={`/admin/property/edit/${propertyId}`} />
-      </HeaderTitle>
-      <Suspense>
-        <PropertyAdminTabs />
-      </Suspense>
       <div className="flex p-7 mb-6 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
         <h2 className="font-semibold text-xl">
           Subir Imágenes <br />{" "}
@@ -69,7 +46,16 @@ export default function EditPropertyImages({
           keyPrefix="property"
         />
       </div>
-      {property.property_image.length > 0 ? (
+      {isLoading ? (
+        <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
+          <GridAdminImages>
+            <div className="h-40 rounded-xl bg-gray-100 animate-pulse" />
+            <div className="h-40 rounded-xl bg-gray-100 animate-pulse" />
+            <div className="h-40 rounded-xl bg-gray-100 animate-pulse" />
+          </GridAdminImages>
+        </div>
+      ) : null}
+      {images && images.length > 0 ? (
         <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
           <h2 className="font-semibold text-xl">
             Imágenes <br />
@@ -82,6 +68,7 @@ export default function EditPropertyImages({
             parentColumnValue={propertyId}
             table="property_image"
             buildHref={buildHref}
+            images={images}
           />
         </div>
       ) : null}

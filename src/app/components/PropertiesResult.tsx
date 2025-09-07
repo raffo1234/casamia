@@ -32,8 +32,11 @@ const fetcher = async (
   }
 
   if (searchTerms) {
-    const sanitizedSearchWord = searchTerms.trim().split(/\s+/).join(" & ");
-    query = query.textSearch("fts_vector", sanitizedSearchWord);
+    const tsQuery = searchTerms.trim();
+    query = query.textSearch("fts_vector", tsQuery, {
+      config: "spanish",
+      type: "plain",
+    });
   }
 
   const { data } = (await query) as { data: PropertyTypeDb[] | null };

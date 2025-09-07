@@ -36,7 +36,7 @@ export default function ImageEdition({
     setIsDeleting(true);
     await deleteImage(id, table);
 
-    await mutate([table, parentColumnValue]);
+    await mutate([parentColumnValue, "images"]);
     setIsDeleting(false);
     toast.success("Imagen eliminada exitosamente.");
   };
@@ -44,10 +44,7 @@ export default function ImageEdition({
   return (
     <>
       <article key={id} className="relative animate-fade-in">
-        <Link
-          href={href}
-          className="relative w-full aspect-[5/4]"
-        >
+        <Link href={href} className="relative w-full aspect-[5/4]">
           <Image
             key={image_url}
             src={image_url}

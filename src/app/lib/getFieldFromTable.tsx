@@ -1,3 +1,5 @@
+// This file can remain as-is, as it's a generic fetcher function.
+// lib/getFieldFromTable.ts
 "use client";
 
 import { supabase } from "@/lib/supabase";

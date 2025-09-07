@@ -9,24 +9,14 @@ import HeaderTitle from "./HeaderTitle";
 import BackLink from "./BackLink";
 import { useParams } from "next/navigation";
 import TypologyAdminTabs from "./TypologyAdminTabs";
-import { Suspense } from "react";
+import GridAdminImages from "./GridAdminImages";
 
-async function fetcher(id: string) {
+async function fetcher(typologyId: string) {
   const { data, error } = await supabase
-    .from("typology")
-    .select(
-      `
-      *,
-      typology_image!inner (
-        id,
-        image_url,
-        sort_order
-      )
-    `
-    )
-    .eq("id", id)
-    .order("sort_order", { ascending: true, referencedTable: "typology_image" })
-    .single();
+    .from("typology_image")
+    .select("id, image_url, sort_order")
+    .eq("typology_id", typologyId)
+    .order("sort_order", { ascending: true });
 
   if (error) throw error;
   return data;
@@ -37,7 +27,7 @@ export default function EditTypologyImages() {
   const propertyId = params.id as string;
   const typologyId = params.typologyId as string;
 
-  const { data: typology, isLoading } = useSWR([typologyId], () =>
+  const { data: images, isLoading } = useSWR([typologyId, "images"], () =>
     fetcher(typologyId)
   );
 
@@ -45,7 +35,7 @@ export default function EditTypologyImages() {
     return `/admin/property/edit/${propertyId}/typologies/edit/${typologyId}/images/slider?imagen=${index}`;
   };
 
-  if (!typologyId || (!isLoading && !typology)) {
+  if (!typologyId) {
     return <div>Tipología no encontrada.</div>;
   }
 
@@ -55,9 +45,7 @@ export default function EditTypologyImages() {
         <Title>Typologia Imagenes</Title>
         <BackLink href={`/admin/property/edit/${propertyId}/typologies`} />
       </HeaderTitle>
-      <Suspense>
-        <TypologyAdminTabs />
-      </Suspense>
+      <TypologyAdminTabs />
       <div className="flex p-7 flex-col gap-4">
         <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
           <h2 className="font-semibold text-xl">
@@ -73,7 +61,16 @@ export default function EditTypologyImages() {
             keyPrefix="typology"
           />
         </div>
-        {typology?.typology_image && typology.typology_image.length > 0 ? (
+        {isLoading ? (
+          <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
+            <GridAdminImages>
+              <div className="h-40 rounded-xl bg-gray-100 animate-pulse" />
+              <div className="h-40 rounded-xl bg-gray-100 animate-pulse" />
+              <div className="h-40 rounded-xl bg-gray-100 animate-pulse" />
+            </GridAdminImages>
+          </div>
+        ) : null}
+        {images && images.length > 0 ? (
           <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
             <h2 className="font-semibold text-xl">
               Imágenes <br />
@@ -81,16 +78,13 @@ export default function EditTypologyImages() {
                 Arrastra para cambiar
               </span>
             </h2>
-            {isLoading ? (
-              <div>Loading...</div>
-            ) : (
-              <ImagesEdition
-                parentColumnKey="typology_id"
-                parentColumnValue={typologyId}
-                table="typology_image"
-                buildHref={buildHref}
-              />
-            )}
+            <ImagesEdition
+              parentColumnKey="typology_id"
+              parentColumnValue={typologyId}
+              table="typology_image"
+              buildHref={buildHref}
+              images={images}
+            />
           </div>
         ) : null}
       </div>

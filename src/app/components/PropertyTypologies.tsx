@@ -1,17 +1,13 @@
 "use client";
 
 import { supabase } from "@/lib/supabase";
-import { Skeleton } from "antd";
 import useSWR from "swr";
 import { Icon } from "@iconify/react";
 import DeletePropertyType from "./DeletePropertyType";
 import Link from "next/link";
 import EditLink from "./EditButton";
-import Title from "./Title";
-import HeaderTitle from "./HeaderTitle";
-import BackButton from "./BackLink";
-import PropertyAdminTabs from "./PropertyAdminTabs";
 import FirstImage from "./FirstImage";
+import PropertiesAdminGrid from "./PropertiesAdminGrid";
 
 const fetcherType = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -47,33 +43,17 @@ export default function PropertyTypologies({
     () => fetcherType(propertyId)
   );
 
-  if (isLoading) return <Skeleton />;
-
   return (
     <>
-      <HeaderTitle>
-        <Title>Tipologias</Title>
-        <BackButton href={`/admin/property`}></BackButton>
-      </HeaderTitle>
-      <PropertyAdminTabs />
-      <section
-        key={propertyId}
-        className="grid gap-8"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-        }}
-      >
-        {types.map(
-          ({
-            id,
-            name,
-            size,
-            floor,
-            stock,
-            bedroom_count,
-            bathroom_count,
-            typology_image,
-          }) => {
+      {isLoading ? (
+        <PropertiesAdminGrid>
+          <div className="h-[260px] bg-slate-100 animate-pulse rounded-3xl "></div>
+          <div className="h-[260px] bg-slate-100 animate-pulse rounded-3xl "></div>
+          <div className="h-[260px] bg-slate-100 animate-pulse rounded-3xl "></div>
+        </PropertiesAdminGrid>
+      ) : (
+        <PropertiesAdminGrid key={propertyId}>
+          {types.map(({ id, name, typology_image }) => {
             return (
               <div key={id}>
                 <Link
@@ -81,56 +61,31 @@ export default function PropertyTypologies({
                 >
                   <FirstImage src={typology_image[0]?.image_url} title={name} />
                 </Link>
-                <div className="flex gap-2 item-center w-full justify-center">
-                  <EditLink
-                    href={`/admin/property/edit/${propertyId}/typologies/edit/${id}`}
-                  />
-                  <DeletePropertyType propertyId={propertyId} id={id} />
-                </div>
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-2 text-xl font-light">
+                <div className="bg-white border-x px-4 border-b rounded-b-3xl py-5 border-slate-100">
+                  <h2 className="mb-5 text-xl line-clamp-1">
                     <p>{name}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Icon icon="carbon:area" className="text-2xl" />
-                    <p>
-                      {size} m<sup>2</sup>
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Icon icon="ic:outline-bed" className="text-2xl" />
-                    <p>Dormitorios: {bedroom_count}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Icon icon="lucide-lab:shower" className="text-2xl" />
-                    <p>Ba&ntilde;os: {bathroom_count}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Icon icon="grommet-icons:ascend" className="text-2xl" />
-                    <p>Piso: {floor}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Icon
-                      icon="map:grocery-or-supermarket"
-                      className="text-2xl"
+                  </h2>
+                  <div className="flex gap-2 item-center w-full justify-center">
+                    <EditLink
+                      href={`/admin/property/edit/${propertyId}/typologies/edit/${id}`}
                     />
-                    <p>Disponibles: {stock}</p>
+                    <DeletePropertyType propertyId={propertyId} id={id} />
                   </div>
                 </div>
               </div>
             );
-          }
-        )}
-        <Link
-          href={`/admin/property/edit/${propertyId}/typologies/add`}
-          className="hover:bg-gray-200 transition-colors active:bg-gray-300 h-[260px] bg-gray-100 rounded-3xl flex justify-center items-center"
-        >
-          <Icon
-            icon="material-symbols-light:add-2-rounded"
-            className="text-3xl"
-          />
-        </Link>
-      </section>
+          })}
+          <Link
+            href={`/admin/property/edit/${propertyId}/typologies/add`}
+            className="hover:bg-gray-200 min-h-30 transition-colors active:bg-gray-300 h-[260px] bg-gray-100 rounded-3xl flex justify-center items-center"
+          >
+            <Icon
+              icon="material-symbols-light:add-2-rounded"
+              className="text-3xl"
+            />
+          </Link>
+        </PropertiesAdminGrid>
+      )}
     </>
   );
 }

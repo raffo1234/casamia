@@ -4,11 +4,13 @@ import FormSkeleton from "@/components/FormSkeleton";
 import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
 import { useEffect, useMemo } from "react";
-import { message } from "antd";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { Icon } from "@iconify/react";
 import { useGlobalState } from "@/lib/globalState";
+import toast from "react-hot-toast";
+import SecondaryButton from "./SecondaryButton";
+import PrimaryButton from "./PrimaryButton";
 
 async function fetcher(userId: string) {
   const { data, error } = await supabase
@@ -38,18 +40,10 @@ const rolesFetcher = async () => {
 
 export default function EditUser({ userId }: { userId: string }) {
   const { setModalContent, setModalOpen } = useGlobalState();
-  const [messageApi, contextHolder] = message.useMessage();
 
   const { data: roles, error, isLoading } = useSWR("admin-roles", rolesFetcher);
 
   const { data: user } = useSWR(userId, () => fetcher(userId));
-
-  const success = () => {
-    messageApi.open({
-      type: "success",
-      content: "User updated successfully!",
-    });
-  };
 
   const { reset, register, handleSubmit } = useForm<Inputs>({
     mode: "onBlur",
@@ -70,7 +64,7 @@ export default function EditUser({ userId }: { userId: string }) {
         .eq("id", userId)
         .select()
         .single();
-      if (updatedUser) success();
+      if (updatedUser) toast.success("Actualizado correctamente");
     } catch (error) {
       console.error(error);
     } finally {
@@ -142,19 +136,10 @@ export default function EditUser({ userId }: { userId: string }) {
                 </div>
               </fieldset>
               <footer className="flex items-center gap-3.5 justify-end mt-6 pt-6">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="font-semibold disabled:border-gray-100 disabled:bg-gray-100 inline-block py-3 px-10 bg-white text-sm border border-gray-100 rounded-lg transition-colors hover:border-gray-200 duration-500 active:border-gray-300"
-                >
+                <SecondaryButton onClick={() => setModalOpen(false)}>
                   Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="text-white font-semibold disabled:border-gray-100 disabled:bg-gray-100 inline-block py-3 px-10 text-sm bg-cyan-500 hover:bg-cyan-400 transition-colors duration-500 rounded-lg"
-                >
-                  Guardar
-                </button>
+                </SecondaryButton>
+                <PrimaryButton title="Guardar">Guardar</PrimaryButton>
               </footer>
             </form>
           </>
@@ -166,21 +151,18 @@ export default function EditUser({ userId }: { userId: string }) {
 
   useEffect(() => {
     reset(user);
-  }, [user]);
+  }, [user, reset]);
 
   if (error) return <div>Error loading item details</div>;
 
   return (
-    <>
-      <button
-        type="button"
-        disabled={isLoading}
-        onClick={showGlobalModal}
-        className="rounded-full w-11 h-11 border-gray-100 hover:border-gray-200 transition-colors duration-500 border flex items-center justify-center"
-      >
-        <Icon icon="solar:clapperboard-edit-broken" fontSize={24} />
-      </button>
-      {contextHolder}
-    </>
+    <button
+      type="button"
+      disabled={isLoading}
+      onClick={showGlobalModal}
+      className="rounded-full w-11 h-11 border-gray-100 hover:border-gray-200 transition-colors duration-500 border flex items-center justify-center"
+    >
+      <Icon icon="solar:clapperboard-edit-broken" fontSize={24} />
+    </button>
   );
 }

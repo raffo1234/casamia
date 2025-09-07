@@ -46,7 +46,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             console.error("Error fetching user role in JWT callback:", error);
           } else if (dbUser?.id) {
             token.user_id = dbUser.id;
-            token.user_role_id = dbUser.role_id;
           }
         } catch (error) {
           console.error("Error fetching user role in JWT callback:", error);

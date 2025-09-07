@@ -1,3 +1,5 @@
+import HeaderTitle from "@/components/HeaderTitle";
+import Title from "@/components/Title";
 import UsersTable from "@/components/UsersTable";
 import { supabase } from "@/lib/supabase";
 import { UserType } from "@/types/userType";
@@ -20,8 +22,13 @@ export default async function Page() {
     .order("created_at", { ascending: false })) as { data: UserType[] | null };
 
   return (
-    <Suspense>
-      <UsersTable users={users} />
-    </Suspense>
+    <>
+      <HeaderTitle>
+        <Title>Usuarios</Title>
+      </HeaderTitle>
+      <Suspense>
+        <UsersTable users={users} />
+      </Suspense>
+    </>
   );
 }

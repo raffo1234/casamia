@@ -1,4 +1,5 @@
 import AdminPropertiesList from "@/components/AdminPropertiesList";
+import GoogleLoginButton from "@/components/GoogleLoginButton";
 import HeaderTitle from "@/components/HeaderTitle";
 import Title from "@/components/Title";
 import { auth } from "@/lib/auth";
@@ -7,15 +8,26 @@ import { Suspense } from "react";
 
 export default async function Page() {
   const session = await auth();
-  const userEmail = session?.user?.email;
+  const userId = session?.user?.id;
 
-  const { data: user } = await supabase
+  if (!userId) {
+    return (
+      <>
+        <h3 className="mb-10 text-center text-2xl font-light">
+          Para ver el administrador de contenidos, inicia sesion.
+        </h3>
+        <div className="w-fit mx-auto">
+          <GoogleLoginButton />
+        </div>
+      </>
+    );
+  }
+
+  const { data: userWithRole } = await supabase
     .from("user")
     .select("id, role_id")
-    .eq("email", userEmail)
+    .eq("id", userId)
     .single();
-
-  const userId = user?.id;
 
   return (
     <>
@@ -23,7 +35,10 @@ export default async function Page() {
         <Title>Inmuebles</Title>
       </HeaderTitle>
       <Suspense>
-        <AdminPropertiesList userId={userId} userRoleId={user?.role_id} />
+        <AdminPropertiesList
+          userId={userId}
+          userRoleId={userWithRole?.role_id}
+        />
       </Suspense>
     </>
   );

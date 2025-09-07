@@ -11,6 +11,8 @@ import FirstImage from "./FirstImage";
 import { getAdminPropertiesUserKey } from "@/constants";
 import Link from "next/link";
 import EditLink from "./EditButton";
+import { Suspense } from "react";
+import PropertiesAdminGrid from "./PropertiesAdminGrid";
 
 type Props = {
   id: string;
@@ -30,7 +32,7 @@ const AdminPropertyItem = ({
   propertyImage,
 }: Props) => {
   return (
-    <article className="bg-white rounded-xl relative">
+    <article className="bg-white rounded-3xl relative">
       <Link href={`/admin/property/edit/${id}/images`}>
         <FirstImage title={title} src={propertyImage?.at(0)?.image_url} />
       </Link>
@@ -44,9 +46,7 @@ const AdminPropertyItem = ({
         {state}
       </div>
       <div className="border-x px-4 border-b rounded-b-xl py-5 border-slate-100">
-        <h2 className="mb-5 font-gilroy-medium text-xl line-clamp-1">
-          {title}
-        </h2>
+        <h2 className="mb-5 text-xl line-clamp-1">{title}</h2>
         <div className="flex gap-2 justify-center">
           <EditLink href={`/admin/property/edit/${id}`} />
           <DeleteProperty id={id} userId={userId} />
@@ -63,11 +63,7 @@ const fetcher = async (userId: string) => {
       `
       id,
       title,
-      description,
-      location,
       state,
-      phase,
-      created_at,
       property_image(image_url)
     `
     )
@@ -89,35 +85,38 @@ export default function AdminPropertiesList({
     error,
     isLoading,
   } = useSWR(getAdminPropertiesUserKey(userId), () => fetcher(userId));
-  if (isLoading || error) return null;
+
+  if (isLoading)
+    return (
+      <PropertiesAdminGrid>
+        <div className="bg-slate-100 animate-pulse rounded-3xl h-[300px]"></div>
+        <div className="bg-slate-100 animate-pulse rounded-3xl h-[300px]"></div>
+        <div className="bg-slate-100 animate-pulse rounded-3xl h-[300px]"></div>
+      </PropertiesAdminGrid>
+    );
+
+  if (error) return null;
 
   return (
     <>
-      <section
-        className="grid gap-8"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-        }}
-      >
-        <CheckPermission
-          userRoleId={userRoleId}
-          requiredPermission={Permissions.CREAR_INMUEBLE}
-        >
-          <Link
-            href="/admin/property/add"
-            title="Agregar Inmueble"
-            className="border-dashed border bg-white transition-colors duration-300 border-gray-200 hover:bg-gray-50 rounded-2xl p-4 flex hover:text-cyan-500 justify-center items-center"
+      <PropertiesAdminGrid>
+        <Suspense>
+          <CheckPermission
+            userRoleId={userRoleId}
+            requiredPermission={Permissions.CREAR_INMUEBLE}
           >
-            <span className="text-center">
+            <Link
+              href="/admin/property/add"
+              title="Agregar Inmueble"
+              className="hover:bg-gray-200 min-h-30 transition-colors active:bg-gray-300 bg-gray-100 rounded-3xl flex justify-center items-center"
+            >
               <Icon
-                icon="solar:add-square-broken"
-                fontSize={32}
-                className="mx-auto mb-2"
+                icon="material-symbols-light:add-2-rounded"
+                className="text-3xl"
               />
-              <span>Agregar Inmueble</span>
-            </span>
-          </Link>
-        </CheckPermission>
+            </Link>
+          </CheckPermission>
+        </Suspense>
         {properties?.map((property) => {
           const { id, title, state, property_image } = property;
 
@@ -132,7 +131,7 @@ export default function AdminPropertiesList({
             />
           );
         })}
-      </section>
+      </PropertiesAdminGrid>
       <EditPropertyModal />
     </>
   );

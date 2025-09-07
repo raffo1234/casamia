@@ -89,7 +89,7 @@ export default function EditPropertyInformation({
   } = useSWR(id, () => fetcher(id));
 
   const { reset, register, handleSubmit, control, watch } = useForm<Inputs>({
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const hasDeliveryAt =
@@ -144,7 +144,7 @@ export default function EditPropertyInformation({
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start gap-6">
-          <div className="flex-1 flex flex-col gap-7">
+          <div className="flex-1 flex flex-col gap-6">
             <FormSection>
               <FormSectionTitle>Informaci&oacute;n General</FormSectionTitle>
               <fieldset>
@@ -205,7 +205,6 @@ export default function EditPropertyInformation({
                     <TextareaAutosize
                       {...field}
                       id="decription"
-                      autoFocus
                       minRows={2}
                       placeholder=""
                       aria-label=""
@@ -540,9 +539,7 @@ export default function EditPropertyInformation({
                 <fieldset>
                   <div className="flex gap-5 items-center">
                     <div>
-                      <label className="inline-block mb-2 text-sm">
-                        Moneda
-                      </label>
+                      <FormInputLabel htmlFor="currency">Moneda</FormInputLabel>
                       <div className="flex items-center">
                         <div className="w-1/2">
                           <input
@@ -578,12 +575,7 @@ export default function EditPropertyInformation({
                       </div>
                     </div>
                     <div>
-                      <label
-                        htmlFor="price"
-                        className="inline-block mb-2 text-sm"
-                      >
-                        Precio
-                      </label>
+                      <FormInputLabel htmlFor="price">Precio</FormInputLabel>
                       <Controller
                         name="price"
                         control={control}
@@ -608,9 +600,9 @@ export default function EditPropertyInformation({
                   </div>
                 </fieldset>
                 <fieldset>
-                  <label htmlFor="size" className="inline-block mb-2 text-sm">
+                  <FormInputLabel htmlFor="size">
                     Tama&ntilde;o (m<sup>2</sup> )
-                  </label>
+                  </FormInputLabel>
                   <input
                     type="number"
                     id="size"

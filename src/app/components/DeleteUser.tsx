@@ -39,15 +39,13 @@ export default function DeleteUser({ userId }: { userId: string }) {
   };
 
   return (
-    <div id="edit-user">
-      <button
-        disabled
-        onClick={deleteUser}
-        type="button"
-        className="w-11 h-11 rounded-full border-gray-100 border text-red-500 flex items-center justify-center"
-      >
-        <Icon icon="solar:trash-bin-minimalistic-broken" fontSize={24} />
-      </button>
-    </div>
+    <button
+      disabled
+      onClick={deleteUser}
+      type="button"
+      className="w-11 h-11 rounded-full border-gray-100 border text-red-500 flex items-center justify-center"
+    >
+      <Icon icon="solar:trash-bin-minimalistic-broken" fontSize={24} />
+    </button>
   );
 }

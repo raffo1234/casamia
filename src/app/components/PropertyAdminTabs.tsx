@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { getFieldFromTable } from "@/lib/getFieldFromTable";
 import TabLink from "./TabLink";
 import TabLinks from "./TabLinks";
@@ -11,29 +11,15 @@ export default function PropertyAdminTabs() {
   const pathname = usePathname();
   const propertyId = params.id as string;
 
-  const [transactionType, setTransactionType] = useState<string | null>(null);
+  const swrKey = propertyId
+    ? ["property", propertyId, "transaction_type"]
+    : null;
 
-  useEffect(() => {
-    async function fetchTransactionType() {
-      if (!propertyId || Array.isArray(propertyId)) {
-        return;
-      }
+  const fetcher = async ([tableName, id, columnName]: string[]) => {
+    return getFieldFromTable(tableName, id, columnName);
+  };
 
-      const type = await getFieldFromTable<string>(
-        "property",
-        propertyId,
-        "transaction_type"
-      );
-
-      setTransactionType(type);
-    }
-
-    fetchTransactionType();
-  }, [propertyId]);
-
-  if (transactionType === null) {
-    return null;
-  }
+  const { data: transactionType } = useSWR(swrKey, fetcher);
 
   const tabs = [
     {

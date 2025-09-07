@@ -1,8 +1,7 @@
 "use client";
 
 import { SortableImageEdition } from "./SortableImageEdition";
-import useSWR from "swr";
-import { supabase } from "@/lib/supabase";
+import { mutate } from "swr";
 import toast from "react-hot-toast";
 
 import {
@@ -27,31 +26,21 @@ type ImageRow = {
 };
 
 import { updateImageOrder } from "@/lib/updateImageOrder";
+import GridAdminImages from "./GridAdminImages";
 
 export default function ImagesEdition({
   parentColumnValue,
   table,
   parentColumnKey,
   buildHref,
+  images,
 }: {
   parentColumnValue: string;
   table: string;
   parentColumnKey: string;
   buildHref: (index: number) => string;
+  images: ImageRow[];
 }) {
-  const { data: images, mutate } = useSWR<ImageRow[]>(
-    [table, parentColumnValue],
-    async () => {
-      const { data, error } = await supabase
-        .from(table)
-        .select("id, image_url, sort_order")
-        .eq(parentColumnKey, parentColumnValue)
-        .order("sort_order", { ascending: true });
-      if (error) throw error;
-      return data ?? [];
-    }
-  );
-
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, {
@@ -76,36 +65,25 @@ export default function ImagesEdition({
       })
     );
 
-    mutate(optimistic, false);
+    await mutate([parentColumnValue, "images"], optimistic, false);
 
-    const result = await updateImageOrder(
-      table,
-      parentColumnKey,
-      parentColumnValue,
-      optimistic.map(({ id }) => ({ id }))
-    );
+    try {
+      const result = await updateImageOrder(
+        table,
+        parentColumnKey,
+        parentColumnValue,
+        optimistic.map(({ id }) => ({ id }))
+      );
 
-    if (result.success) {
-      toast.success(result.message);
-      await mutate();
-    } else {
-      toast.error(result.message);
-      await mutate();
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    } catch {
+      toast.error("An unexpected error occurred.");
     }
   };
-
-  if (!images) {
-    return (
-      <section
-        className="grid gap-6"
-        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))" }}
-      >
-        <div className="h-40 rounded-xl bg-gray-100 animate-pulse" />
-        <div className="h-40 rounded-xl bg-gray-100 animate-pulse" />
-        <div className="h-40 rounded-xl bg-gray-100 animate-pulse" />
-      </section>
-    );
-  }
 
   return (
     <>
@@ -118,12 +96,7 @@ export default function ImagesEdition({
           items={images.map((i) => i.id)}
           strategy={rectSortingStrategy}
         >
-          <section
-            className="grid gap-6"
-            style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-            }}
-          >
+          <GridAdminImages>
             {images.map((image, index) => (
               <SortableImageEdition
                 key={image.id}
@@ -135,7 +108,7 @@ export default function ImagesEdition({
                 imageIndex={index}
               />
             ))}
-          </section>
+          </GridAdminImages>
         </SortableContext>
       </DndContext>
     </>

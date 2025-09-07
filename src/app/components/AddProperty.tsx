@@ -1,5 +1,6 @@
 "use client";
 
+import TextareaAutosize from "react-textarea-autosize";
 import { supabase } from "@/lib/supabase";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import {
@@ -9,10 +10,19 @@ import {
 } from "@/types/propertyState";
 import { Icon } from "@iconify/react";
 import { NumericFormat } from "react-number-format";
-import Link from "next/link";
 import Title from "./Title";
 import slugify from "slugify";
 import { CurrencyCode } from "@/enums/currencyCodes";
+import FormInputLabel from "./FormInputLabel";
+import FormSection from "./FormSection";
+import FormFooter from "./FormFooter";
+import SecondaryButton from "./SecondaryButton";
+import PrimaryButton from "./PrimaryButton";
+import { useState } from "react";
+import BackLink from "./BackLink";
+import FormSectionTitle from "./FormSectionTitle";
+import { inputClassName } from "@/constants";
+import { TransactionType } from "@/types/TransactionType";
 
 type Inputs = {
   title: string;
@@ -27,14 +37,19 @@ type Inputs = {
   size: string;
   currency: string;
   state: string;
+  slug: string;
+  transaction_type: string;
 };
 
 export default function AddProperty({ userId }: { userId: string }) {
+  const [isAdding, setIsAdding] = useState(false);
   const { reset, register, handleSubmit, control } = useForm<Inputs>({
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setIsAdding(true);
+
     const slug = slugify(data.title, {
       lower: true,
       strict: true,
@@ -52,6 +67,8 @@ export default function AddProperty({ userId }: { userId: string }) {
       window.location.href = "/admin/property";
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -59,15 +76,72 @@ export default function AddProperty({ userId }: { userId: string }) {
     <>
       <div className="w-full mb-8 flex justify-between items-center">
         <Title>Agregar Inmueble</Title>
-        <Link href="/admin/property" title="Volver" className="mb-4">
-          <Icon icon="solar:square-alt-arrow-left-broken" fontSize="32" />
-        </Link>
+        <BackLink href={`/admin/property`}></BackLink>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start gap-6">
-          <div className="flex-1 flex flex-col gap-7">
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Estado</h2>
+          <div className="flex-1 flex flex-col gap-6">
+            <FormSection>
+              <FormSectionTitle>Information Basica</FormSectionTitle>
+              <fieldset>
+                <FormInputLabel htmlFor="title">Titulo</FormInputLabel>
+                <input
+                  type="text"
+                  id="title"
+                  {...register("title")}
+                  required
+                  className={inputClassName}
+                />
+              </fieldset>
+              <fieldset>
+                <FormInputLabel htmlFor="slug">
+                  Slug{" "}
+                  <span className="text-xs block font-semibold mt-1">
+                    Es usado en el URL del inmueble
+                  </span>
+                </FormInputLabel>
+                <input
+                  disabled
+                  type="text"
+                  id="slug"
+                  {...register("slug")}
+                  required
+                  className="disabled:bg-slate-100 w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                />
+              </fieldset>
+              <fieldset>
+                <FormInputLabel htmlFor="location">Ubicacion</FormInputLabel>
+                <input
+                  type="text"
+                  id="location"
+                  {...register("location")}
+                  required
+                  className={inputClassName}
+                />
+              </fieldset>
+              <fieldset>
+                <FormInputLabel htmlFor="description">
+                  Descripcion
+                </FormInputLabel>
+                <Controller
+                  name="description"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextareaAutosize
+                      {...field}
+                      id="decription"
+                      minRows={2}
+                      placeholder=""
+                      aria-label=""
+                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100 focus:border-cyan-500"
+                    />
+                  )}
+                />
+              </fieldset>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Estado</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -137,9 +211,59 @@ export default function AddProperty({ userId }: { userId: string }) {
                   </label>
                 </div>
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Tipo</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Transaci&oacute;n</FormSectionTitle>
+              <fieldset className="flex items-center gap-4 w-full">
+                <div className="w-1/2">
+                  <input
+                    {...register("transaction_type")}
+                    type="radio"
+                    id="venta"
+                    value={TransactionType.VENTA}
+                    className="peer hidden"
+                    defaultChecked
+                  />
+                  <label
+                    htmlFor="venta"
+                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
+                  >
+                    <span className="flex items-center flex-col gap-1">
+                      <Icon
+                        icon="solar:document-add-broken"
+                        fontSize={24}
+                        className="block"
+                      />
+                      <span>Venta</span>
+                    </span>
+                  </label>
+                </div>
+                <div className="w-1/2">
+                  <input
+                    {...register("transaction_type")}
+                    value={TransactionType.ALQUILER}
+                    type="radio"
+                    id="alquiler"
+                    className="peer hidden"
+                  />
+                  <label
+                    htmlFor="alquiler"
+                    className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
+                  >
+                    <span className="flex items-center flex-col gap-1">
+                      <Icon
+                        icon="solar:checklist-minimalistic-broken"
+                        fontSize={24}
+                        className="block"
+                      />
+                      <span>Alquiler</span>
+                    </span>
+                  </label>
+                </div>
+              </fieldset>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Tipo</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -187,9 +311,9 @@ export default function AddProperty({ userId }: { userId: string }) {
                   </label>
                 </div>
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Fase</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Fase</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -259,9 +383,9 @@ export default function AddProperty({ userId }: { userId: string }) {
                   </label>
                 </div>
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Dormitorios</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Dormitorios</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -340,9 +464,9 @@ export default function AddProperty({ userId }: { userId: string }) {
                   </label>
                 </div>
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Ba&ntilde;os</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Ba&ntilde;os</FormSectionTitle>
               <fieldset className="flex items-center gap-4 w-full">
                 <div className="w-1/2">
                   <input
@@ -421,9 +545,9 @@ export default function AddProperty({ userId }: { userId: string }) {
                   </label>
                 </div>
               </fieldset>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Detalles</h2>
+            </FormSection>
+            <FormSection>
+              <FormSectionTitle>Detalles</FormSectionTitle>
               <div className="flex gap-5 items-center">
                 <fieldset>
                   <div className="flex gap-5 items-center">
@@ -503,66 +627,19 @@ export default function AddProperty({ userId }: { userId: string }) {
                     id="size"
                     {...register("size")}
                     required
-                    className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                    className={inputClassName}
                   />
                 </fieldset>
               </div>
-            </div>
-            <div className="flex p-7 flex-col gap-4 border border-gray-100 rounded-xl bg-white">
-              <h2 className="font-semibold">Information Basica</h2>
-              <fieldset>
-                <label htmlFor="title" className="inline-block mb-2 text-sm">
-                  Titulo
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  {...register("title")}
-                  required
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
-                />
-              </fieldset>
-              <fieldset>
-                <label htmlFor="location" className="inline-block mb-2 text-sm">
-                  Ubicacion
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  {...register("location")}
-                  required
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
-                />
-              </fieldset>
-              <fieldset>
-                <label
-                  htmlFor="description"
-                  className="inline-block mb-2 text-sm"
-                >
-                  Descripcion
-                </label>
-                <textarea
-                  id="decription"
-                  {...register("description")}
-                  required
-                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
-                />
-              </fieldset>
-            </div>
-            <footer className="justify-end flex items-center gap-2">
-              <Link
-                href="/admin/property"
-                className="font-semibold disabled:border-gray-100 disabled:bg-gray-100 inline-block py-3 px-10 bg-white text-sm border border-gray-100 rounded-lg transition-colors hover:border-gray-200 duration-500 active:border-gray-300"
-              >
+            </FormSection>
+            <FormFooter>
+              <SecondaryButton href={`/admin/property`}>
                 Cancelar
-              </Link>
-              <button
-                type="submit"
-                className="text-white font-semibold disabled:border-gray-100 disabled:bg-gray-100 inline-block py-3 px-10 text-sm bg-cyan-500 hover:bg-cyan-400 transition-colors duration-500 rounded-lg"
-              >
+              </SecondaryButton>
+              <PrimaryButton isLoading={isAdding} title="Agregar">
                 Agregar
-              </button>
-            </footer>
+              </PrimaryButton>
+            </FormFooter>
           </div>
         </div>
       </form>
