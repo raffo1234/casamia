@@ -3,7 +3,7 @@
 import { supabase } from "@/lib/supabase";
 import useSWR from "swr";
 import ImageSlider from "./ImageSlider";
-import { Suspense, useMemo } from "react";
+import { useMemo } from "react";
 
 const fetcher = async (propertyId: string) => {
   const { data, error } = await supabase
@@ -39,19 +39,17 @@ export default function PropertyImages({
     [images, propertyId, propertySlug, propertyTitle]
   );
 
+  if (isLoading) {
+    return (
+      <div className={`relative md:px-12 flex justify-center items-center`}>
+        <div className="animate-pulse aspect-5/4 rounded-3xl bg-slate-100 h-full w-full"></div>
+      </div>
+    );
+  }
+
   return (
-    <>
-      {isLoading ? (
-        <div className={`relative md:px-12 flex justify-center items-center`}>
-          <div className="animate-pulse aspect-5/4 rounded-3xl bg-slate-100 h-full w-full"></div>
-        </div>
-      ) : (
-        <Suspense>
-          <div className="animate-fade-in">
-            <ImageSlider images={imagesToSlider} />
-          </div>
-        </Suspense>
-      )}
-    </>
+    <div className="animate-fade-in">
+      <ImageSlider images={imagesToSlider} />
+    </div>
   );
 }

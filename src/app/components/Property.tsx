@@ -94,11 +94,22 @@ export default function Property({
               }}
               className="flex w-fit hover:text-slate-800 text-slate-600 gap-2 text-lg font-light uppercase"
             >
-              <Icon
-                icon="clarity:map-marker-line"
-                className="flex-shrink-0"
-                fontSize={24}
-              ></Icon>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 36 36"
+              >
+                <path
+                  fill="currentColor"
+                  d="M18 6.72a5.73 5.73 0 1 0 5.73 5.73A5.73 5.73 0 0 0 18 6.72m0 9.46a3.73 3.73 0 1 1 3.73-3.73A3.73 3.73 0 0 1 18 16.17Z"
+                />
+                <path
+                  fill="currentColor"
+                  d="M18 2A11.79 11.79 0 0 0 6.22 13.73c0 4.67 2.62 8.58 4.54 11.43l.35.52a100 100 0 0 0 6.14 8l.76.89l.76-.89a100 100 0 0 0 6.14-8l.35-.53c1.91-2.85 4.53-6.75 4.53-11.42A11.79 11.79 0 0 0 18 2m5.59 22l-.36.53c-1.72 2.58-4 5.47-5.23 6.9c-1.18-1.43-3.51-4.32-5.23-6.9l-.35-.53c-1.77-2.64-4.2-6.25-4.2-10.31a9.78 9.78 0 1 1 19.56 0c0 4.1-2.42 7.71-4.19 10.31"
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
+              </svg>
               {location}
             </a>
             <div className="border border-slate-500 rounded-xl">
@@ -107,13 +118,40 @@ export default function Property({
                   PRECIO
                 </div>
                 <div className="p-4 flex-1 flex justify-center items-center border-b border-r border-slate-500">
-                  <Icon
-                    icon="lucide:bed-double"
-                    className="inline-block text-xl"
-                  />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4m-8-6v6M2 18h20"
+                    />
+                  </svg>
                 </div>
                 <div className="flex-1 flex items-center justify-center p-4 border-b border-r border-slate-500">
-                  <Icon icon="lucide-lab:shower" className="text-xl" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <g
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                    >
+                      <path d="M9 10V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 10h14" />
+                      <path d="M3 22V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v2m-4 8h.01M14 14h.01M18 14h.01M9 18h.01M14 18h.01M19 18h.01M8 22h.01M14 22h.01M20 22h.01" />
+                    </g>
+                  </svg>
                 </div>
                 <div className="truncate text-xs uppercase flex-1 justify-center flex items-center p-4 border-b rounded-tr-lg border-slate-500">
                   Entrega
