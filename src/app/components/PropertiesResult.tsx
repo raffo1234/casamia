@@ -12,29 +12,11 @@ import { useParams } from "next/navigation";
 import { propertyQuery } from "@/queries/property";
 import NoItems from "./NoItems";
 
-const columnsToSearch = [
-  "title",
-  "description",
-  "location",
-  "price",
-  "state",
-  "type",
-  "phase",
-  "size",
-  "bathroom_count",
-  "bedroom_count",
-  "transaction_type",
-];
-
 const fetcher = async (
   searchTerms: string,
   category: string,
   transactionType?: string
 ) => {
-  const orConditions = columnsToSearch
-    .map((column) => `${column}.ilike.%${searchTerms}%`)
-    .join(",");
-
   const propertyType = category.toUpperCase();
 
   let query = supabase
@@ -50,7 +32,8 @@ const fetcher = async (
   }
 
   if (searchTerms) {
-    query = query.or(orConditions);
+    const sanitizedSearchWord = searchTerms.trim().split(/\s+/).join(" & ");
+    query = query.textSearch("fts_vector", sanitizedSearchWord);
   }
 
   const { data } = (await query) as { data: PropertyTypeDb[] | null };
@@ -72,7 +55,9 @@ export default function PropertiesResult({
   const transactionType = params.transaction as string | undefined;
 
   const { data: properties = [], isLoading } = useSWR(
-    `${userEmail}-${searchTerms}-${category}-${transactionType || ""}-result-properties-first-ones`,
+    `${userEmail}-${searchTerms}-${category}-${
+      transactionType || ""
+    }-result-properties-first-ones`,
     () => fetcher(decodedSearchWord, category as string, transactionType)
   );
 

@@ -7,29 +7,11 @@ import { PropertyType as PropertyTypeDb } from "@/types/propertyType";
 import { useParams } from "next/navigation";
 import { propertyQuery } from "@/queries/property";
 
-const columnsToSearch = [
-  "title",
-  "description",
-  "location",
-  "price",
-  "state",
-  "type",
-  "phase",
-  "size",
-  "bathroom_count",
-  "bedroom_count",
-  "transaction_type",
-];
-
 const fetcherTotal = async (
   decodedSearchWord: string,
   propertyType: string,
   transactionType?: string
 ): Promise<number> => {
-  const orConditions = columnsToSearch
-    .map((column) => `${column}.ilike.%${decodedSearchWord}%`)
-    .join(",");
-
   let supabaseQuery = supabase
     .from("property")
     .select("id", { count: "exact", head: true })
@@ -44,7 +26,10 @@ const fetcherTotal = async (
   }
 
   if (decodedSearchWord) {
-    supabaseQuery = supabaseQuery.or(orConditions);
+    supabaseQuery = supabaseQuery.textSearch(
+      "fts_vector",
+      decodedSearchWord.trim().split(/\s+/).join(" & ")
+    );
   }
 
   const { count, error } = await supabaseQuery;
@@ -63,10 +48,6 @@ const fetcherPage = async (
   propertyType: string,
   transactionType?: string
 ) => {
-  const orConditions = columnsToSearch
-    .map((column) => `${column}.ilike.%${decodedSearchWord}%`)
-    .join(",");
-
   let queryBuilder = supabase
     .from("property")
     .select(propertyQuery)
@@ -81,7 +62,10 @@ const fetcherPage = async (
   }
 
   if (decodedSearchWord) {
-    queryBuilder = queryBuilder.or(orConditions);
+    queryBuilder = queryBuilder.textSearch(
+      "fts_vector",
+      decodedSearchWord.trim().split(/\s+/).join(" & ")
+    );
   }
 
   const { data, error } = (await queryBuilder
@@ -117,8 +101,12 @@ export default function ResultPage({
   return (
     <PropertiesList
       userEmail={userEmail}
-      swrKeyPage={`${userEmail}-${searchTerms}-${propertyType}-${transactionType || ""}-properties-home-page`}
-      swrKeyTotal={`${userEmail}-${searchTerms}-${propertyType}-${transactionType || ""}-properties-home-total`}
+      swrKeyPage={`${userEmail}-${searchTerms}-${propertyType}-${
+        transactionType || ""
+      }-properties-home-page`}
+      swrKeyTotal={`${userEmail}-${searchTerms}-${propertyType}-${
+        transactionType || ""
+      }-properties-home-total`}
       fetcherPage={(index, pageSize) =>
         fetcherPage(
           index,
