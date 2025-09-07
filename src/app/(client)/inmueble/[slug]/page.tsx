@@ -5,10 +5,14 @@ import { supabase } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
-  const propertySlug = params.slug;
+type PageProps = {
+  params: Promise<{ slug: string[] }>;
+};
 
-  if (!propertySlug) {
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
+
+  if (!slug) {
     redirect("/404");
   }
 
@@ -42,7 +46,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
         )
       `
       )
-      .eq("slug", propertySlug)
+      .eq("slug", slug)
       .single(),
   ]);
 

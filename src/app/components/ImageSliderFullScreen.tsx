@@ -106,11 +106,13 @@ const ImageSliderFullScreen = ({
       {currentImage && (
         <div className="relative h-full w-full">
           <Image
+            key={currentImage.src}
             src={currentImage.src}
             alt={currentImage.propertyTitle}
             className="h-full animate-fade-in w-full object-contain"
             width={400}
             height={300}
+            priority={currentImageIndex === 0}
           />
           {multipleImages && (
             <div className="w-full flex gap-3 justify-center absolute bottom-3 left-0 right-0">

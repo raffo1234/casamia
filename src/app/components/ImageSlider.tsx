@@ -43,7 +43,7 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
       {multipleImages && (
         <button
           onClick={goToPreviousImage}
-          className="hidden md:flex outline-none absolute w-12 items-center justify-center h-full left-0 top-0 bottom-0"
+          className="hidden md:flex outline-none absolute w-12 items-center justify-center h-full left-0 top-0 bottom-0 z-10"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
             <path
@@ -82,8 +82,9 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
           className="w-full relative focus:outline-none"
         >
           <Link
+            key={currentImage.src}
             href={`/inmueble/${currentImage.propertySlug}/imagenes?imagen=${currentImageIndex}`}
-            className="mx-auto cursor-pointer"
+            className="animate-fade-in"
           >
             <Image
               src={currentImage.src}
@@ -91,25 +92,20 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
               className="w-full aspect-5/4 object-cover rounded-3xl"
               width={400}
               height={300}
+              priority={currentImageIndex === 0}
             />
           </Link>
           {multipleImages && (
-            <div className="w-full items-center flex gap-3 flex-wrap justify-center absolute bottom-3 left-0 right-0">
-              {images.map((image) => (
+            <div className="w-full items-center flex gap-3 flex-wrap justify-center absolute bottom-3 left-0 right-0 z-10">
+              {images.map((image, index) => (
                 <button
                   key={image.src}
-                  onClick={() => {
-                    const index = images.findIndex(
-                      (img) => img.src === image.src
-                    );
-                    setCurrentImageIndex(index);
-                  }}
+                  onClick={() => setCurrentImageIndex(index)}
                   className="relative w-3 h-3 cursor-pointer outline-0"
                 >
                   <div
                     className={`${
-                      currentImageIndex ===
-                      images.findIndex((img) => img.src === image.src)
+                      currentImageIndex === index
                         ? "bg-yellow-400 w-4 h-4"
                         : "bg-gray-300"
                     } absolute left-0.5 -translate-x-1/2 top-0.5 -translate-y-1/2 w-3 h-3 rounded-full transition-all duration-300`}
@@ -120,11 +116,10 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
           )}
         </div>
       )}
-
       {multipleImages && (
         <button
           onClick={goToNextImage}
-          className="hidden md:flex outline-none absolute w-12 items-center justify-center h-full right-0 top-0 bottom-0"
+          className="hidden md:flex outline-none absolute w-12 items-center justify-center h-full right-0 top-0 bottom-0 z-10"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
             <path

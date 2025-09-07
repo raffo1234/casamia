@@ -9,17 +9,22 @@ import Home from "@/components/Home";
 import { PropertyType } from "@/types/propertyType";
 import HomePage from "@/components/HomePage";
 import NoItems from "@/components/NoItems";
+import { Session } from "next-auth";
 
 export default async function Index() {
-  const session = await auth();
+  const [session, { data: properties }] = (await Promise.all([
+    auth(),
+    supabase
+      .from("property")
+      .select(propertyQuery)
+      .eq("state", PropertyState.ACTIVE)
+      .order("created_at", { ascending: false })
+      .limit(4),
+  ])) as [Session | null, { data: PropertyType[] | null }];
+
   const userEmail = session?.user?.email;
 
-  const { data: properties } = (await supabase
-    .from("property")
-    .select(propertyQuery)
-    .eq("state", PropertyState.ACTIVE)
-    .order("created_at", { ascending: false })
-    .limit(4)) as { data: PropertyType[] | null };
+  const hasProperties = properties && properties.length > 0;
 
   return (
     <>
@@ -34,14 +39,10 @@ export default async function Index() {
       <Suspense>
         <SearchForm />
       </Suspense>
-      {properties && properties.length > 0 ? (
+      {hasProperties ? (
         <PropertiesGrid>
-          <Suspense>
-            <Home properties={properties} userEmail={userEmail} />
-          </Suspense>
-          <Suspense>
-            <HomePage userEmail={userEmail} />
-          </Suspense>
+          <Home properties={properties} userEmail={userEmail} />
+          <HomePage userEmail={userEmail} />
         </PropertiesGrid>
       ) : (
         <NoItems />

@@ -3,10 +3,10 @@ import GoogleLoginButton from "@/components/GoogleLoginButton";
 import SearchForm from "@/components/SearchForm";
 import { auth } from "@/lib/auth";
 import { Icon } from "@iconify/react";
-import { Suspense, use } from "react";
+import { Suspense } from "react";
 
-export default function Page() {
-  const session = use(auth());
+export default async function Page() {
+  const session = await auth();
   const userId = session?.user?.id;
   const userEmail = session?.user?.email;
 
@@ -16,18 +16,14 @@ export default function Page() {
         <SearchForm />
       </Suspense>
       {userId && userEmail ? (
-        <Suspense>
-          <FavoritesWrapper userId={userId} userEmail={userEmail} />
-        </Suspense>
+        <FavoritesWrapper userId={userId} userEmail={userEmail} />
       ) : (
         <div className="max-w-md mx-auto items-center flex flex-col gap-10">
           <h1 className="text-center">
             Necesitas iniciar sesión para poder ver tu lista de inmuebles
             favoritos.
           </h1>
-          <Suspense>
-            <GoogleLoginButton />
-          </Suspense>
+          <GoogleLoginButton />
           <div className="flex justify-center w-[160px] rounded-full items-center mx-auto bg-slate-300 aspect-square bg-opacity-5">
             <Icon
               icon="solar:gallery-favourite-bold"

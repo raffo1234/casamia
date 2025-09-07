@@ -1,7 +1,6 @@
 "use client";
 
 import Typologies from "./Typologies";
-import { Icon } from "@iconify/react";
 import { PropertyPhase } from "@/types/propertyState";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
