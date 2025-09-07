@@ -35,8 +35,8 @@ export default async function FavoritesWrapper({
     ? rawLikes.map((likeItem) => {
         return {
           ...likeItem.property,
-          user: likeItem.property.user?.[0],
-          company: likeItem.property.company?.[0],
+          user: likeItem.property.user,
+          company: likeItem.property.company,
         };
       })
     : [];

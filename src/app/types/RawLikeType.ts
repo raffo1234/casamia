@@ -4,7 +4,7 @@ import { UserType } from "./userType";
 
 export interface RawLikeType {
   property: Omit<PropertyType, "user" | "company"> & {
-    user: UserType[];
-    company: CompanyType[];
+    user: UserType;
+    company: CompanyType;
   };
 }

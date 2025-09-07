@@ -28,7 +28,7 @@ const fetcherPage = async (
 
   if (error) {
     console.error("Error fetching liked properties page:", error);
-    // Include the full error object for better debugging
+
     throw new Error(
       `Failed to fetch liked properties page: ${
         error.message || JSON.stringify(error)
