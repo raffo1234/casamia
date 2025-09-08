@@ -20,8 +20,8 @@ export default function TransactionTypes({
             px-4 py-2 rounded-full text-sm capitalize transition-colors duration-200
             ${
               selectedType === type
-                ? "bg-slate-200"
-                : "text-slate-600 hover:bg-slate-100"
+                ? "bg-slate-100"
+                : "text-slate-900 hover:bg-slate-50"
             }
           `}
         >

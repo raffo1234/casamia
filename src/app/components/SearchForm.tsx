@@ -148,11 +148,11 @@ export default function SearchForm() {
         selectedType={transactionType}
         onSelect={handleTransactionSelect}
       />
-      <div className="w-full hover:bg-white hover:border-yellow-400 focus-within:bg-white focus-within:border-yellow-300 border-2 transition-colors duration-500 border-gray-100 flex items-center bg-gray-100 rounded-full p-1 gap-3">
+      <div className="w-full hover:bg-white hover:border-yellow-400 focus-within:bg-white focus-within:border-yellow-300 border-2 transition-colors duration-500 border-slate-100 flex items-center bg-slate-50 rounded-full p-1 gap-3">
         <div ref={dropdownRef} className="relative group">
           <button
             type="button"
-            className="h-[52px] pl-6 pr-3 bg-black text-white rounded-full flex items-center gap-1"
+            className="h-[52px] pl-6 pr-3 bg-[#1e0059] text-white rounded-full flex items-center gap-1"
             onClick={handleDropdownToggle}
           >
             <span>

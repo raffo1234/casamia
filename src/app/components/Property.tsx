@@ -11,6 +11,7 @@ import { getFormattedPrice } from "@/lib/getFormattedPrice";
 import New from "./New";
 import { Suspense } from "react";
 import AuthorLink from "./AuthorLink";
+import H3 from "./H3";
 
 export default function Property({
   property,
@@ -39,13 +40,13 @@ export default function Property({
   } = property;
 
   return (
-    <>
+    <div className="pt-20">
       <New createdAt={created_at} />
       <div className="mb-4">
         <h1
-          className="leading-tight font-flaviotte"
+          className="text-[#1e0059] leading-tight font-inter-tight font-semibold"
           style={{
-            fontSize: "clamp(16px, 6vw + .5rem, 63px)",
+            fontSize: "clamp(16px, 6vw + .5rem, 52px)",
           }}
         >
           {title}
@@ -67,9 +68,9 @@ export default function Property({
             />
           </Suspense>
         </div>
-        <div className="mb-10 lg:w-[390px] lg:mb-0 bg-[#faf9fb] border border-[#f3f3f6] rounded-lg p-7">
+        <div className="mb-10 lg:w-[390px] lg:mb-0 bg-slate-50 border border-slate-100 rounded-lg p-7">
           <p
-            className="font-semibold font-gilroy-medium "
+            className="font-bold font-gilroy-medium"
             style={{
               fontSize: "clamp(16px, 6vw + .5rem, 28px)",
             }}
@@ -103,7 +104,7 @@ export default function Property({
             </svg>
             {location}
           </a>
-          <div className="p-5 text-sm rounded-lg bg-white flex flex-col gap-4">
+          <div className="bg-white p-5 text-sm rounded-lg bgWhite flex flex-col gap-4">
             <div className="flex justify-between items-center">
               <div className="flex gap-2 items-center">
                 <svg
@@ -164,7 +165,7 @@ export default function Property({
                     fill="currentColor"
                     fillRule="evenodd"
                     d="M7 1.75a.75.75 0 0 1 .75.75v.763c.662-.013 1.391-.013 2.193-.013h4.113c.803 0 1.532 0 2.194.013V2.5a.75.75 0 0 1 1.5 0v.827q.39.03.739.076c1.172.158 2.121.49 2.87 1.238c.748.749 1.08 1.698 1.238 2.87c.153 1.14.153 2.595.153 4.433v2.112c0 1.838 0 3.294-.153 4.433c-.158 1.172-.49 2.121-1.238 2.87c-.749.748-1.698 1.08-2.87 1.238c-1.14.153-2.595.153-4.433.153H9.945c-1.838 0-3.294 0-4.433-.153c-1.172-.158-2.121-.49-2.87-1.238c-.748-.749-1.08-1.698-1.238-2.87c-.153-1.14-.153-2.595-.153-4.433v-2.112c0-1.838 0-3.294.153-4.433c.158-1.172.49-2.121 1.238-2.87c.749-.748 1.698-1.08 2.87-1.238q.35-.046.739-.076V2.5A.75.75 0 0 1 7 1.75M5.71 4.89c-1.005.135-1.585.389-2.008.812S3.025 6.705 2.89 7.71q-.034.255-.058.539h18.336q-.024-.284-.058-.54c-.135-1.005-.389-1.585-.812-2.008s-1.003-.677-2.009-.812c-1.027-.138-2.382-.14-4.289-.14h-4c-1.907 0-3.261.002-4.29.14M2.75 12c0-.854 0-1.597.013-2.25h18.474c.013.653.013 1.396.013 2.25v2c0 1.907-.002 3.262-.14 4.29c-.135 1.005-.389 1.585-.812 2.008s-1.003.677-2.009.812c-1.027.138-2.382.14-4.289.14h-4c-1.907 0-3.261-.002-4.29-.14c-1.005-.135-1.585-.389-2.008-.812s-.677-1.003-.812-2.009c-.138-1.027-.14-2.382-.14-4.289z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
                 <p>Entrega:</p>
@@ -187,19 +188,19 @@ export default function Property({
               height="26"
               viewBox="0 0 24 24"
             >
-              <g fill="none" stroke="currentColor" stroke-width="1">
+              <g fill="none" stroke="currentColor" strokeWidth="1">
                 <path
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   d="M10 22a8 8 0 1 0-7.22-4.55c.172.36.232.766.13 1.15l-.328 1.227a1.3 1.3 0 0 0 1.591 1.592L5.4 21.09a1.67 1.67 0 0 1 1.15.13c1.045.5 2.215.78 3.451.78Z"
                 />
                 <path
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   d="m18 14.502l.198-.087c.362-.165.768-.227 1.153-.124l.476.127a1.3 1.3 0 0 0 1.592-1.591l-.128-.476c-.103-.385-.04-.791.125-1.153A6.5 6.5 0 1 0 9.5 5.996"
                 />
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M6.518 14h.01m3.481 0h.009m3.482 0h.009"
                 />
               </g>
@@ -210,7 +211,7 @@ export default function Property({
       </div>
       {property.description ? (
         <div className="pt-20">
-          <h3 className="mb-6 text-sm text-slate-700">Conoce m&aacute;s</h3>
+          <H3>Conoce m&aacute;s</H3>
           <p className="whitespace-pre-line sm:text-2xl lg:text-3xl font-light leading-relaxed">
             {property.description}
           </p>
@@ -219,6 +220,6 @@ export default function Property({
       <Suspense>
         <Typologies propertyId={property.id} />
       </Suspense>
-    </>
+    </div>
   );
 }

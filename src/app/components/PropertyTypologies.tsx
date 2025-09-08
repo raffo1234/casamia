@@ -55,13 +55,13 @@ export default function PropertyTypologies({
         <PropertiesAdminGrid key={propertyId}>
           {types.map(({ id, name, typology_image }) => {
             return (
-              <div key={id}>
+              <div key={id} className="rounded-3xl overflow-hidden">
                 <Link
                   href={`/admin/property/edit/${propertyId}/typologies/edit/${id}/images`}
                 >
                   <FirstImage src={typology_image[0]?.image_url} title={name} />
                 </Link>
-                <div className="bg-white border-x px-4 border-b rounded-b-3xl py-5 border-slate-100">
+                <div className="bg-white border-x px-4 border-b py-5 border-slate-100">
                   <h2 className="mb-5 text-xl line-clamp-1">
                     <p>{name}</p>
                   </h2>

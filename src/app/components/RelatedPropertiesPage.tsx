@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import useSWR from "swr"; // Import the SWR hook
 import PropertiesGrid from "./PropertiesGrid";
 import TypologiesGrid from "./TypologiesGrid";
+import H3 from "./H3";
 
 const totalCountFetcher = async ([_key, propertyId]: [
   string,
@@ -72,11 +73,8 @@ export default function RelatedPropertiesPage({
 
   if (totalCount && totalCount > 0) {
     return (
-      <div className="mt-20 pt-20 border-t-2 border-slate-200">
-        <h3 className="mb-6 text-slate-800 font-semibold">
-          También podría interesarte
-        </h3>
-        <br />
+      <div className="mt-20 py-20 border-t-2 border-slate-200">
+        <H3>También podría interesarte</H3>
         <PropertiesGrid>
           <PropertiesList
             userEmail={userEmail}

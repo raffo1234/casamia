@@ -32,7 +32,7 @@ const AdminPropertyItem = ({
   propertyImage,
 }: Props) => {
   return (
-    <article className="bg-white rounded-3xl relative">
+    <article className="bg-white rounded-3xl overflow-hidden relative">
       <Link href={`/admin/property/edit/${id}/images`}>
         <FirstImage title={title} src={propertyImage?.at(0)?.image_url} />
       </Link>

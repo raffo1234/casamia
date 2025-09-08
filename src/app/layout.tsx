@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import type { Metadata } from "next";
-import { Bebas_Neue, Roboto } from "next/font/google";
+import { Inter_Tight, Roboto } from "next/font/google";
 import GlobalModal from "./components/GlobalModal";
 import "./globals.css";
 import Slider from "./components/Slider";
@@ -14,10 +14,10 @@ const roboto = Roboto({
   variable: "--font-roboto",
 });
 
-const bebas = Bebas_Neue({
-  weight: ["400"],
+const interTight = Inter_Tight({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-bebas",
+  variable: "--font-inter-tight",
 });
 
 const flaviotte = localFont({
@@ -48,7 +48,7 @@ export default async function RootLayout({
   return (
     <html
       lang="es"
-      className={`${roboto.variable} ${bebas.variable} ${gilroyMedium.variable} ${gilroyBold.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
+      className={`${roboto.variable} ${interTight.variable} ${gilroyMedium.variable} ${gilroyBold.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
     >
       <body id="app">
         <Toaster

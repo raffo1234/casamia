@@ -17,7 +17,7 @@ export default function FirstImage({
   }
 
   return (
-    <div className="relative animate-fade-in w-full aspect-[5/4] rounded-t-3xl overflow-hidden">
+    <div className="relative animate-fade-in w-full aspect-[5/4]">
       <Image
         src={src}
         alt={title}

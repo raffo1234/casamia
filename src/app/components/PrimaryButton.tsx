@@ -14,7 +14,7 @@ export default function PrimaryButton({
   ...props
 }: Props) {
   const className =
-    "w-fit relative animate-opacity text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700";
+    "w-fit relative animate-opacity text-white bg-slate-900 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-slate-300 rounded-full px-6 py-3.5 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700";
 
   return href ? (
     <Link href={href} className={className}>

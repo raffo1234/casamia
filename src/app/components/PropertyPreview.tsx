@@ -111,7 +111,7 @@ export default function PropertyPreview({
       onClick={handleOverlayClick}
       className="fixed top-0 left-0 z-30 w-full h-full overflow-auto transition-all duration-200 cursor-pointer bg-black/60 lg:p-6 bg-opacity-40"
     >
-      <div className="pt-20 animate-fade-in pb-20 cursor-default mx-auto relative lg:rounded-xl bg-white min-h-lvh">
+      <div className="animate-fade-in pb-20 cursor-default mx-auto relative lg:rounded-xl bg-white min-h-lvh">
         <Main>
           <Suspense>
             <Property property={property} userEmail={userEmail} />

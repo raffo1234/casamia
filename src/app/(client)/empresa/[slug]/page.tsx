@@ -12,6 +12,7 @@ import Home from "@/components/Home";
 import CompanyPage from "@/components/CompanyPage";
 import Link from "next/link";
 import NoItems from "@/components/NoItems";
+import PageContainer from "@/components/PageContainer";
 
 type Params = Promise<{ slug: string[] }>;
 
@@ -35,7 +36,7 @@ export default async function Page({ params }: { params: Params }) {
     .limit(4)) as { data: PropertyType[] | null };
 
   return (
-    <>
+    <PageContainer>
       <Suspense>
         <SearchForm />
       </Suspense>
@@ -84,6 +85,6 @@ export default async function Page({ params }: { params: Params }) {
       ) : (
         <NoItems />
       )}
-    </>
+    </PageConta>
   );
 }

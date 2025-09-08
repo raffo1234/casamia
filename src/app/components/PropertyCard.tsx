@@ -8,7 +8,7 @@ import { PropertyType } from "@/types/propertyType";
 import { Suspense } from "react";
 import { getFormattedPrice } from "@/lib/getFormattedPrice";
 
-export default function PropertyItem({
+export default function PropertyCard({
   property,
   userEmail,
 }: {
@@ -19,8 +19,8 @@ export default function PropertyItem({
     property;
 
   return (
-    <article className="group bg-white rounded-3xl">
-      <div className="relative mb-1">
+    <article className="group bg-slate-50 border border-slate-100 overflow-hidden rounded-3xl">
+      <div className="relative overflow-hidden mb-1">
         <Link href={`/inmueble/${slug}`} title={title}>
           <FirstImage title={title} src={property_image?.at(0)?.image_url} />
         </Link>

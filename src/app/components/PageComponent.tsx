@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useSWR from "swr";
-import PropertyItem from "./PropertyItem";
 import { PropertyType } from "@/types/propertyType";
+import PropertyCard from "./PropertyCard";
 
 export default function PageComponent({
   page,
@@ -31,6 +31,6 @@ export default function PageComponent({
   }, [properties?.length, isLoading, setIsLoadingMore]);
 
   return properties?.map((property) => (
-    <PropertyItem key={property.id} userEmail={userEmail} property={property} />
+    <PropertyCard key={property.id} userEmail={userEmail} property={property} />
   ));
 }

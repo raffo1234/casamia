@@ -1,6 +1,5 @@
 "use client";
 
-import PropertyItem from "./PropertyItem";
 import PropertiesGrid from "./PropertiesGrid";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import { PropertyState } from "@/types/propertyState";
 import InfiniteScrollSentinel from "./InfiniteScrollSentinel";
 import Link from "next/link";
 import type { PropertyType } from "@/types/propertyType";
+import PropertyCard from "./PropertyCard";
 
 const fetcherAllFavorites = async (userId: string) => {
   const { count, error } = await supabase
@@ -60,7 +60,7 @@ function Page({
 
   return likes?.map(({ property }) => {
     return (
-      <PropertyItem
+      <PropertyCard
         key={property.id}
         userEmail={userEmail}
         property={property}
@@ -129,7 +129,7 @@ export default function PropertiesFavorite({
         {likes?.map(({ property }) => {
           if (property)
             return (
-              <PropertyItem
+              <PropertyCard
                 key={property.id}
                 userEmail={userEmail}
                 property={property}

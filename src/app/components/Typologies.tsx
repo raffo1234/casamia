@@ -4,6 +4,7 @@ import TypologiesGrid from "./TypologiesGrid";
 import { useTypologies } from "@/hooks/useTypologies";
 import TypologyCard from "./TypologyCard";
 import { Suspense } from "react";
+import H3 from "./H3";
 
 export default function Typologies({ propertyId }: { propertyId: string }) {
   const {
@@ -18,9 +19,7 @@ export default function Typologies({ propertyId }: { propertyId: string }) {
 
   return (
     <div className="mt-20 md:mt-30">
-      <h3 className="mb-6 text-sm text-slate-700">
-        Encuentra tu modelo ideal:
-      </h3>
+      <H3>Encuentra tu modelo ideal</H3>
       <nav className="my-6 flex gap-2 items-center flex-wrap">
         {uniqueBedroomCounts.map((count) => (
           <button

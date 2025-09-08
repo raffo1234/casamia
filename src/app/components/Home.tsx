@@ -1,4 +1,4 @@
-import PropertyItem from "@/components/PropertyItem";
+import PropertyCard from "@/components/PropertyCard";
 import { PropertyType } from "@/types/propertyType";
 
 export default function Home({
@@ -9,6 +9,6 @@ export default function Home({
   userEmail: string | undefined | null;
 }) {
   return properties?.map((property) => (
-    <PropertyItem key={property.id} userEmail={userEmail} property={property} />
+    <PropertyCard key={property.id} userEmail={userEmail} property={property} />
   ));
 }

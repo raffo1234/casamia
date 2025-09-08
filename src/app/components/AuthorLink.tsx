@@ -16,9 +16,13 @@ export default function AuthorLink({
   if (!author) return null;
 
   return (
-    <div className="flex mt-2 gap-3 items-center text-sm">
-      <span>Por: </span>
-      <Link href={href} title="" className="flex items-center-safe gap-3">
+    <div className="flex text-[#1e0059] mt-2 gap-3 items-center text-sm">
+      <span>Por:</span>
+      <Link
+        href={href}
+        title={author.name}
+        className="flex items-center-safe gap-3"
+      >
         <Image
           src={author.image_url}
           alt={author.name}

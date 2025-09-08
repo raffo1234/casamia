@@ -8,6 +8,6 @@ export default function HomeContainer({
   Element?: React.ElementType;
 }) {
   return (
-    <Element className="max-w-[1816px] w-full mx-auto">{children}</Element>
+    <Element className="max-w-[1816px] px-4 w-full mx-auto">{children}</Element>
   );
 }
