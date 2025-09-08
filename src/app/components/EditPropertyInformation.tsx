@@ -41,7 +41,7 @@ type Inputs = {
   size: string;
   price: string;
   created_at: string;
-  delivery_at: string;
+  delivery_at: Date;
   transaction_type: TransactionType;
   currency: string;
   property_image?: {
@@ -88,8 +88,18 @@ export default function EditPropertyInformation({
     mutate: mutateProperty,
   } = useSWR(id, () => fetcher(id));
 
-  const { reset, register, handleSubmit, control, watch } = useForm<Inputs>({
+  const {
+    reset,
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>({
     mode: "onChange",
+    defaultValues: {
+      delivery_at: undefined,
+    },
   });
 
   const hasDeliveryAt =
@@ -497,13 +507,16 @@ export default function EditPropertyInformation({
                       control={control}
                       render={({ field }) => (
                         <MonthPicker
-                          value={
-                            field.value ? new Date(field.value) : undefined
-                          }
+                          value={field.value}
                           onChange={field.onChange}
                         />
                       )}
                     />
+                    <p className="text-sm text-red-600 mt-2">
+                      {errors?.delivery_at && (
+                        <span>{errors.delivery_at.message}</span>
+                      )}
+                    </p>
                   </div>
                 </fieldset>
               ) : null}
