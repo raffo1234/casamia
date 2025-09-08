@@ -54,6 +54,7 @@ export default async function RootLayout({
         <Toaster
           toastOptions={{
             className: "text-xs",
+            duration: 3500,
           }}
         />
         <NuqsAdapter>

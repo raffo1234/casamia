@@ -1,6 +1,5 @@
 import { CompanyType } from "@/types/companyType";
 import { UserType } from "@/types/userType";
-import Link from "next/link";
 import Image from "next/image";
 
 export default function AuthorLink({
@@ -16,9 +15,9 @@ export default function AuthorLink({
   if (!author) return null;
 
   return (
-    <div className="flex text-[#1e0059] mt-2 gap-3 items-center text-sm">
+    <div className="flex text-[#1e0059] mt-2 gap-3 items-center text-xs">
       <span>Por:</span>
-      <Link
+      <a
         href={href}
         title={author.name}
         className="flex items-center-safe gap-3"
@@ -31,7 +30,7 @@ export default function AuthorLink({
           width="32"
         />
         <span>{author.name}</span>
-      </Link>
+      </a>
     </div>
   );
 }

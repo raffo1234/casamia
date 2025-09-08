@@ -13,6 +13,7 @@ import CompanyPage from "@/components/CompanyPage";
 import Link from "next/link";
 import NoItems from "@/components/NoItems";
 import PageContainer from "@/components/PageContainer";
+import AuthorLink from "@/components/AuthorLink";
 
 type Params = Promise<{ slug: string[] }>;
 
@@ -23,7 +24,7 @@ export default async function Page({ params }: { params: Params }) {
 
   const { data: company } = await supabase
     .from("company")
-    .select("id, name, slug, logo_url, description")
+    .select("id, name, slug, image_url, description")
     .eq("slug", slug)
     .single();
 
@@ -42,32 +43,12 @@ export default async function Page({ params }: { params: Params }) {
       </Suspense>
       <div className="mb-5">
         <div className="mb-10 flex gap-3 justify-between items-center-safe">
-          {company ? (
-            <div className="flex gap-3 items-center-safe">
-              <span className="font-light">Por: </span>
-              <Link
-                href={`/empresa/${company.slug}`}
-                title={company.name}
-                className="flex text-lg items-center-safe gap-3"
-              >
-                <Image
-                  src={company.logo_url}
-                  alt={company.name}
-                  className="rounded-full"
-                  height="32"
-                  width="32"
-                />
-                <span className="border-b-2 transition-colors hover:border-slate-300 border-slate-400">
-                  {company.name}
-                </span>
-              </Link>
-            </div>
-          ) : null}
+          <AuthorLink company={company} />
           {company ? (
             <GetInTouch
               companyId={company?.id}
               companyName={company?.name}
-              companyLogo={company?.logo_url}
+              companyLogo={company?.image_url}
             />
           ) : null}
         </div>
