@@ -3,4 +3,5 @@ export type CompanyType = {
   name: string;
   slug: string;
   logo_url: string;
+  image_url: string;
 };

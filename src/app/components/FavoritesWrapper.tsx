@@ -32,13 +32,15 @@ export default async function FavoritesWrapper({
   }
 
   const properties: PropertyType[] = rawLikes
-    ? rawLikes.map((likeItem) => {
-        return {
-          ...likeItem.property,
-          user: likeItem.property.user,
-          company: likeItem.property.company,
-        };
-      })
+    ? rawLikes
+        .filter((likeItem) => likeItem.property !== null)
+        .map((likeItem) => {
+          return {
+            ...likeItem.property,
+            user: likeItem.property?.user,
+            company: likeItem.property?.company,
+          };
+        })
     : [];
 
   const hasProperties = properties.length > 0;

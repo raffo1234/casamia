@@ -5,14 +5,12 @@ import { PropertyPhase } from "@/types/propertyState";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import Like from "./Like";
-import GetInTouch from "./GetInTouch";
 import PropertyImages from "./PropertyImages";
-import Image from "next/image";
 import { PropertyType } from "@/types/propertyType";
 import { getFormattedPrice } from "@/lib/getFormattedPrice";
-import Link from "next/link";
 import New from "./New";
 import { Suspense } from "react";
+import AuthorLink from "./AuthorLink";
 
 export default function Property({
   property,
@@ -36,181 +34,191 @@ export default function Property({
     location,
     google_map,
     company,
+    user,
     created_at,
   } = property;
 
   return (
     <>
-      {company ? (
-        <div className="flex items-center justify-between w-full py-4 pr-20 bg-slate-100 lg:rounded-t-3xl">
-          <div className="flex gap-3 items-center-safe">
-            <span className="font-light">Por: </span>
-            <Link
-              href={`/empresa/${company.id}`}
-              title={company.name}
-              className="flex gap-3 text-lg items-center-safe"
-            >
-              <Image
-                src={company.logo_url}
-                alt={company.name}
-                className="rounded-full"
-                height="32"
-                width="32"
-              />
-              <span className="transition-colors border-b-2 hover:border-slate-300 border-slate-400">
-                {company.name}
-              </span>
-            </Link>
-          </div>
-          <GetInTouch
-            propertyId={id}
-            companyName={company.name}
-            companyLogo={company.logo_url}
-            propertyTitle={property.title}
-          />
-        </div>
-      ) : null}
-      <div className="sm:px-6 px-4 md:px-14 sm:pt-30 pt-12">
-        <div className="lg:flex items-center-safe">
-          <div className="mb-10 lg:w-1/2 lg:pr-20 lg:mb-0">
-            <div className="mb-3">
-              <New createdAt={created_at} />
-            </div>
-            <h1
-              className="mb-8 leading-tight font-flaviotte"
-              style={{
-                fontSize: "clamp(16px, 6vw + .5rem, 63px)",
-              }}
-            >
-              {title}
-            </h1>
-            <a
-              title={location}
-              target="_blank"
-              href={google_map}
-              style={{
-                margin: "clamp(20px,5vw,35px) 0 clamp(40px,5vw,70px) 0",
-              }}
-              className="flex w-fit hover:text-slate-800 text-slate-600 gap-2 text-lg font-light uppercase"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 36 36"
-              >
-                <path
-                  fill="currentColor"
-                  d="M18 6.72a5.73 5.73 0 1 0 5.73 5.73A5.73 5.73 0 0 0 18 6.72m0 9.46a3.73 3.73 0 1 1 3.73-3.73A3.73 3.73 0 0 1 18 16.17Z"
-                />
-                <path
-                  fill="currentColor"
-                  d="M18 2A11.79 11.79 0 0 0 6.22 13.73c0 4.67 2.62 8.58 4.54 11.43l.35.52a100 100 0 0 0 6.14 8l.76.89l.76-.89a100 100 0 0 0 6.14-8l.35-.53c1.91-2.85 4.53-6.75 4.53-11.42A11.79 11.79 0 0 0 18 2m5.59 22l-.36.53c-1.72 2.58-4 5.47-5.23 6.9c-1.18-1.43-3.51-4.32-5.23-6.9l-.35-.53c-1.77-2.64-4.2-6.25-4.2-10.31a9.78 9.78 0 1 1 19.56 0c0 4.1-2.42 7.71-4.19 10.31"
-                />
-                <path fill="none" d="M0 0h36v36H0z" />
-              </svg>
-              {location}
-            </a>
-            <div className="border border-slate-500 rounded-xl">
-              <div className="flex item-center">
-                <div className="p-4 truncate flex-3 flex items-center justify-center text-xs border-b border-r rounded-tl-lg border-slate-500">
-                  PRECIO
-                </div>
-                <div className="p-4 flex-1 flex justify-center items-center border-b border-r border-slate-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4m-8-6v6M2 18h20"
-                    />
-                  </svg>
-                </div>
-                <div className="flex-1 flex items-center justify-center p-4 border-b border-r border-slate-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                    >
-                      <path d="M9 10V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 10h14" />
-                      <path d="M3 22V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v2m-4 8h.01M14 14h.01M18 14h.01M9 18h.01M14 18h.01M19 18h.01M8 22h.01M14 22h.01M20 22h.01" />
-                    </g>
-                  </svg>
-                </div>
-                <div className="truncate text-xs uppercase flex-1 justify-center flex items-center p-4 border-b rounded-tr-lg border-slate-500">
-                  Entrega
-                </div>
-              </div>
-              <div className="flex items-center">
-                <div className="flex-3 truncate flex justify-center p-4 border-r font-semibold rounded-bl-lg border-slate-500">
-                  {getFormattedPrice(currency, price)}
-                </div>
-                <div className="flex-1 flex justify-center p-4 border-r font-semibold border-slate-500">
-                  {bedroom_count}
-                </div>
-                <div className="flex-1 flex justify-center p-4 border-r font-semibold border-slate-500">
-                  {bathroom_count}
-                </div>
-                <div className="flex-1 px-4 py-2 flex justify-center font-semibold rounded-br-lg">
-                  {phase === PropertyPhase.PLANOS ||
-                  phase === PropertyPhase.CONSTRUCCION ? (
-                    <div className="text-xs">
-                      <div className="capitalize">
-                        {delivery_at &&
-                          format(new Date(delivery_at), "MMM, yyyy", {
-                            locale: es,
-                          })}
-                      </div>
-                    </div>
-                  ) : (
-                    <>{phase}</>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="relative lg:w-1/2">
-            <div className="absolute top-3 left-3 md:left-15 z-10">
-              <Suspense>
-                <Like size={29} propertyId={id} userEmail={userEmail} />
-              </Suspense>
-            </div>
+      <New createdAt={created_at} />
+      <div className="mb-4">
+        <h1
+          className="leading-tight font-flaviotte"
+          style={{
+            fontSize: "clamp(16px, 6vw + .5rem, 63px)",
+          }}
+        >
+          {title}
+        </h1>
+        <AuthorLink user={user} company={company} />
+      </div>
+      <div className="lg:flex gap-8">
+        <div className="relative flex-grow-1">
+          <div className="absolute top-3 left-3 z-10">
             <Suspense>
-              <PropertyImages
-                propertyTitle={title}
-                propertyId={id}
-                propertySlug={slug}
-              />
+              <Like size={29} propertyId={id} userEmail={userEmail} />
             </Suspense>
           </div>
+          <Suspense>
+            <PropertyImages
+              propertyTitle={title}
+              propertyId={id}
+              propertySlug={slug}
+            />
+          </Suspense>
         </div>
-        {property.description ? (
-          <div className="pt-20">
-            <h3 className="mb-6 text-sm text-slate-700">Conoce m&aacute;s</h3>
-            <p className="whitespace-pre-line sm:text-2xl lg:text-3xl font-light leading-relaxed">
-              {property.description}
-            </p>
+        <div className="mb-10 lg:w-[390px] lg:mb-0 bg-[#faf9fb] border border-[#f3f3f6] rounded-lg p-7">
+          <p
+            className="font-semibold font-gilroy-medium "
+            style={{
+              fontSize: "clamp(16px, 6vw + .5rem, 28px)",
+            }}
+          >
+            Desde {getFormattedPrice(currency, price)}
+          </p>
+          <a
+            title={location}
+            target="_blank"
+            href={google_map}
+            style={{
+              margin: "clamp(20px,5vw,35px) 0 clamp(40px,5vw,70px) 0",
+            }}
+            className="flex w-fit hover:text-slate-800 text-slate-600 gap-2 text-sm font-light uppercase"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 36 36"
+            >
+              <path
+                fill="currentColor"
+                d="M18 6.72a5.73 5.73 0 1 0 5.73 5.73A5.73 5.73 0 0 0 18 6.72m0 9.46a3.73 3.73 0 1 1 3.73-3.73A3.73 3.73 0 0 1 18 16.17Z"
+              />
+              <path
+                fill="currentColor"
+                d="M18 2A11.79 11.79 0 0 0 6.22 13.73c0 4.67 2.62 8.58 4.54 11.43l.35.52a100 100 0 0 0 6.14 8l.76.89l.76-.89a100 100 0 0 0 6.14-8l.35-.53c1.91-2.85 4.53-6.75 4.53-11.42A11.79 11.79 0 0 0 18 2m5.59 22l-.36.53c-1.72 2.58-4 5.47-5.23 6.9c-1.18-1.43-3.51-4.32-5.23-6.9l-.35-.53c-1.77-2.64-4.2-6.25-4.2-10.31a9.78 9.78 0 1 1 19.56 0c0 4.1-2.42 7.71-4.19 10.31"
+              />
+              <path fill="none" d="M0 0h36v36H0z" />
+            </svg>
+            {location}
+          </a>
+          <div className="p-5 text-sm rounded-lg bg-white flex flex-col gap-4">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4m-8-6v6M2 18h20"
+                  />
+                </svg>
+                <p>Dormitorios</p>
+              </div>
+              <div>{bedroom_count}</div>
+            </div>
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <g
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                  >
+                    <path d="M9 10V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M7 10h14" />
+                    <path d="M3 22V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v2m-4 8h.01M14 14h.01M18 14h.01M9 18h.01M14 18h.01M19 18h.01M8 22h.01M14 22h.01M20 22h.01" />
+                  </g>
+                </svg>
+                <p>Baños</p>
+              </div>
+              <div>{bathroom_count}</div>
+            </div>
+            <div className="flex justify-between capitalize items-center">
+              <div className="flex gap-2 items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M17 14a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2a1 1 0 0 0 0 2m-4-5a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-6-3a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2a1 1 0 0 0 0 2"
+                  />
+                  <path
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    d="M7 1.75a.75.75 0 0 1 .75.75v.763c.662-.013 1.391-.013 2.193-.013h4.113c.803 0 1.532 0 2.194.013V2.5a.75.75 0 0 1 1.5 0v.827q.39.03.739.076c1.172.158 2.121.49 2.87 1.238c.748.749 1.08 1.698 1.238 2.87c.153 1.14.153 2.595.153 4.433v2.112c0 1.838 0 3.294-.153 4.433c-.158 1.172-.49 2.121-1.238 2.87c-.749.748-1.698 1.08-2.87 1.238c-1.14.153-2.595.153-4.433.153H9.945c-1.838 0-3.294 0-4.433-.153c-1.172-.158-2.121-.49-2.87-1.238c-.748-.749-1.08-1.698-1.238-2.87c-.153-1.14-.153-2.595-.153-4.433v-2.112c0-1.838 0-3.294.153-4.433c.158-1.172.49-2.121 1.238-2.87c.749-.748 1.698-1.08 2.87-1.238q.35-.046.739-.076V2.5A.75.75 0 0 1 7 1.75M5.71 4.89c-1.005.135-1.585.389-2.008.812S3.025 6.705 2.89 7.71q-.034.255-.058.539h18.336q-.024-.284-.058-.54c-.135-1.005-.389-1.585-.812-2.008s-1.003-.677-2.009-.812c-1.027-.138-2.382-.14-4.289-.14h-4c-1.907 0-3.261.002-4.29.14M2.75 12c0-.854 0-1.597.013-2.25h18.474c.013.653.013 1.396.013 2.25v2c0 1.907-.002 3.262-.14 4.29c-.135 1.005-.389 1.585-.812 2.008s-1.003.677-2.009.812c-1.027.138-2.382.14-4.289.14h-4c-1.907 0-3.261-.002-4.29-.14c-1.005-.135-1.585-.389-2.008-.812s-.677-1.003-.812-2.009c-.138-1.027-.14-2.382-.14-4.289z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <p>Entrega:</p>
+              </div>
+              <p>
+                {phase === PropertyPhase.PLANOS ||
+                phase === PropertyPhase.CONSTRUCCION
+                  ? delivery_at &&
+                    format(new Date(delivery_at), "MMMM, yyyy", {
+                      locale: es,
+                    })
+                  : phase}
+              </p>
+            </div>
           </div>
-        ) : null}
-        <Suspense>
-          <Typologies propertyId={property.id} />
-        </Suspense>
+          <button className="flex justify-center cursor-pointer hover:bg-yellow-400 transition-colors duration-300 gap-2 items-center bg-amber-400 mb-3 rounded-full mt-10 w-full px-4 py-4 font-semibold text-black">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="26"
+              height="26"
+              viewBox="0 0 24 24"
+            >
+              <g fill="none" stroke="currentColor" stroke-width="1">
+                <path
+                  stroke-width="1.5"
+                  d="M10 22a8 8 0 1 0-7.22-4.55c.172.36.232.766.13 1.15l-.328 1.227a1.3 1.3 0 0 0 1.591 1.592L5.4 21.09a1.67 1.67 0 0 1 1.15.13c1.045.5 2.215.78 3.451.78Z"
+                />
+                <path
+                  stroke-width="1.5"
+                  d="m18 14.502l.198-.087c.362-.165.768-.227 1.153-.124l.476.127a1.3 1.3 0 0 0 1.592-1.591l-.128-.476c-.103-.385-.04-.791.125-1.153A6.5 6.5 0 1 0 9.5 5.996"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6.518 14h.01m3.481 0h.009m3.482 0h.009"
+                />
+              </g>
+            </svg>
+            Contactar al vendedor
+          </button>
+        </div>
       </div>
+      {property.description ? (
+        <div className="pt-20">
+          <h3 className="mb-6 text-sm text-slate-700">Conoce m&aacute;s</h3>
+          <p className="whitespace-pre-line sm:text-2xl lg:text-3xl font-light leading-relaxed">
+            {property.description}
+          </p>
+        </div>
+      ) : null}
+      <Suspense>
+        <Typologies propertyId={property.id} />
+      </Suspense>
     </>
   );
 }

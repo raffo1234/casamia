@@ -18,7 +18,7 @@ export default function Logo() {
           />
         </svg>
       </span>
-      <span className="font-semibold text-2xl tracking-wider uppercase font-bebas">
+      <span className="font-semibold text-xl tracking-wider uppercase font-flaviotte">
         Casamia
       </span>
     </Link>

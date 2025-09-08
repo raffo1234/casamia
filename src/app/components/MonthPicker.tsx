@@ -17,9 +17,9 @@ export default function MonthYearPicker({
 }: MonthYearPickerProps) {
   return (
     <DatePicker
-      selected={value} // Use the value prop directly
+      selected={value}
       onChange={(date) => {
-        onChange?.(date); // Pass the date directly to the onChange handler
+        onChange?.(date);
       }}
       dateFormat="MM/yyyy"
       showMonthYearPicker

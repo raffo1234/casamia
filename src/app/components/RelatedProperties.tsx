@@ -9,8 +9,6 @@ export default function RelatedProperties({
   propertyId: string;
   userEmail: string | undefined | null;
 }) {
-  // Use client-side data fetching here, if needed
-  // e.g., const { data, error } = useSWR(...);
 
   return (
     <Suspense>

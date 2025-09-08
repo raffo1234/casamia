@@ -39,11 +39,11 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
   }, [images, currentImageIndex]);
 
   return (
-    <div className="relative md:px-12 w-full mx-auto">
+    <div className="relative animate-fade-in w-full mx-auto">
       {multipleImages && (
         <button
           onClick={goToPreviousImage}
-          className="hidden md:flex outline-none absolute w-12 items-center justify-center h-full left-0 top-0 bottom-0 z-10"
+          className="hover:text-amber-400 shadow-2xl cursor-pointer transition-colors duration-300 aspect-square bg-white rounded-full md:flex outline-none absolute w-9 items-center justify-center left-2 top-1/2 -translate-y-1/2 z-10"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
             <path
@@ -89,9 +89,9 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
             <Image
               src={currentImage.src}
               alt={currentImage.propertyTitle}
-              className="w-full aspect-5/4 object-cover rounded-3xl"
-              width={400}
-              height={300}
+              className="w-full aspect-5/4 object-cover rounded-2xl"
+              width={500}
+              height={400}
               priority={currentImageIndex === 0}
             />
           </Link>
@@ -119,7 +119,7 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
       {multipleImages && (
         <button
           onClick={goToNextImage}
-          className="hidden md:flex outline-none absolute w-12 items-center justify-center h-full right-0 top-0 bottom-0 z-10"
+          className="hover:text-amber-400 shadow-2xl cursor-pointer transition-colors duration-300 aspect-square bg-white rounded-full md:flex outline-none absolute w-9 items-center justify-center right-2 top-1/2 -translate-y-1/2 z-10"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
             <path

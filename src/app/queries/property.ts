@@ -47,7 +47,7 @@ export const favoriteQuery = `
       id,
       name,
       slug,
-      logo_url
+      image_url
     )
   )
 `;

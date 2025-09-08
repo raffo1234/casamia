@@ -67,7 +67,7 @@ export default function PropertyItem({
             <Link
               href={`/inmueble/${id}`}
               title={title}
-              className=" font-semibold font-gilroy-medium text-xl"
+              className="font-semibold font-gilroy-medium text-xl"
             >
               {getFormattedPrice(currency, price)}
             </Link>

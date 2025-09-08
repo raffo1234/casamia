@@ -6,6 +6,7 @@ import { PropertyType } from "@/types/propertyType";
 import { useMemo } from "react";
 import useSWR from "swr"; // Import the SWR hook
 import PropertiesGrid from "./PropertiesGrid";
+import TypologiesGrid from "./TypologiesGrid";
 
 const totalCountFetcher = async ([_key, propertyId]: [
   string,
@@ -60,14 +61,20 @@ export default function RelatedPropertiesPage({
   );
 
   if (isLoading) {
-    return <p>Cargando propiedades...</p>;
+    return (
+      <TypologiesGrid>
+        <div className="rounded-3xl animate-pulse bg-slate-100 h-[400px]" />
+        <div className="rounded-3xl animate-pulse bg-slate-100 h-[400px]" />
+        <div className="rounded-3xl animate-pulse bg-slate-100 h-[400px]" />
+      </TypologiesGrid>
+    );
   }
 
   if (totalCount && totalCount > 0) {
     return (
-      <>
-        <h3 className="mb-6 text-sm text-slate-700 mt-20">
-          Propiedades que también podrían interesarte:
+      <div className="mt-20 pt-20 border-t-2 border-slate-200">
+        <h3 className="mb-6 text-slate-800 font-semibold">
+          También podría interesarte
         </h3>
         <br />
         <PropertiesGrid>
@@ -80,7 +87,7 @@ export default function RelatedPropertiesPage({
             initPage={initPage}
           />
         </PropertiesGrid>
-      </>
+      </div>
     );
   }
 

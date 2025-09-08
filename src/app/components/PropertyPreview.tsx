@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { PropertyType } from "@/types/propertyType";
 import { useParams, useRouter } from "next/navigation";
 import RelatedProperties from "./RelatedProperties";
+import Main from "./Main";
 
 const fetcher = async (propertySlug: string) => {
   const { data } = (await supabase
@@ -34,11 +35,13 @@ const fetcher = async (propertySlug: string) => {
         id,
         email,
         name,
+        slug,
         image_url
       ),
       company!property_company_id_fkey (
         id,
         name,
+        slug,
         logo_url
       ),
       typology (
@@ -108,8 +111,8 @@ export default function PropertyPreview({
       onClick={handleOverlayClick}
       className="fixed top-0 left-0 z-30 w-full h-full overflow-auto transition-all duration-200 cursor-pointer bg-black/60 lg:p-6 bg-opacity-40"
     >
-      <div className="animate-slide-up pb-20 cursor-default mx-auto relative lg:rounded-3xl bg-white min-h-lvh">
-        <div className="mx-auto w-full">
+      <div className="pt-20 animate-fade-in pb-20 cursor-default mx-auto relative lg:rounded-xl bg-white min-h-lvh">
+        <Main>
           <Suspense>
             <Property property={property} userEmail={userEmail} />
           </Suspense>
@@ -121,7 +124,7 @@ export default function PropertyPreview({
               />
             </Suspense>
           ) : null}
-        </div>
+        </Main>
       </div>
       <button
         type="button"

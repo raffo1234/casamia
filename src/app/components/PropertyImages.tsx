@@ -41,15 +41,9 @@ export default function PropertyImages({
 
   if (isLoading) {
     return (
-      <div className={`relative md:px-12 flex justify-center items-center`}>
-        <div className="animate-pulse aspect-5/4 rounded-3xl bg-slate-100 h-full w-full"></div>
-      </div>
+      <div className="animate-pulse aspect-5/4 rounded-xl bg-slate-100 h-full w-full"></div>
     );
   }
 
-  return (
-    <div className="animate-fade-in">
-      <ImageSlider images={imagesToSlider} />
-    </div>
-  );
+  return <ImageSlider images={imagesToSlider} />;
 }

@@ -1,3 +1,7 @@
 export default function Main({ children }: { children: React.ReactNode }) {
-  return <main className="max-w-[1816px] mx-auto pb-20 px-4">{children}</main>;
+  return (
+    <main className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-14">
+      {children}
+    </main>
+  );
 }

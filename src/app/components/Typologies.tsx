@@ -17,7 +17,7 @@ export default function Typologies({ propertyId }: { propertyId: string }) {
   if (typologies.length === 0) return null;
 
   return (
-    <div className="mt-20 md:mt-30 pb-10">
+    <div className="mt-20 md:mt-30">
       <h3 className="mb-6 text-sm text-slate-700">
         Encuentra tu modelo ideal:
       </h3>
@@ -36,9 +36,9 @@ export default function Typologies({ propertyId }: { propertyId: string }) {
         <Suspense>
           {isLoading ? (
             <>
-              <div className="rounded-3xl animate-pulse bg-slate-200 h-[400px]" />
-              <div className="rounded-3xl animate-pulse bg-slate-200 h-[400px]" />
-              <div className="rounded-3xl animate-pulse bg-slate-200 h-[400px]" />
+              <div className="rounded-3xl animate-pulse bg-slate-100 h-[400px]" />
+              <div className="rounded-3xl animate-pulse bg-slate-100 h-[400px]" />
+              <div className="rounded-3xl animate-pulse bg-slate-100 h-[400px]" />
             </>
           ) : (
             typologies.map((typology) => (

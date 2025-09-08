@@ -1,3 +1,4 @@
+import Main from "@/components/Main";
 import Property from "@/components/Property";
 import RelatedProperties from "@/components/RelatedProperties";
 import { auth } from "@/lib/auth";
@@ -26,11 +27,13 @@ export default async function Page({ params }: PageProps) {
         user:user!property_user_id_fkey (
           id,
           name,
+          slug,
           image_url
         ),
         company:company!property_company_id_fkey (
           id,
           name,
+          slug,
           logo_url
         ),
         typology (
@@ -57,11 +60,11 @@ export default async function Page({ params }: PageProps) {
   const userEmail = session?.user?.email;
 
   return (
-    <>
+    <Main>
       <Property property={property} userEmail={userEmail} />
       <Suspense>
         <RelatedProperties propertyId={property.id} userEmail={userEmail} />
       </Suspense>
-    </>
+    </Main>
   );
 }

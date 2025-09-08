@@ -23,7 +23,6 @@ export default async function Index() {
   ])) as [Session | null, { data: PropertyType[] | null }];
 
   const userEmail = session?.user?.email;
-
   const hasProperties = properties && properties.length > 0;
 
   return (

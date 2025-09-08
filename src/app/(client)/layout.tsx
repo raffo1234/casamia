@@ -2,6 +2,7 @@ import "../globals.css";
 import type { Metadata } from "next";
 import Main from "@/components/Main";
 import Header from "@/components/Header";
+import HomeContainer from "@/components/HomeContainer";
 
 export const metadata: Metadata = {
   title: "Casamia",
@@ -20,12 +21,12 @@ export default async function ClientLayout({
   typologyImages: React.ReactNode;
 }>) {
   return (
-    <div className="bg-slate-50 min-h-lvh">
+    <>
       <Header />
-      <Main>{children}</Main>
+      <HomeContainer>{children}</HomeContainer>
       {modal}
       {propertyImages}
       {typologyImages}
-    </div>
+    </>
   );
 }
