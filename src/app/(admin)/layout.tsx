@@ -26,7 +26,11 @@ export default async function AdminLayout({
           <h1>
             <Logo />
           </h1>
-          <Suspense>
+          <Suspense
+            fallback={
+              <div className="h-12 w-12 bg-slate-100 rounded-full animate-pulse"></div>
+            }
+          >
             <ProfilePopover />
           </Suspense>
         </div>

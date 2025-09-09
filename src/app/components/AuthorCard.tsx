@@ -6,11 +6,18 @@ import { UserType } from "@/types/userType";
 import Image from "next/image";
 import useSWR from "swr";
 
-const fetcher = async (userId: string) => {
-  const { count, error } = await supabase
+const fetcher = async (authorId: string, isCompany: boolean) => {
+  let query = supabase
     .from("property")
-    .select("*", { count: "exact", head: true })
-    .eq("user_id", userId);
+    .select("*", { count: "exact", head: true });
+
+  if (isCompany) {
+    query = query.eq("company_id", authorId);
+  } else {
+    query = query.eq("user_id", authorId).is("company_id", null);
+  }
+
+  const { count, error } = await query;
 
   if (error) {
     throw new Error(error.message);
@@ -26,6 +33,7 @@ export default function AuthorCard({
   user?: UserType | undefined | null;
   company?: CompanyType | undefined | null;
 }) {
+  const isCompany = !!company;
   const author = company ? company : user;
   const href = company ? `/empresa/${company.slug}` : `/usuario/${user?.slug}`;
 
@@ -33,8 +41,8 @@ export default function AuthorCard({
     data: propertyCount,
     error,
     isLoading,
-  } = useSWR(`user-count-${author?.id}`, () =>
-    author ? fetcher(author.id) : null
+  } = useSWR(author?.id ? [author.id, isCompany] : null, ([id, isCompany]) =>
+    fetcher(id, isCompany)
   );
 
   if (!author) return null;
@@ -51,15 +59,19 @@ export default function AuthorCard({
         />
       </a>
       <div>
-        <p className="font-semibold mb-1">{author.name}</p>
+        <a href={href} className="font-semibold mb-1">
+          {author.name}
+        </a>
         <p className="text-slate-500">
-          {isLoading
-            ? "Cargando..."
-            : error
-              ? "Error al cargar inmuebles"
-              : `${propertyCount} Inmueble${propertyCount === 1 ? "" : "s"} publicado${
-                  propertyCount === 1 ? "" : "s"
-                }`}
+          {isLoading ? (
+            <div className="bg-slate-100 mt-1 animate-pulse rounded h-4 w-40"></div>
+          ) : error ? (
+            "Error al cargar inmuebles"
+          ) : (
+            `${propertyCount} Inmueble${propertyCount === 1 ? "" : "s"} publicado${
+              propertyCount === 1 ? "" : "s"
+            }`
+          )}
         </p>
       </div>
     </div>

@@ -44,13 +44,6 @@ export default async function Page({ params }: { params: Params }) {
       <div className="mb-5">
         <div className="mb-10 flex gap-3 justify-between items-center-safe">
           <AuthorLink company={company} />
-          {company ? (
-            <GetInTouch
-              companyId={company?.id}
-              companyName={company?.name}
-              companyLogo={company?.image_url}
-            />
-          ) : null}
         </div>
         <p className="text-lg mb-30">{company?.description}</p>
       </div>
@@ -66,6 +59,6 @@ export default async function Page({ params }: { params: Params }) {
       ) : (
         <NoItems />
       )}
-    </PageConta>
+    </PageContainer>
   );
 }

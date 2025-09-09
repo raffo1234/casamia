@@ -192,7 +192,9 @@ export default function Property({
             />
           </div>
           <div className="bg-slate-50 border border-slate-100 rounded-xl p-7">
-            <AuthorCard user={user} company={company} />
+            <Suspense>
+              <AuthorCard user={user} company={company} />
+            </Suspense>
           </div>
         </div>
       </div>

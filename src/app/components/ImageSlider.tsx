@@ -43,7 +43,7 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
       {multipleImages && (
         <button
           onClick={goToPreviousImage}
-          className="hover:text-amber-400 shadow-2xl cursor-pointer transition-colors duration-300 aspect-square bg-white rounded-full md:flex outline-none absolute w-9 items-center justify-center left-2 top-1/2 -translate-y-1/2 z-10"
+          className="hover:text-amber-400 shadow-2xl cursor-pointer transition-colors duration-300 aspect-square bg-white rounded-full md:flex outline-none absolute w-10 items-center justify-center left-2 top-1/2 -translate-y-1/2 z-10"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
             <path
@@ -119,7 +119,7 @@ const ImageSlider = ({ images }: { images: ImageProp[] }) => {
       {multipleImages && (
         <button
           onClick={goToNextImage}
-          className="hover:text-amber-400 shadow-2xl cursor-pointer transition-colors duration-300 aspect-square bg-white rounded-full md:flex outline-none absolute w-9 items-center justify-center right-2 top-1/2 -translate-y-1/2 z-10"
+          className="hover:text-amber-400 shadow-2xl cursor-pointer transition-colors duration-300 aspect-square bg-white rounded-full md:flex outline-none absolute w-10 flex items-center justify-center right-2 top-1/2 -translate-y-1/2 z-10"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
             <path
