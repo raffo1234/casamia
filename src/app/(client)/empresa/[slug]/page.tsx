@@ -1,16 +1,13 @@
 import SearchForm from "@/components/SearchForm";
 import { supabase } from "@/lib/supabase";
-import GetInTouch from "@/components/GetInTouch";
 import { PropertyState } from "@/types/propertyState";
 import { propertyQuery } from "@/queries/property";
-import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { PropertyType } from "@/types/propertyType";
 import { Suspense } from "react";
 import PropertiesGrid from "@/components/PropertiesGrid";
 import Home from "@/components/Home";
 import CompanyPage from "@/components/CompanyPage";
-import Link from "next/link";
 import NoItems from "@/components/NoItems";
 import PageContainer from "@/components/PageContainer";
 import AuthorLink from "@/components/AuthorLink";
