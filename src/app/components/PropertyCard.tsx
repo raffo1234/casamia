@@ -38,7 +38,7 @@ export default function PropertyCard({
             className="absolute -top-8 left-1/2 -translate-x-1/2"
           >
             <Image
-              src={company.logo_url}
+              src={company.image_url}
               className="w-15 h-15 sm:w-13 sm:h-13 object-cover rounded-full bg-gray-100"
               alt={company.name}
               title={company.name}

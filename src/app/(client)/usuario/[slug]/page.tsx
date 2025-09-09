@@ -11,10 +11,10 @@ import NoItems from "@/components/NoItems";
 import PageContainer from "@/components/PageContainer";
 import AuthorLink from "@/components/AuthorLink";
 
-type Params = { slug: string[] };
+type Params = Promise<{ slug: string }>;
 
 export default async function Page({ params }: { params: Params }) {
-  const slug = params.slug;
+  const { slug } = await params;
   const session = await auth();
   const userEmail = session?.user?.email;
 
