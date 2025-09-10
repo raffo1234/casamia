@@ -13,11 +13,7 @@ import SecondaryButton from "./SecondaryButton";
 import PrimaryButton from "./PrimaryButton";
 
 async function fetcher(userId: string) {
-  const { data, error } = await supabase
-    .from("user")
-    .select()
-    .eq("id", userId)
-    .single();
+  const { data, error } = await supabase.from("user").select().eq("id", userId).single();
   if (error) throw error;
   return data;
 }
@@ -25,7 +21,8 @@ async function fetcher(userId: string) {
 type Inputs = {
   username: string;
   email: string;
-  name: string;
+  first_name: string;
+  last_name: string;
   role_id: string;
 };
 
@@ -46,7 +43,7 @@ export default function EditUser({ userId }: { userId: string }) {
   const { data: user } = useSWR(userId, () => fetcher(userId));
 
   const { reset, register, handleSubmit } = useForm<Inputs>({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: useMemo(() => {
       return user;
     }, [user]),
@@ -80,17 +77,30 @@ export default function EditUser({ userId }: { userId: string }) {
         ) : (
           <>
             <h2 className="mb-6 font-semibold text-lg block">Editar Usuario</h2>
-            <form onSubmit={handleSubmit(onSubmit)} id="editUser">
+            <form onSubmit={handleSubmit(onSubmit)}>
               <fieldset className="flex flex-col gap-4">
                 <div>
-                  <label htmlFor="name" className="inline-block mb-2 text-sm">
-                    Nombre
+                  <label htmlFor="first_name" className="inline-block mb-2 text-sm">
+                    Nombres
                   </label>
                   <input
                     disabled
                     type="text"
-                    id="name"
-                    {...register("name")}
+                    id="first_name"
+                    {...register("first_name")}
+                    required
+                    className="disabled:bg-slate-100 w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="last_name" className="inline-block mb-2 text-sm">
+                    Apellidos
+                  </label>
+                  <input
+                    disabled
+                    type="text"
+                    id="last_name"
+                    {...register("last_name")}
                     required
                     className="disabled:bg-slate-100 w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100  focus:border-cyan-500"
                   />
@@ -109,10 +119,7 @@ export default function EditUser({ userId }: { userId: string }) {
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="role_id"
-                    className="inline-block mb-2 text-sm"
-                  >
+                  <label htmlFor="role_id" className="inline-block mb-2 text-sm">
                     Role
                   </label>
                   <div className="relative">
@@ -136,15 +143,13 @@ export default function EditUser({ userId }: { userId: string }) {
                 </div>
               </fieldset>
               <footer className="flex items-center gap-3.5 justify-end mt-6 pt-6">
-                <SecondaryButton onClick={() => setModalOpen(false)}>
-                  Cancelar
-                </SecondaryButton>
+                <SecondaryButton onClick={() => setModalOpen(false)}>Cancelar</SecondaryButton>
                 <PrimaryButton title="Guardar">Guardar</PrimaryButton>
               </footer>
             </form>
           </>
         )}
-      </>
+      </>,
     );
     setModalOpen(true);
   };

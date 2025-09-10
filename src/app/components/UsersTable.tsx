@@ -19,15 +19,12 @@ export default function UsersTable({ users }: { users: UserType[] | null }) {
         className="border-dashed bg-white border border-gray-200 hover:bg-gray-50 rounded-2xl p-4 flex hover:text-cyan-500 justify-center items-center"
       >
         <span className="text-center">
-          <Icon
-            icon="solar:add-square-broken"
-            fontSize={24}
-            className="mx-auto mb-2"
-          />
+          <Icon icon="solar:add-square-broken" fontSize={24} className="mx-auto mb-2" />
           <span>Agregar Usuario</span>
         </span>
       </Link>
-      {users?.map(({ name, id, role, image_url }) => {
+      {users?.map(({ first_name, last_name, id, role, image_url }) => {
+        const name = `${first_name ?? ""} ${last_name ?? ""}`;
         return (
           <div
             key={id}
@@ -41,15 +38,10 @@ export default function UsersTable({ users }: { users: UserType[] | null }) {
               height={44}
               title={name}
             />
-            <div
-              className="font-semibold w-full mb-1 text-center truncate"
-              title={name}
-            >
+            <div className="font-semibold w-full mb-1 text-center truncate" title={name}>
               {name}
             </div>
-            <div className="text-sm text-gray-500 w-full text-center mb-4">
-              {role?.name}
-            </div>
+            <div className="text-sm text-gray-500 w-full text-center mb-4">{role?.name}</div>
             <div className="flex gap-2 items-center justify-center">
               <EditUser userId={id} />
               <DeleteUser userId={id} />

@@ -5,7 +5,8 @@ type RoleType = {
 
 export type UserType = {
   id: string;
-  name: string;
+  first_name: string;
+  last_name: string;
   slug: string;
   image_url: string;
   username: string;

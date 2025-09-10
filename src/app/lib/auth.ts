@@ -1,8 +1,9 @@
-// auth.ts
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import syncUserWithDatabase from "@/lib/syncUserWithDatabase";
 import { supabase } from "./supabase";
-import syncUserWithDatabase from "./syncUserWithDatabase";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -16,6 +17,50 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           access_type: "offline",
           response_type: "code",
         },
+      },
+      checks: ["pkce"],
+    }),
+    CredentialsProvider({
+      name: "Sign in with Email/Password",
+      async authorize(credentials) {
+        const email = credentials?.email;
+        const password = credentials?.password;
+
+        if (!email || !password) {
+          return null;
+        }
+
+        try {
+          const { data: user, error } = await supabase
+            .from("user")
+            .select("id, email, first_name, last_name, password")
+            .eq("email", email)
+            .single();
+
+          if (error) {
+            console.error("Error fetching user:", error);
+            return null;
+          }
+
+          if (!user) {
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(password as string, user.password);
+
+          if (isPasswordValid) {
+            return {
+              id: user.id,
+              name: `${user.first_name || ""} ${user.last_name || ""}`.trim() || user.email,
+              email: user.email,
+            };
+          } else {
+            return null;
+          }
+        } catch (error) {
+          console.error("Error during authorization:", error);
+          return null;
+        }
       },
     }),
   ],
@@ -46,6 +91,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             console.error("Error fetching user role in JWT callback:", error);
           } else if (dbUser?.id) {
             token.user_id = dbUser.id;
+            token.user_role_id = dbUser.role_id;
           }
         } catch (error) {
           console.error("Error fetching user role in JWT callback:", error);
@@ -56,11 +102,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       if (token?.user_id) {
         session.user.id = token.user_id as string;
+        session.user.role_id = token.user_role_id as string;
       }
       return session;
     },
     async redirect({ baseUrl }) {
-      return baseUrl;
+      return `${baseUrl}/admin/property`;
     },
   },
+  debug: process.env.NODE_ENV === "development",
 });

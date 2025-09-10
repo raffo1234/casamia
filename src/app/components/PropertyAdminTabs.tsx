@@ -16,7 +16,7 @@ export default function PropertyAdminTabs() {
     : null;
 
   const fetcher = async ([tableName, id, columnName]: string[]) => {
-    return getFieldFromTable(tableName, id, columnName);
+    return getFieldFromTable(tableName, "id", columnName, id);
   };
 
   const { data: transactionType } = useSWR(swrKey, fetcher);

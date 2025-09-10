@@ -17,6 +17,7 @@ const pages = [
     title: "Usuarios",
     iconName: "solar:user-linear",
   },
+
   {
     href: "/admin/property",
     title: "Propiedades",
@@ -31,6 +32,11 @@ const pages = [
     href: "/admin/permisos",
     title: "Permisos",
     iconName: "solar:lock-keyhole-broken",
+  },
+  {
+    href: "/admin/settings",
+    title: "Configuracion",
+    iconName: "solar:settings-outline",
   },
 ];
 

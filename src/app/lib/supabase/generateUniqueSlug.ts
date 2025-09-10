@@ -4,7 +4,7 @@ import { supabase } from "../supabase";
 export const generateUniqueSlug = async (
   table: string,
   title: string,
-  id: string
+  id?: string | null
 ) => {
   const baseSlug = slugify(title, {
     lower: true,

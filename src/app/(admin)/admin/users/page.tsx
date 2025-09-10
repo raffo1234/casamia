@@ -12,12 +12,13 @@ export default async function Page() {
       `
       id,
       image_url,
-      name,
       username,
+      first_name,
+      last_name,
       email,
       role_id,
       role(id, name)
-      `
+      `,
     )
     .order("created_at", { ascending: false })) as { data: UserType[] | null };
 

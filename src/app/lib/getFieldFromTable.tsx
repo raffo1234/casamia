@@ -1,18 +1,17 @@
-// This file can remain as-is, as it's a generic fetcher function.
-// lib/getFieldFromTable.ts
 "use client";
 
 import { supabase } from "@/lib/supabase";
 
 export async function getFieldFromTable<T>(
   tableName: string,
-  id: string,
+  columnKey: string,
+  columnValue: string,
   columnName: string
 ): Promise<T | null> {
   const { data, error } = await supabase
     .from(tableName)
     .select(columnName)
-    .eq("id", id)
+    .eq(columnKey, columnValue)
     .single();
 
   if (error) {
