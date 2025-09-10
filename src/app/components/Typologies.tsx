@@ -15,11 +15,9 @@ export default function Typologies({ propertyId }: { propertyId: string }) {
     isLoading,
   } = useTypologies(propertyId);
 
-  if (typologies.length === 0) return null;
-
   return (
-    <div className="mt-20 md:mt-30">
-      <H3>Encuentra tu modelo ideal</H3>
+    <div className={`${typologies.length > 0 ? "mt-20 md:mt-30" : ""}`}>
+      {isLoading ? <div></div> : <H3>Encuentra tu modelo ideal</H3>}
       <nav className="my-6 flex gap-2 items-center flex-wrap">
         {uniqueBedroomCounts.map((count) => (
           <button
@@ -35,9 +33,9 @@ export default function Typologies({ propertyId }: { propertyId: string }) {
         <Suspense>
           {isLoading ? (
             <>
-              <div className="rounded-3xl animate-pulse bg-slate-100 h-[400px]" />
-              <div className="rounded-3xl animate-pulse bg-slate-100 h-[400px]" />
-              <div className="rounded-3xl animate-pulse bg-slate-100 h-[400px]" />
+              <div className="rounded-3xl animate-pulse bg-slate-100 h-[499px]" />
+              <div className="rounded-3xl animate-pulse bg-slate-100 h-[499px]" />
+              <div className="rounded-3xl animate-pulse bg-slate-100 h-[499px]" />
             </>
           ) : (
             typologies.map((typology) => (

@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { CompanyType } from "@/types/companyType";
 import { UserType } from "@/types/userType";
 import Image from "next/image";
+import Link from "next/link";
 import useSWR from "swr";
 
 const fetcher = async (authorId: string, isCompany: boolean) => {
@@ -59,9 +60,9 @@ export default function AuthorCard({
         />
       </a>
       <div>
-        <a href={href} className="font-semibold mb-1">
+        <Link title={author.name} href={href} className="font-semibold mb-1">
           {author.name}
-        </a>
+        </Link>
         <p className="text-slate-500">
           {isLoading ? (
             <div className="bg-slate-100 mt-1 animate-pulse rounded h-4 w-40"></div>

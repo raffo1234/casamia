@@ -171,7 +171,7 @@ export default function Property({
                       clipRule="evenodd"
                     />
                   </svg>
-                  <p>Entrega:</p>
+                  <p>Entrega</p>
                 </div>
                 <p>
                   {phase === PropertyPhase.PLANOS ||

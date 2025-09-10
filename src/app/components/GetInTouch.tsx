@@ -29,10 +29,6 @@ const formSchema = z.object({
   phone: z.string().regex(/^([2-7]\d{7}|9\d{8})$/, {
     message: "Ingrese un teléfono valido.",
   }),
-  dni: z
-    .string()
-    .length(8, { message: "El DNI debe tener 8 dígitos." })
-    .regex(/^\d+$/, { message: "El DNI debe contener solo números." }),
   message: z.string().min(2, { message: "Mensaje es requerido" }),
 });
 
@@ -41,7 +37,6 @@ type Inputs = {
   last_name: string;
   email: string;
   phone: string;
-  dni: string;
   message: string;
   property_id?: string;
 };
@@ -150,10 +145,10 @@ export default function GetInTouch({
                   className="w-20 h-20 rounded-full"
                 />
                 <div>
-                  <h2 className="text-sm text-slate-400">
-                    Ponte en contacto con:
+                  <h2 className="text-xs text-slate-400 mb-2">
+                    Ponte en contacto con
                   </h2>
-                  <h3 className="font-semibold font-inter-tight text-lg mb-1">
+                  <h3 className="font-semibold font-inter-tight text-lg">
                     {author?.name}
                   </h3>
                   <div className="text-sm">
@@ -195,16 +190,11 @@ export default function GetInTouch({
               </InputError>
             </div>
             <div>
-              <FormInputLabel htmlFor="dni">DNI</FormInputLabel>
-              <input {...register("dni")} id="dni" className={inputClassName} />
-              <InputError>{errors.dni && errors.dni.message}</InputError>
-            </div>
-            <div>
               <FormInputLabel htmlFor="phone">Teléfono</FormInputLabel>
               <input
                 {...register("phone")}
                 id="phone"
-                className="w-full px-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+                className={inputClassName}
               />
               <InputError>{errors.phone && errors.phone.message}</InputError>
             </div>
