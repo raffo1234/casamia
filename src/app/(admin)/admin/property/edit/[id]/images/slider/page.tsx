@@ -13,9 +13,10 @@ const fetcher = async (propertyId: string) => {
       `
       id,
       slug,
-      property_image(id, image_url)
-    `
+      property_image(id, image_url, sort_order)
+    `,
     )
+    .order("sort_order", { ascending: true, referencedTable: "property_image" })
     .eq("id", propertyId)
     .single();
 
@@ -29,11 +30,12 @@ const fetcher = async (propertyId: string) => {
 
 export default function Page() {
   const params = useParams();
+
   const propertyId = params.id as string;
 
   const { data: propertyData, isLoading } = useSWR(
     propertyId ? `${propertyId}-full-data` : null,
-    () => fetcher(propertyId)
+    () => fetcher(propertyId),
   );
 
   const imagesToSlider = useMemo(() => {
@@ -59,10 +61,7 @@ export default function Page() {
 
   return (
     <Suspense>
-      <ImageSliderFullScreen
-        images={imagesToSlider}
-        onClose={() => history.back()}
-      />
+      <ImageSliderFullScreen images={imagesToSlider} onClose={() => history.back()} />
     </Suspense>
   );
 }

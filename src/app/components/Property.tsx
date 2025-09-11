@@ -55,9 +55,9 @@ export default function Property({
         </h1>
         <AuthorLink user={user} company={company} />
       </div>
-      <div className="lg:flex gap-8">
+      <div className="flex flex-col gap-8 lg:flex-row lg:">
         <div className="relative flex-grow-1">
-          <div className="absolute top-3 left-3 z-10">
+          <div className="absolute z-10 top-3 left-3">
             <Suspense>
               <Like size={29} propertyId={id} userEmail={userEmail} />
             </Suspense>
@@ -71,7 +71,7 @@ export default function Property({
           </Suspense>
         </div>
         <div className="mb-10 lg:w-[390px] flex flex-col gap-5 lg:mb-0">
-          <div className="bg-slate-50 border border-slate-100 rounded-xl p-7">
+          <div className="border bg-slate-50 border-slate-100 rounded-xl p-7">
             <p
               className="font-bold font-gilroy-medium"
               style={{
@@ -87,7 +87,7 @@ export default function Property({
               style={{
                 margin: "clamp(20px,5vw,35px) 0 clamp(40px,5vw,70px) 0",
               }}
-              className="flex w-fit hover:text-slate-800 text-slate-600 gap-2 text-sm font-light uppercase"
+              className="flex gap-2 text-sm font-light uppercase w-fit hover:text-slate-800 text-slate-600"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -107,9 +107,9 @@ export default function Property({
               </svg>
               {location}
             </a>
-            <div className="bg-white p-5 text-sm rounded-lg bgWhite flex flex-col gap-4">
-              <div className="flex justify-between items-center">
-                <div className="flex gap-2 items-center">
+            <div className="flex flex-col gap-4 p-5 text-sm bg-white rounded-lg bgWhite">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -129,8 +129,8 @@ export default function Property({
                 </div>
                 <div>{bedroom_count}</div>
               </div>
-              <div className="flex justify-between items-center">
-                <div className="flex gap-2 items-center">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -152,8 +152,8 @@ export default function Property({
                 </div>
                 <div>{bathroom_count}</div>
               </div>
-              <div className="flex justify-between capitalize items-center">
-                <div className="flex gap-2 items-center">
+              <div className="flex items-center justify-between capitalize">
+                <div className="flex items-center gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -191,7 +191,7 @@ export default function Property({
               company={company}
             />
           </div>
-          <div className="bg-slate-50 border border-slate-100 rounded-xl p-7">
+          <div className="border bg-slate-50 border-slate-100 rounded-xl p-7">
             <Suspense>
               <AuthorCard user={user} company={company} />
             </Suspense>
@@ -201,7 +201,7 @@ export default function Property({
       {property.description ? (
         <div className="pt-20">
           <H3>Conoce m&aacute;s</H3>
-          <p className="whitespace-pre-line sm:text-2xl lg:text-3xl font-light leading-relaxed">
+          <p className="font-light leading-relaxed whitespace-pre-line sm:text-2xl lg:text-3xl">
             {property.description}
           </p>
         </div>

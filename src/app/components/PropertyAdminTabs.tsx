@@ -11,12 +11,10 @@ export default function PropertyAdminTabs() {
   const pathname = usePathname();
   const propertyId = params.id as string;
 
-  const swrKey = propertyId
-    ? ["property", propertyId, "transaction_type"]
-    : null;
+  const swrKey = propertyId ? ["property", propertyId, "transaction_type"] : null;
 
   const fetcher = async ([tableName, id, columnName]: string[]) => {
-    return getFieldFromTable(tableName, "id", columnName, id);
+    return getFieldFromTable(tableName, "id", id, columnName);
   };
 
   const { data: transactionType } = useSWR(swrKey, fetcher);

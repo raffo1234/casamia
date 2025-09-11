@@ -11,7 +11,7 @@ const fetcherImages = async (propertyId: string) => {
     .from("property_image")
     .select("id, image_url")
     .eq("property_id", propertyId)
-    .order("created_at", { ascending: true });
+    .order("sort_order", { ascending: true });
   if (error) throw error;
   return data;
 };
@@ -31,14 +31,12 @@ export default function Page() {
   const params = useParams();
   const propertySlug = params.slug as string;
 
-  const { data: property, isLoading: isLoadingProperty } = useSWR(
-    `${propertySlug}-property`,
-    () => (propertySlug ? fetcherProperty(propertySlug) : null)
+  const { data: property, isLoading: isLoadingProperty } = useSWR(`${propertySlug}-property`, () =>
+    propertySlug ? fetcherProperty(propertySlug) : null,
   );
 
-  const { data: images, isLoading: isLoadingImages } = useSWR(
-    `${property?.id}-images`,
-    () => (property ? fetcherImages(property.id) : null)
+  const { data: images, isLoading: isLoadingImages } = useSWR(`${property?.id}-images`, () =>
+    property ? fetcherImages(property.id) : null,
   );
 
   const imagesToSlider = useMemo(
@@ -48,17 +46,14 @@ export default function Page() {
         propertySlug,
         propertyTitle: propertySlug,
       })) || [],
-    [images, propertySlug]
+    [images, propertySlug],
   );
 
   if (isLoadingProperty || isLoadingImages) return "Cargando ...";
 
   return (
     <Suspense>
-      <ImageSliderFullScreen
-        images={imagesToSlider}
-        onClose={() => history.back()}
-      />
+      <ImageSliderFullScreen images={imagesToSlider} onClose={() => history.back()} />
     </Suspense>
   );
 }

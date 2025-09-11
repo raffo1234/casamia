@@ -154,7 +154,7 @@ export default function EditPropertyInformation({
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start gap-6">
-          <div className="flex-1 flex flex-col gap-6">
+          <div className="flex flex-col flex-1 gap-6">
             <FormSection>
               <FormSectionTitle>Informaci&oacute;n General</FormSectionTitle>
               <fieldset>
@@ -170,7 +170,7 @@ export default function EditPropertyInformation({
               <fieldset>
                 <FormInputLabel htmlFor="slug">
                   Slug{" "}
-                  <span className="text-xs block font-semibold mt-1">
+                  <span className="block mt-1 text-xs font-semibold">
                     Es usado en el URL del inmueble
                   </span>
                 </FormInputLabel>
@@ -226,21 +226,21 @@ export default function EditPropertyInformation({
             </FormSection>
             <FormSection>
               <FormSectionTitle>Estado</FormSectionTitle>
-              <fieldset className="flex items-center gap-4 w-full">
+              <fieldset className="flex items-center w-full gap-4">
                 <div className="w-1/2">
                   <input
                     {...register("state")}
                     type="radio"
                     id="state_1"
                     value={PropertyState.DRAFT}
-                    className="peer hidden"
+                    className="hidden peer"
                     defaultChecked
                   />
                   <label
                     htmlFor="state_1"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:document-add-broken"
                         fontSize={24}
@@ -256,13 +256,13 @@ export default function EditPropertyInformation({
                     value={PropertyState.PENDING}
                     type="radio"
                     id="state_2"
-                    className="peer hidden"
+                    className="hidden peer"
                   />
                   <label
                     htmlFor="state_2"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:checklist-minimalistic-broken"
                         fontSize={24}
@@ -278,13 +278,13 @@ export default function EditPropertyInformation({
                     value={PropertyState.ACTIVE}
                     type="radio"
                     id="state_3"
-                    className="peer hidden"
+                    className="hidden peer"
                   />
                   <label
                     htmlFor="state_3"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:shield-network-broken"
                         fontSize={24}
@@ -298,21 +298,21 @@ export default function EditPropertyInformation({
             </FormSection>
             <FormSection>
               <FormSectionTitle>Transaci&oacute;n</FormSectionTitle>
-              <fieldset className="flex items-center gap-4 w-full">
+              <fieldset className="flex items-center w-full gap-4">
                 <div className="w-1/2">
                   <input
                     {...register("transaction_type")}
                     type="radio"
                     id="venta"
                     value={TransactionType.VENTA}
-                    className="peer hidden"
+                    className="hidden peer"
                     defaultChecked
                   />
                   <label
                     htmlFor="venta"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:document-add-broken"
                         fontSize={24}
@@ -328,13 +328,13 @@ export default function EditPropertyInformation({
                     value={TransactionType.ALQUILER}
                     type="radio"
                     id="alquiler"
-                    className="peer hidden"
+                    className="hidden peer"
                   />
                   <label
                     htmlFor="alquiler"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:checklist-minimalistic-broken"
                         fontSize={24}
@@ -348,21 +348,21 @@ export default function EditPropertyInformation({
             </FormSection>
             <FormSection>
               <FormSectionTitle>Tipo</FormSectionTitle>
-              <fieldset className="flex items-center gap-4 w-full">
+              <fieldset className="flex items-center w-full gap-4">
                 <div className="w-1/2">
                   <input
                     {...register("type")}
                     type="radio"
                     id="type_1"
                     value={PropertyType.APARTMENT}
-                    className="peer hidden"
+                    className="hidden peer"
                     defaultChecked
                   />
                   <label
                     htmlFor="type_1"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:buildings-broken"
                         fontSize={32}
@@ -378,13 +378,13 @@ export default function EditPropertyInformation({
                     value={PropertyType.HOUSE}
                     type="radio"
                     id="type_2"
-                    className="peer hidden"
+                    className="hidden peer"
                   />
                   <label
                     htmlFor="type_2"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:home-2-broken"
                         fontSize={32}
@@ -402,7 +402,7 @@ export default function EditPropertyInformation({
                 Por defecto, la autoría de esta publicación se asignará a tu
                 perfil. Puedes cambiarlo seleccionando una empresa.
               </FormInputLabel>
-              <fieldset className="flex items-center gap-4 w-full">
+              <fieldset className="flex items-center w-full gap-4">
                 <select
                   id="company_id"
                   {...register("company_id")}
@@ -422,21 +422,21 @@ export default function EditPropertyInformation({
             </FormSection>
             <FormSection>
               <FormSectionTitle>Fase</FormSectionTitle>
-              <fieldset className="flex items-center gap-4 w-full">
+              <fieldset className="flex items-center w-full gap-4">
                 <div className="w-1/2">
                   <input
                     {...register("phase")}
                     type="radio"
                     id="phase_1"
                     value={PropertyPhase.PLANOS}
-                    className="peer hidden"
+                    className="hidden peer"
                     defaultChecked
                   />
                   <label
                     htmlFor="phase_1"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:wallpaper-broken"
                         fontSize={24}
@@ -452,13 +452,13 @@ export default function EditPropertyInformation({
                     value={PropertyPhase.CONSTRUCCION}
                     type="radio"
                     id="phase_2"
-                    className="peer hidden"
+                    className="hidden peer"
                   />
                   <label
                     htmlFor="phase_2"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:chart-broken"
                         fontSize={24}
@@ -474,13 +474,13 @@ export default function EditPropertyInformation({
                     value={PropertyPhase.READY}
                     type="radio"
                     id="phase_3"
-                    className="peer hidden"
+                    className="hidden peer"
                   />
                   <label
                     htmlFor="phase_3"
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
-                    <span className="flex items-center flex-col gap-1">
+                    <span className="flex flex-col items-center gap-1">
                       <Icon
                         icon="solar:key-square-2-outline"
                         fontSize={24}
@@ -512,7 +512,7 @@ export default function EditPropertyInformation({
                         />
                       )}
                     />
-                    <p className="text-sm text-red-600 mt-2">
+                    <p className="mt-2 text-sm text-red-600">
                       {errors?.delivery_at && (
                         <span>{errors.delivery_at.message}</span>
                       )}
@@ -523,7 +523,7 @@ export default function EditPropertyInformation({
             </FormSection>
             <FormSection>
               <FormSectionTitle>Dormitorios</FormSectionTitle>
-              <fieldset className="flex items-center gap-4 w-full">
+              <fieldset className="flex items-center w-full gap-4">
                 <input
                   id="bedroom_count"
                   type="number"
@@ -536,7 +536,7 @@ export default function EditPropertyInformation({
             </FormSection>
             <FormSection>
               <FormSectionTitle>Ba&ntilde;os</FormSectionTitle>
-              <fieldset className="flex items-center gap-4 w-full">
+              <fieldset className="flex items-center w-full gap-4">
                 <input
                   type="number"
                   defaultValue={1}
@@ -548,9 +548,9 @@ export default function EditPropertyInformation({
             </FormSection>
             <FormSection>
               <FormSectionTitle>Detalles</FormSectionTitle>
-              <div className="flex gap-5 items-center">
+              <div className="flex items-center gap-5">
                 <fieldset>
-                  <div className="flex gap-5 items-center">
+                  <div className="flex items-center gap-5">
                     <div>
                       <FormInputLabel htmlFor="currency">Moneda</FormInputLabel>
                       <div className="flex items-center">
@@ -560,7 +560,7 @@ export default function EditPropertyInformation({
                             value={CurrencyCode.PEN}
                             type="radio"
                             id="currency_soles"
-                            className="peer hidden"
+                            className="hidden peer"
                             defaultChecked
                           />
                           <label
@@ -576,7 +576,7 @@ export default function EditPropertyInformation({
                             value={CurrencyCode.USD}
                             type="radio"
                             id="currency_dolares"
-                            className="peer hidden"
+                            className="hidden peer"
                           />
                           <label
                             htmlFor="currency_dolares"

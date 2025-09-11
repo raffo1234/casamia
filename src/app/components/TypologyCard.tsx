@@ -14,13 +14,13 @@ export default function TypologyCard({ typology }: { typology: TypologyType }) {
     <article key={id} className="relative mb-4">
       <Link
         href={`/inmueble/${propertySlug}/tipologia/${slug}/imagenes`}
-        className="rounded-3xl block overflow-hidden"
+        className="block overflow-hidden rounded-3xl"
       >
         <FirstImage src={typology.typology_image[0]?.image_url} title={name} />
       </Link>
       <div className="flex flex-col gap-0.5">
-        <p className="text-xl font-inter-tight font-bold my-4">{name}</p>
-        <p className="p-3 bg-cyan-50 rounded-3xl text-center font-semibold text-2xl font-gilroy-bold">
+        <p className="my-4 text-xl font-bold font-inter-tight">{name}</p>
+        <p className="p-3 text-2xl font-semibold text-center bg-cyan-50 rounded-3xl font-gilroy-bold">
           {getFormattedPrice(currency, price)}
         </p>
         <div
@@ -30,7 +30,7 @@ export default function TypologyCard({ typology }: { typology: TypologyType }) {
           }}
         >
           <div className="flex items-center justify-between gap-2 px-6 py-2 border border-slate-100 bg-slate-50 rounded-xl">
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <svg
                 className="text-2xl text-amber-400"
                 xmlns="http://www.w3.org/2000/svg"
@@ -49,8 +49,8 @@ export default function TypologyCard({ typology }: { typology: TypologyType }) {
               {size} m<sup>2</sup>
             </p>
           </div>
-          <div className="flex items-center border border-slate-100 bg-slate-50 justify-between gap-2 px-6 py-2 rounded-xl">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between gap-2 px-6 py-2 border border-slate-100 bg-slate-50 rounded-xl">
+            <div className="flex items-center gap-2">
               <svg
                 className="text-2xl text-cyan-400"
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,9 +61,9 @@ export default function TypologyCard({ typology }: { typology: TypologyType }) {
                 <path
                   fill="none"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4m-8-6v6M2 18h20"
                 />
               </svg>
@@ -72,7 +72,7 @@ export default function TypologyCard({ typology }: { typology: TypologyType }) {
             <p className="text-sm">{bedroom_count}</p>
           </div>
           <div className="flex items-center justify-between gap-2 px-6 py-2 border border-slate-100 bg-slate-50 rounded-xl">
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <svg
                 className="text-2xl text-green-300"
                 xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,7 @@ export default function TypologyCard({ typology }: { typology: TypologyType }) {
             <p className="text-sm">{bathroom_count}</p>
           </div>
           <div className="flex items-center justify-between gap-2 px-6 py-2 border border-slate-100 bg-slate-50 rounded-xl">
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <svg
                 className="text-xl text-[#8C75FF]"
                 xmlns="http://www.w3.org/2000/svg"
