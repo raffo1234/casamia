@@ -6,7 +6,7 @@ export async function getFieldFromTable<T>(
   tableName: string,
   columnKey: string,
   columnValue: string,
-  columnName: string
+  columnName: string,
 ): Promise<T | null> {
   const { data, error } = await supabase
     .from(tableName)
@@ -16,8 +16,8 @@ export async function getFieldFromTable<T>(
 
   if (error) {
     console.error(
-      `Error fetching column '${columnName}' from table '${tableName}' for ID ${id}:`,
-      error
+      `Error fetching column '${columnName}' from table '${tableName}' for value ${columnValue}:`,
+      error,
     );
     return null;
   }

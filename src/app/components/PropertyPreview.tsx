@@ -34,7 +34,8 @@ const fetcher = async (propertySlug: string) => {
       user!property_user_id_fkey (
         id,
         email,
-        name,
+        first_name,
+        last_name,
         slug,
         image_url
       ),
@@ -54,7 +55,7 @@ const fetcher = async (propertySlug: string) => {
         bathroom_count,
         bedroom_count
       )
-    `
+    `,
     )
     .eq("state", PropertyState.ACTIVE)
     .eq("slug", propertySlug)
@@ -64,11 +65,7 @@ const fetcher = async (propertySlug: string) => {
   return data;
 };
 
-export default function PropertyPreview({
-  userEmail,
-}: {
-  userEmail: string | undefined | null;
-}) {
+export default function PropertyPreview({ userEmail }: { userEmail: string | undefined | null }) {
   const { slug } = useParams();
   const router = useRouter();
   const propertySlug = Array.isArray(slug) ? slug[0] : slug;
@@ -76,7 +73,7 @@ export default function PropertyPreview({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { data: property } = useSWR(propertySlug, () =>
-    propertySlug ? fetcher(propertySlug) : null
+    propertySlug ? fetcher(propertySlug) : null,
   );
 
   const handleOverlayClick = useCallback(
@@ -85,7 +82,7 @@ export default function PropertyPreview({
         router.back();
       }
     },
-    [router]
+    [router],
   );
 
   useEffect(() => {
@@ -118,10 +115,7 @@ export default function PropertyPreview({
           </Suspense>
           {property?.id ? (
             <Suspense>
-              <RelatedProperties
-                propertyId={property.id}
-                userEmail={userEmail}
-              />
+              <RelatedProperties propertyId={property.id} userEmail={userEmail} />
             </Suspense>
           ) : null}
         </Main>
@@ -131,12 +125,7 @@ export default function PropertyPreview({
         className="absolute bg-yellow-400 cursor-pointer p-3 transition-colors duration-300 rounded-full right-3 top-3 hover:bg-yellow-500"
         onClick={router.back}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="28"
-          height="28"
-          viewBox="0 0 512 512"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512">
           <path
             fill="none"
             stroke="currentColor"

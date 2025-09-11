@@ -11,7 +11,8 @@ export const propertyQuery = `
   ),
   user!property_user_id_fkey (
     id,
-    name,
+    first_name,
+    last_name,
     email,
     image_url,
     slug
@@ -38,7 +39,8 @@ export const favoriteQuery = `
     ),
     user:user!property_user_id_fkey (
       id,
-      name,
+      first_name,
+      last_name,
       email,
       image_url,
       slug

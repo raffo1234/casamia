@@ -1,4 +1,3 @@
-import { Icon } from "@iconify/react";
 import FirstImage from "./FirstImage";
 import { TypologyType } from "@/types/TypologyType";
 import { getFormattedPrice } from "@/lib/getFormattedPrice";
@@ -6,17 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 export default function TypologyCard({ typology }: { typology: TypologyType }) {
-  const {
-    name,
-    id,
-    slug,
-    currency,
-    size,
-    bedroom_count,
-    bathroom_count,
-    price,
-    floor,
-  } = typology;
+  const { name, id, slug, currency, size, bedroom_count, bathroom_count, price, floor } = typology;
 
   const params = useParams();
   const propertySlug = params.slug as string;

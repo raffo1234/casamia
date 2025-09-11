@@ -15,8 +15,7 @@ export default function PropertyCard({
   property: PropertyType;
   userEmail: string | undefined | null;
 }) {
-  const { id, slug, price, currency, user, property_image, title, company } =
-    property;
+  const { id, slug, price, currency, user, property_image, title, company } = property;
 
   return (
     <article className="group bg-slate-50 border border-slate-100 overflow-hidden rounded-3xl">
@@ -49,14 +48,14 @@ export default function PropertyCard({
         ) : user ? (
           <Link
             href={`/usuario/${user?.slug}`}
-            title={user?.name}
+            title={`${user?.first_name} ${user?.last_name}`}
             className="absolute -top-8 left-1/2 -translate-x-1/2"
           >
             <Image
               src={user?.image_url}
               className="w-15 h-15 sm:w-13 sm:h-13 object-cover rounded-full bg-gray-100"
-              alt={user?.name}
-              title={user?.name}
+              alt={`${user?.first_name} ${user?.last_name}`}
+              title={`${user?.first_name} ${user?.last_name}`}
               width={52}
               height={52}
             />

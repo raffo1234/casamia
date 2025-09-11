@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: Params }) {
 
   const { data: user } = await supabase
     .from("user")
-    .select("id, slug, name, image_url, username, email")
+    .select("id, slug, first_name, last_name, image_url, username, email")
     .eq("slug", slug)
     .single();
 

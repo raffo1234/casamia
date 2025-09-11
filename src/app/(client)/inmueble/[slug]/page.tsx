@@ -26,7 +26,8 @@ export default async function Page({ params }: PageProps) {
         *,
         user:user!property_user_id_fkey (
           id,
-          name,
+          first_name,
+          last_name,
           slug,
           image_url
         ),

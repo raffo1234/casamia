@@ -14,12 +14,10 @@ import { UserType } from "@/types/userType";
 import PrimaryButton from "./PrimaryButton";
 import { inputClassName } from "@/constants";
 import FormInputLabel from "./FormInputLabel";
+import Link from "next/link";
 
 const formSchema = z.object({
-  property_id: z
-    .string()
-    .min(1, { message: "Selecciona una opción" })
-    .optional(),
+  property_id: z.string().min(1, { message: "Selecciona una opción" }).optional(),
   first_name: z.string().min(2, { message: "Nombre es requerido" }),
   last_name: z.string().min(2, { message: "Apellido es requerido" }),
   email: z
@@ -49,12 +47,12 @@ export default function GetInTouch({
 }: {
   propertyId: string;
   propertyTitle: string;
-  company?: CompanyType | undefined | null;
-  user?: UserType | undefined | null;
+  company?: CompanyType | null;
+  user?: UserType | null;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const author = company ? company : user;
+  const isCompany = !!company;
 
   const {
     reset,
@@ -66,17 +64,9 @@ export default function GetInTouch({
     resolver: zodResolver(formSchema),
   });
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const hideModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const sendInquiry = () => {
-    showModal();
-  };
+  const showModal = () => setIsModalOpen(true);
+  const hideModal = () => setIsModalOpen(false);
+  const sendInquiry = () => showModal();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -91,10 +81,15 @@ export default function GetInTouch({
       }
     } catch (error) {
       console.error(error);
+      toast.error("Ocurrió un error al enviar tu mensaje.");
     } finally {
       hideModal();
     }
   };
+
+  const authorName = isCompany ? company.name : `${user?.first_name} ${user?.last_name}`;
+  const authorImage = isCompany ? company.image_url : user?.image_url;
+  const href = isCompany ? `/empresa/${company.slug}` : `/usuario/${user?.slug}`;
 
   return (
     <>
@@ -102,12 +97,7 @@ export default function GetInTouch({
         onClick={sendInquiry}
         className="flex justify-center cursor-pointer hover:bg-yellow-400 transition-colors duration-300 gap-2 items-center bg-amber-400 mb-3 rounded-full mt-10 w-full px-4 py-4 font-semibold text-black"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="26"
-          height="26"
-          viewBox="0 0 24 24"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
           <g fill="none" stroke="currentColor" strokeWidth="1">
             <path
               strokeWidth="1.5"
@@ -127,87 +117,54 @@ export default function GetInTouch({
         </svg>
         Contactar al vendedor
       </button>
-      <Modal
-        footer={null}
-        style={{ top: 20 }}
-        open={isModalOpen}
-        onCancel={hideModal}
-      >
+      <Modal footer={null} style={{ top: 20 }} open={isModalOpen} onCancel={hideModal}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="p-4 flex flex-col gap-5">
-            {author ? (
+            {authorImage ? (
               <div className="flex items-center gap-3 mb-4">
                 <Image
-                  src={author.image_url}
-                  alt={author?.name}
+                  src={authorImage}
+                  alt={authorName ?? "Author"}
                   width={80}
                   height={80}
                   className="w-20 h-20 rounded-full"
                 />
                 <div>
-                  <h2 className="text-xs text-slate-400 mb-2">
-                    Ponte en contacto con
-                  </h2>
-                  <h3 className="font-semibold font-inter-tight text-lg">
-                    {author?.name}
-                  </h3>
+                  <h2 className="text-xs text-slate-400 mb-2">Ponte en contacto con</h2>
+                  <h3 className="font-semibold font-inter-tight text-lg">{authorName}</h3>
                   <div className="text-sm">
-                    <span className="text-slate-400">Proyecto:</span>{" "}
-                    {propertyTitle}
+                    <span className="text-slate-400">Proyecto:</span>
+                    <Link href={href} target="_blank" className="text-slate-400" title={authorName ?? ""}>
+                      {propertyTitle}
+                    </Link>
                   </div>
                 </div>
               </div>
             ) : null}
             <div>
               <FormInputLabel htmlFor="email">Email</FormInputLabel>
-              <input
-                {...register("email")}
-                id="email"
-                className={inputClassName}
-              />
-              <InputError>{errors.email && errors.email.message}</InputError>
+              <input {...register("email")} id="email" className={inputClassName} />
+              <InputError>{errors.email?.message}</InputError>
             </div>
             <div>
               <FormInputLabel htmlFor="first_name">Nombres</FormInputLabel>
-              <input
-                {...register("first_name")}
-                id="first_name"
-                className={inputClassName}
-              />
-              <InputError>
-                {errors.first_name && errors.first_name.message}
-              </InputError>
+              <input {...register("first_name")} id="first_name" className={inputClassName} />
+              <InputError>{errors.first_name?.message}</InputError>
             </div>
             <div>
               <FormInputLabel htmlFor="last_name">Apellidos</FormInputLabel>
-              <input
-                {...register("last_name")}
-                id="last_name"
-                className={inputClassName}
-              />
-              <InputError>
-                {errors.last_name && errors.last_name.message}
-              </InputError>
+              <input {...register("last_name")} id="last_name" className={inputClassName} />
+              <InputError>{errors.last_name?.message}</InputError>
             </div>
             <div>
               <FormInputLabel htmlFor="phone">Teléfono</FormInputLabel>
-              <input
-                {...register("phone")}
-                id="phone"
-                className={inputClassName}
-              />
-              <InputError>{errors.phone && errors.phone.message}</InputError>
+              <input {...register("phone")} id="phone" className={inputClassName} />
+              <InputError>{errors.phone?.message}</InputError>
             </div>
             <div>
               <FormInputLabel htmlFor="message">Mensaje</FormInputLabel>
-              <textarea
-                {...register("message")}
-                id="message"
-                className={inputClassName}
-              />
-              <InputError>
-                {errors.message && errors.message.message}
-              </InputError>
+              <textarea {...register("message")} id="message" className={inputClassName} />
+              <InputError>{errors.message?.message}</InputError>
             </div>
             <PrimaryButton isFullWidth title="Enviar mensaje">
               Enviar Mensaje

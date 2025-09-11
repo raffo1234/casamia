@@ -25,7 +25,7 @@ export default async function Index() {
 
   const userEmail = session?.user?.email;
   const hasProperties = properties && properties.length > 0;
-
+  console.log({userEmail, properties});
   return (
     <PageContainer>
       <h1

@@ -6,30 +6,36 @@ export default function AuthorLink({
   user,
   company,
 }: {
-  user?: UserType | undefined | null;
-  company?: CompanyType | undefined | null;
+  user?: UserType | null;
+  company?: CompanyType | null;
 }) {
-  const author = company ? company : user;
-  const href = company ? `/empresa/${company.slug}` : `/usuario/${user?.slug}`;
+  // Prefer company if it exists, otherwise fall back to user.
+  const author = company ?? user;
 
-  if (!author) return null;
+  if (!author) {
+    return null;
+  }
+
+  const isCompany = !!company;
+
+  const href = isCompany ? `/empresa/${company.slug}` : `/usuario/${user?.slug}`;
+  const authorName = isCompany ? company.name : `${user?.first_name} ${user?.last_name}`;
+  const authorImage = isCompany ? company.image_url : user?.image_url;
 
   return (
     <div className="flex text-[#1e0059] mt-2 gap-3 items-center text-xs">
       <span>Por:</span>
-      <a
-        href={href}
-        title={author.name}
-        className="flex items-center-safe gap-3"
-      >
-        <Image
-          src={author.image_url}
-          alt={author.name}
-          className="rounded-full"
-          height="32"
-          width="32"
-        />
-        <span>{author.name}</span>
+      <a href={href} title={authorName} className="flex items-center gap-3">
+        {authorImage ? (
+          <Image
+            src={authorImage}
+            alt={authorName}
+            className="rounded-full"
+            height={32}
+            width={32}
+          />
+        ) : null}
+        <span>{authorName}</span>
       </a>
     </div>
   );
