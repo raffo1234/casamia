@@ -42,7 +42,7 @@ export default function Property({
   } = property;
 
   return (
-    <div className="pt-20">
+    <div className="py-20">
       <New createdAt={created_at} />
       <div className="mb-4">
         <h1

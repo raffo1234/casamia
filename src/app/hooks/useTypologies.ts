@@ -15,16 +15,12 @@ const fetchUniqueBedroomCounts = async (propertyId: string) => {
   return Array.from(uniqueBedrooms).sort((a, b) => a - b);
 };
 
-// A fetcher for filtered typologies
-const fetchTypologies = async (
-  propertyId: string,
-  bedroomCount: number | null
-) => {
+const fetchTypologies = async (propertyId: string, bedroomCount: number | null) => {
   let query = supabase
     .from("typology")
     .select("*, typology_image(id, image_url)")
     .eq("property_id", propertyId)
-    .order("created_at", { ascending: true });
+    .order("sort_order", { ascending: true });
 
   if (bedroomCount !== null) {
     query = query.eq("bedroom_count", bedroomCount);
@@ -36,14 +32,11 @@ const fetchTypologies = async (
 };
 
 export const useTypologies = (propertyId: string) => {
-  const { data: uniqueBedroomCounts = [] } = useSWR(
-    `${propertyId}-uniqueBedroomCounts`,
-    () => fetchUniqueBedroomCounts(propertyId)
+  const { data: uniqueBedroomCounts = [] } = useSWR(`${propertyId}-uniqueBedroomCounts`, () =>
+    fetchUniqueBedroomCounts(propertyId),
   );
 
-  const [selectedBedroomCount, setSelectedBedroomCount] = useState<
-    number | null
-  >(null);
+  const [selectedBedroomCount, setSelectedBedroomCount] = useState<number | null>(null);
 
   useEffect(() => {
     if (uniqueBedroomCounts.length > 0 && selectedBedroomCount === null) {
@@ -52,10 +45,8 @@ export const useTypologies = (propertyId: string) => {
   }, [uniqueBedroomCounts, selectedBedroomCount]);
 
   const { data: typologies = [], isLoading } = useSWR(
-    selectedBedroomCount
-      ? `${propertyId}-typologies-${selectedBedroomCount}`
-      : null,
-    () => fetchTypologies(propertyId, selectedBedroomCount)
+    selectedBedroomCount ? `${propertyId}-typologies-${selectedBedroomCount}` : null,
+    () => fetchTypologies(propertyId, selectedBedroomCount),
   );
 
   return {

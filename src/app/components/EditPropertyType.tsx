@@ -29,7 +29,6 @@ type Inputs = {
   bedroom_count: number;
   stock: string;
   floor: string;
-  slug: string;
   currency: string;
   typology_image?: {
     image_url: string;
@@ -37,11 +36,7 @@ type Inputs = {
 };
 
 async function fetcher(typologyId: string) {
-  const { data, error } = await supabase
-    .from("typology")
-    .select("*")
-    .eq("id", typologyId)
-    .single();
+  const { data, error } = await supabase.from("typology").select("*").eq("id", typologyId).single();
   if (error) throw error;
   return data;
 }
@@ -70,21 +65,14 @@ export default function EditPropertyType({
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const newSlug = await generateUniqueSlug(
-      "typology",
-      data.name,
-      typology.id
-    );
+    const newSlug = await generateUniqueSlug("typology", data.name, typology.id);
 
     setIsSubmitting(true);
 
     try {
       const updatePayload = { ...data, slug: newSlug };
 
-      await supabase
-        .from("typology")
-        .update(updatePayload)
-        .eq("id", typologyId);
+      await supabase.from("typology").update(updatePayload).eq("id", typologyId);
 
       await mutate(typologyId);
       toast.success("Guardado correctamente!");
@@ -114,23 +102,9 @@ export default function EditPropertyType({
             <input
               type="text"
               disabled
-              value={format(
-                new Date(typology.created_at),
-                "dd MMMM, yyyy - hh:MM aaa",
-                {
-                  locale: es,
-                }
-              )}
-              className={inputClassName}
-            />
-          </fieldset>
-          <fieldset>
-            <FormInputLabel htmlFor="slug">Slug</FormInputLabel>
-            <input
-              type="text"
-              id="slug"
-              disabled
-              value={typology.slug}
+              value={format(new Date(typology.created_at), "dd MMMM, yyyy - hh:MM aaa", {
+                locale: es,
+              })}
               className={inputClassName}
             />
           </fieldset>
@@ -226,14 +200,9 @@ export default function EditPropertyType({
           <FormSectionTitle>Detalles</FormSectionTitle>
           <fieldset>
             <FormInputLabel htmlFor="size">
-              Area (m<sup>2</sup>)
+              &Aacute;rea m<sup>2</sup>
             </FormInputLabel>
-            <input
-              id="size"
-              {...register("size")}
-              required
-              className={inputClassName}
-            />
+            <input id="size" {...register("size")} required className={inputClassName} />
           </fieldset>
           <fieldset>
             <FormInputLabel htmlFor="bedroom_count">Dormitorios</FormInputLabel>
@@ -245,7 +214,7 @@ export default function EditPropertyType({
             />
           </fieldset>
           <fieldset>
-            <FormInputLabel htmlFor="bathroom_count">Banios</FormInputLabel>
+            <FormInputLabel htmlFor="bathroom_count">Ba&ntilde;os</FormInputLabel>
             <input
               id="bathroom_count"
               {...register("bathroom_count")}
@@ -255,27 +224,15 @@ export default function EditPropertyType({
           </fieldset>
           <fieldset>
             <FormInputLabel htmlFor="floor">Pisos disponibles</FormInputLabel>
-            <input
-              id="floor"
-              {...register("floor")}
-              required
-              className={inputClassName}
-            />
+            <input id="floor" {...register("floor")} required className={inputClassName} />
           </fieldset>
           <fieldset>
             <FormInputLabel htmlFor="stock">Disponibles</FormInputLabel>
-            <input
-              id="stock"
-              {...register("stock")}
-              required
-              className={inputClassName}
-            />
+            <input id="stock" {...register("stock")} required className={inputClassName} />
           </fieldset>
         </FormSection>
         <FormFooter>
-          <SecondaryButton
-            href={`/admin/property/edit/${propertyId}/typologies`}
-          >
+          <SecondaryButton href={`/admin/property/edit/${propertyId}/typologies`}>
             Cancelar
           </SecondaryButton>
           <PrimaryButton isLoading={isSubmitting} title="Guardar">

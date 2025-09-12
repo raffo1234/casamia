@@ -32,7 +32,7 @@ export default function PropertyAdminTabs() {
 
   if (transactionType === "venta") {
     tabs.push({
-      title: "Tipologias",
+      title: "Tipologías",
       href: `/admin/property/edit/${propertyId}/typologies`,
     });
   }

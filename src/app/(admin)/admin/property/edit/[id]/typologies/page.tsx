@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <>
       <HeaderTitle>
-        <Title>Tipologias</Title>
+        <Title>Tipologías</Title>
         <BackLink href={`/admin/property`}></BackLink>
       </HeaderTitle>
       <Suspense>

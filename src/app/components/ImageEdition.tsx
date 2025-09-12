@@ -49,7 +49,7 @@ export default function ImageEdition({
             key={image_url}
             src={image_url}
             alt={id}
-            className="w-full aspect-[5/4] object-cover rounded-xl bg-gray-100"
+            className="w-full aspect-[5/4] object-cover rounded-3xl bg-gray-100"
             width={500}
             height={400}
           />
@@ -69,7 +69,7 @@ export default function ImageEdition({
         >
           <Icon icon="fluent:drag-24-regular" fontSize={28}></Icon>
         </button>
-        <footer className="flex justify-center border-x border-b border-gray-100 -mt-3 pt-6 pb-3 px-4 rounded-b-xl">
+        <footer className="flex bg-white justify-center border-x border-b border-gray-100 -mt-3 pt-6 pb-3 px-4 rounded-b-3xl">
           <DeleteButton isDeleting={isDeleting} onClick={() => onDelete(id)} />
         </footer>
       </article>

@@ -89,6 +89,7 @@ export default function InsertPropertyTypology({ propertyId }: { propertyId: str
               id="bedroom_count"
               {...register("bedroom_count")}
               required
+              defaultValue={1}
               className={inputClassName}
             />
           </div>
