@@ -119,7 +119,7 @@ export default function EditPropertyType({
             />
           </fieldset>
           <fieldset>
-            <FormInputLabel htmlFor="description">Descripcion</FormInputLabel>
+            <FormInputLabel htmlFor="description">Descripci&oacute;n</FormInputLabel>
             <textarea
               id="description"
               {...register("description")}

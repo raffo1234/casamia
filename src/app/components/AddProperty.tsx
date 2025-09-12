@@ -121,7 +121,7 @@ export default function AddProperty({ userId }: { userId: string }) {
               </fieldset>
               <fieldset>
                 <FormInputLabel htmlFor="description">
-                  Descripcion
+                  Descripci&oacute;n
                 </FormInputLabel>
                 <Controller
                   name="description"

@@ -17,6 +17,11 @@
   }
 }
 
+/* Rich text editor */
+.prose p:empty {
+  min-height: 1em;
+}
+
 /* group-hover does not work on mobile devices */
 .dropdown-parent:hover .dropdown-child {
   opacity: 100;

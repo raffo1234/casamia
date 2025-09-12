@@ -14,6 +14,7 @@ import AuthorLink from "./AuthorLink";
 import H3 from "./H3";
 import GetInTouch from "./GetInTouch";
 import AuthorCard from "./AuthorCard";
+import convertNewlinesToBr from "@/lib/convertNewlinesToBr";
 
 export default function Property({
   property,
@@ -186,9 +187,10 @@ export default function Property({
       {property.description ? (
         <div className="pt-20">
           <H3>Conoce m&aacute;s</H3>
-          <p className="font-light leading-relaxed whitespace-pre-line sm:text-2xl lg:text-3xl">
-            {property.description}
-          </p>
+          <div
+            className="prose font-light leading-relaxed whitespace-pre-line sm:text-2xl lg:text-3xl"
+            dangerouslySetInnerHTML={{ __html: convertNewlinesToBr(property.description) }}
+          />
         </div>
       ) : null}
       <Suspense>

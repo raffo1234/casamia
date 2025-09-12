@@ -1,16 +1,11 @@
 "use client";
 
-import TextareaAutosize from "react-textarea-autosize";
 import { NumericFormat } from "react-number-format";
 import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
-import {
-  PropertyPhase,
-  PropertyState,
-  PropertyType,
-} from "@/types/propertyState";
+import { PropertyPhase, PropertyState, PropertyType } from "@/types/propertyState";
 import FormSkeleton from "./FormSkeleton";
 import { Icon } from "@iconify/react";
 import { getAdminPropertiesUserKey } from "@/constants";
@@ -26,6 +21,7 @@ import { TransactionType } from "@/types/TransactionType";
 import FormFooter from "./FormFooter";
 import SecondaryButton from "./SecondaryButton";
 import PrimaryButton from "./PrimaryButton";
+import TiptapEditor from "./TiptapEditor";
 
 type Inputs = {
   title: string;
@@ -61,26 +57,15 @@ async function fetcher(id: string) {
 }
 
 async function fetcherCompany(userId: string) {
-  const { data, error } = await supabase
-    .from("company")
-    .select("id, name")
-    .eq("user_id", userId);
+  const { data, error } = await supabase.from("company").select("id, name").eq("user_id", userId);
   if (error) throw error;
   return data;
 }
 
-export default function EditPropertyInformation({
-  id,
-  userId,
-}: {
-  id: string;
-  userId: string;
-}) {
+export default function EditPropertyInformation({ id, userId }: { id: string; userId: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { data: companies } = useSWR(`${userId}-companies`, () =>
-    fetcherCompany(userId)
-  );
+  const { data: companies } = useSWR(`${userId}-companies`, () => fetcherCompany(userId));
   const {
     data: property,
     error,
@@ -103,8 +88,7 @@ export default function EditPropertyInformation({
   });
 
   const hasDeliveryAt =
-    watch("phase") === PropertyPhase.CONSTRUCCION ||
-    watch("phase") === PropertyPhase.PLANOS;
+    watch("phase") === PropertyPhase.CONSTRUCCION || watch("phase") === PropertyPhase.PLANOS;
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     let newSlug = null;
@@ -184,7 +168,7 @@ export default function EditPropertyInformation({
                 />
               </fieldset>
               <fieldset>
-                <FormInputLabel htmlFor="location">Ubicacion</FormInputLabel>
+                <FormInputLabel htmlFor="location">Ubicaci&oacute;n</FormInputLabel>
                 <input
                   type="text"
                   id="location"
@@ -204,23 +188,12 @@ export default function EditPropertyInformation({
                 />
               </fieldset>
               <fieldset>
-                <FormInputLabel htmlFor="description">
-                  Descripcion
-                </FormInputLabel>
+                <FormInputLabel htmlFor="description">Descripci&oacute;n</FormInputLabel>
                 <Controller
                   name="description"
                   control={control}
                   rules={{ required: true }}
-                  render={({ field }) => (
-                    <TextareaAutosize
-                      {...field}
-                      id="decription"
-                      minRows={2}
-                      placeholder=""
-                      aria-label=""
-                      className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-4 focus:ring-cyan-100 focus:border-cyan-500"
-                    />
-                  )}
+                  render={({ field }) => <TiptapEditor field={field} />}
                 />
               </fieldset>
             </FormSection>
@@ -241,11 +214,7 @@ export default function EditPropertyInformation({
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
                     <span className="flex flex-col items-center gap-1">
-                      <Icon
-                        icon="solar:document-add-broken"
-                        fontSize={24}
-                        className="block"
-                      />
+                      <Icon icon="solar:document-add-broken" fontSize={24} className="block" />
                       <span>Borrador</span>
                     </span>
                   </label>
@@ -285,11 +254,7 @@ export default function EditPropertyInformation({
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
                     <span className="flex flex-col items-center gap-1">
-                      <Icon
-                        icon="solar:shield-network-broken"
-                        fontSize={24}
-                        className="block"
-                      />
+                      <Icon icon="solar:shield-network-broken" fontSize={24} className="block" />
                       <span>Publicado</span>
                     </span>
                   </label>
@@ -313,11 +278,7 @@ export default function EditPropertyInformation({
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
                     <span className="flex flex-col items-center gap-1">
-                      <Icon
-                        icon="solar:document-add-broken"
-                        fontSize={24}
-                        className="block"
-                      />
+                      <Icon icon="solar:document-add-broken" fontSize={24} className="block" />
                       <span>Venta</span>
                     </span>
                   </label>
@@ -363,11 +324,7 @@ export default function EditPropertyInformation({
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
                     <span className="flex flex-col items-center gap-1">
-                      <Icon
-                        icon="solar:buildings-broken"
-                        fontSize={32}
-                        className="block"
-                      />
+                      <Icon icon="solar:buildings-broken" fontSize={32} className="block" />
                       <span>Departamento</span>
                     </span>
                   </label>
@@ -385,11 +342,7 @@ export default function EditPropertyInformation({
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
                     <span className="flex flex-col items-center gap-1">
-                      <Icon
-                        icon="solar:home-2-broken"
-                        fontSize={32}
-                        className="block"
-                      />
+                      <Icon icon="solar:home-2-broken" fontSize={32} className="block" />
                       <span>Casa</span>
                     </span>
                   </label>
@@ -399,8 +352,8 @@ export default function EditPropertyInformation({
             <FormSection>
               <FormSectionTitle>Empresa</FormSectionTitle>
               <FormInputLabel htmlFor="company_id">
-                Por defecto, la autoría de esta publicación se asignará a tu
-                perfil. Puedes cambiarlo seleccionando una empresa.
+                Por defecto, la autoría de esta publicación se asignará a tu perfil. Puedes
+                cambiarlo seleccionando una empresa.
               </FormInputLabel>
               <fieldset className="flex items-center w-full gap-4">
                 <select
@@ -437,11 +390,7 @@ export default function EditPropertyInformation({
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
                     <span className="flex flex-col items-center gap-1">
-                      <Icon
-                        icon="solar:wallpaper-broken"
-                        fontSize={24}
-                        className="block"
-                      />
+                      <Icon icon="solar:wallpaper-broken" fontSize={24} className="block" />
                       <span>En Planos</span>
                     </span>
                   </label>
@@ -459,11 +408,7 @@ export default function EditPropertyInformation({
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
                     <span className="flex flex-col items-center gap-1">
-                      <Icon
-                        icon="solar:chart-broken"
-                        fontSize={24}
-                        className="block"
-                      />
+                      <Icon icon="solar:chart-broken" fontSize={24} className="block" />
                       <span>En Construccion</span>
                     </span>
                   </label>
@@ -481,11 +426,7 @@ export default function EditPropertyInformation({
                     className="flex items-center justify-center aspect-[4/2] transition-all duration-300 cursor-pointer select-none rounded-xl p-2 text-center border peer-checked:border-cyan-500 peer-checked:bg-cyan-50"
                   >
                     <span className="flex flex-col items-center gap-1">
-                      <Icon
-                        icon="solar:key-square-2-outline"
-                        fontSize={24}
-                        className="block"
-                      />
+                      <Icon icon="solar:key-square-2-outline" fontSize={24} className="block" />
                       <span>Entrega Inmediata</span>
                     </span>
                   </label>
@@ -493,29 +434,20 @@ export default function EditPropertyInformation({
               </fieldset>
               {hasDeliveryAt ? (
                 <fieldset>
-                  <FormInputLabel htmlFor="delivery_at">
-                    Fecha de Entrega
-                  </FormInputLabel>
+                  <FormInputLabel htmlFor="delivery_at">Fecha de Entrega</FormInputLabel>
                   <div>
                     <Controller
                       name="delivery_at"
                       rules={{
-                        required: hasDeliveryAt
-                          ? "La fecha de entrega es obligatoria"
-                          : false,
+                        required: hasDeliveryAt ? "La fecha de entrega es obligatoria" : false,
                       }}
                       control={control}
                       render={({ field }) => (
-                        <MonthPicker
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
+                        <MonthPicker value={field.value} onChange={field.onChange} />
                       )}
                     />
                     <p className="mt-2 text-sm text-red-600">
-                      {errors?.delivery_at && (
-                        <span>{errors.delivery_at.message}</span>
-                      )}
+                      {errors?.delivery_at && <span>{errors.delivery_at.message}</span>}
                     </p>
                   </div>
                 </fieldset>
@@ -627,9 +559,7 @@ export default function EditPropertyInformation({
               </div>
             </FormSection>
             <FormFooter>
-              <SecondaryButton href={`/admin/property`}>
-                Cancelar
-              </SecondaryButton>
+              <SecondaryButton href={`/admin/property`}>Cancelar</SecondaryButton>
               <PrimaryButton isLoading={isSubmitting} title="Guardar">
                 Guardar
               </PrimaryButton>
