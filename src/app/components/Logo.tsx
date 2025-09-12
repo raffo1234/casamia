@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Logo() {
   return (
     <Link href="/" title="Casamia" className="flex items-center gap-2">
-      <span className="p-2 rounded-full bg-[#1e0059] text-white block">
+      <span className="p-2 rounded-full bg-slate-900 text-white block">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

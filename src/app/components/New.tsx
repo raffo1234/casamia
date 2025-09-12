@@ -8,7 +8,7 @@ export default function New({ createdAt }: { createdAt: string }) {
 
   if (timeDifference < oneWeekInMs) {
     return (
-      <div className="bg-yellow-400 mb-2 text-xs uppercase rounded w-fit px-1 py-1 text-black">
+      <div className="bg-yellow-400 mb-1 text-xs uppercase rounded w-fit px-1 py-1 text-black">
         Nuevo
       </div>
     );

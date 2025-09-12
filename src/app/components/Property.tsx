@@ -46,7 +46,7 @@ export default function Property({
       <New createdAt={created_at} />
       <div className="mb-4">
         <h1
-          className="text-[#1e0059] leading-tight font-inter-tight font-semibold"
+          className="leading-tight font-inter-tight font-semibold block mb-2"
           style={{
             fontSize: "clamp(16px, 6vw + .5rem, 52px)",
           }}
@@ -63,11 +63,7 @@ export default function Property({
             </Suspense>
           </div>
           <Suspense>
-            <PropertyImages
-              propertyTitle={title}
-              propertyId={id}
-              propertySlug={slug}
-            />
+            <PropertyImages propertyTitle={title} propertyId={id} propertySlug={slug} />
           </Suspense>
         </div>
         <div className="mb-10 lg:w-[390px] flex flex-col gap-5 lg:mb-0">
@@ -89,12 +85,7 @@ export default function Property({
               }}
               className="flex gap-2 text-sm font-light uppercase w-fit hover:text-slate-800 text-slate-600"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 36 36"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 36 36">
                 <path
                   fill="currentColor"
                   d="M18 6.72a5.73 5.73 0 1 0 5.73 5.73A5.73 5.73 0 0 0 18 6.72m0 9.46a3.73 3.73 0 1 1 3.73-3.73A3.73 3.73 0 0 1 18 16.17Z"
@@ -174,8 +165,7 @@ export default function Property({
                   <p>Entrega</p>
                 </div>
                 <p>
-                  {phase === PropertyPhase.PLANOS ||
-                  phase === PropertyPhase.CONSTRUCCION
+                  {phase === PropertyPhase.PLANOS || phase === PropertyPhase.CONSTRUCCION
                     ? delivery_at &&
                       format(new Date(delivery_at), "MMMM, yyyy", {
                         locale: es,
@@ -184,12 +174,7 @@ export default function Property({
                 </p>
               </div>
             </div>
-            <GetInTouch
-              propertyId={id}
-              propertyTitle={title}
-              user={user}
-              company={company}
-            />
+            <GetInTouch propertyId={id} propertyTitle={title} user={user} company={company} />
           </div>
           <div className="border bg-slate-50 border-slate-100 rounded-xl p-7">
             <Suspense>
