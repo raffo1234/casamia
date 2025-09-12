@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <>
       <HeaderTitle>
-        <Title>Add Typology</Title>
+        <Title>Agregar Tipolog&iacute;a</Title>
         <BackLink href={`/admin/property/edit/${id}/typologies`} />
       </HeaderTitle>
       <Suspense>

@@ -22,11 +22,7 @@ type TypologyInputs = {
   bedroom_count: string;
 };
 
-export default function InsertPropertyTypology({
-  propertyId,
-}: {
-  propertyId: string;
-}) {
+export default function InsertPropertyTypology({ propertyId }: { propertyId: string }) {
   const router = useRouter();
   const { register, reset, handleSubmit, control } = useForm<TypologyInputs>({
     mode: "onBlur",
@@ -58,7 +54,7 @@ export default function InsertPropertyTypology({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormSection>
-        <FormSectionTitle>Informaction General</FormSectionTitle>
+        <FormSectionTitle>Informaci&oacute;n General</FormSectionTitle>
         <fieldset className="flex flex-col gap-6">
           <div>
             <label htmlFor="name" className="inline-block mb-2 text-sm">
@@ -74,7 +70,7 @@ export default function InsertPropertyTypology({
           </div>
           <div>
             <label htmlFor="size" className="inline-block mb-2 text-sm">
-              Area
+              &Aacute;rea m<sup>2</sup>
             </label>
             <input
               type="number"
@@ -85,10 +81,7 @@ export default function InsertPropertyTypology({
             />
           </div>
           <div>
-            <label
-              htmlFor="bedroom_count"
-              className="inline-block mb-2 text-sm"
-            >
+            <label htmlFor="bedroom_count" className="inline-block mb-2 text-sm">
               Dormitorios
             </label>
             <input
@@ -125,9 +118,7 @@ export default function InsertPropertyTypology({
             />
           </div>
           <FormFooter>
-            <SecondaryButton
-              href={`/admin/property/edit/${propertyId}/typologies`}
-            >
+            <SecondaryButton href={`/admin/property/edit/${propertyId}/typologies`}>
               Cancelar
             </SecondaryButton>
             <PrimaryButton title="Guardar">Guardar</PrimaryButton>

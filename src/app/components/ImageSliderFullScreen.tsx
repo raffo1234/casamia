@@ -24,7 +24,7 @@ const ImageSliderFullScreen = ({
 
   const [currentImageIndex, setCurrentImageIndex] = useQueryState(
     "imagen",
-    parseAsInteger.withDefault(0)
+    parseAsInteger.withDefault(0),
   );
 
   const goToNextImage = useCallback(() => {
@@ -35,10 +35,7 @@ const ImageSliderFullScreen = ({
     setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   }, [images.length, setCurrentImageIndex]);
 
-  const currentImage = useMemo(
-    () => images[currentImageIndex],
-    [images, currentImageIndex]
-  );
+  const currentImage = useMemo(() => images[currentImageIndex], [images, currentImageIndex]);
 
   useEffect(() => {
     if (multipleImages) {
@@ -77,7 +74,7 @@ const ImageSliderFullScreen = ({
         if (e.deltaY > 0) goToNextImage();
         if (e.deltaY < 0) goToPreviousImage();
       }}
-      className="fixed top-0 left-0 bg-black px-2 md:px-12 h-full w-full z-[51] outline-none"
+      className="fixed top-0 left-0 bg-black/95 px-2 md:px-12 h-full w-full z-[51] outline-none"
     >
       {multipleImages && (
         <>
@@ -134,9 +131,7 @@ const ImageSliderFullScreen = ({
                 >
                   <div
                     className={`${
-                      currentImageIndex === index
-                        ? "bg-yellow-400 w-4 h-4"
-                        : "bg-gray-300"
+                      currentImageIndex === index ? "bg-yellow-400 w-4 h-4" : "bg-gray-300"
                     } absolute left-0.5 -translate-x-1/2 top-0.5 -translate-y-1/2 w-3 h-3 rounded-full transition-all duration-300`}
                   ></div>
                 </button>
@@ -153,11 +148,7 @@ const ImageSliderFullScreen = ({
           onClick={onClose}
           className="cursor-pointer flex items-center justify-center rounded-full w-13 h-13 text-black bg-yellow-400"
         >
-          <Icon
-            icon="material-symbols-light:close-rounded"
-            width={32}
-            height={32}
-          />
+          <Icon icon="material-symbols-light:close-rounded" width={32} height={32} />
         </button>
       </div>
     </div>
