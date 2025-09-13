@@ -19,6 +19,8 @@ import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 import FormFooter from "./FormFooter";
 import { inputClassName } from "@/constants";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import ControlledNumberInput from "./ControlledNumberInput";
 
 type Inputs = {
   size: string;
@@ -48,8 +50,6 @@ export default function EditPropertyType({
   propertyId: string;
   typologyId: string;
 }) {
-  console.log({ propertyId });
-  console.log({ typologyId });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     data: typology,
@@ -83,6 +83,23 @@ export default function EditPropertyType({
       redirect(`/admin/property/edit/${propertyId}/typologies`);
     }
   };
+
+  const upHandler = (
+    <button
+      type="button"
+      className="p-3 bg-white rounded-r-xl hover:bg-slate-50 border-l border-slate-200 absolute right-0 top-0 h-full"
+    >
+      <Icon icon="iconoir:plus" />
+    </button>
+  );
+  const downHandler = (
+    <button
+      type="button"
+      className="p-3 bg-white rounded-l-xl hover:bg-slate-50 border-r border-slate-200 absolute left-0 top-0 h-full"
+    >
+      <Icon icon="iconoir:minus" />
+    </button>
+  );
 
   useEffect(() => {
     reset(typology);
@@ -206,20 +223,38 @@ export default function EditPropertyType({
           </fieldset>
           <fieldset>
             <FormInputLabel htmlFor="bedroom_count">Dormitorios</FormInputLabel>
-            <input
-              id="bedroom_count"
-              {...register("bedroom_count")}
-              required
-              className={inputClassName}
+            <Controller
+              name="bedroom_count"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <ControlledNumberInput
+                  id="bedroom_count"
+                  className={inputClassName}
+                  field={field}
+                  min={1}
+                  max={10}
+                  step={1}
+                />
+              )}
             />
           </fieldset>
           <fieldset>
             <FormInputLabel htmlFor="bathroom_count">Ba&ntilde;os</FormInputLabel>
-            <input
-              id="bathroom_count"
-              {...register("bathroom_count")}
-              required
-              className={inputClassName}
+            <Controller
+              name="bathroom_count"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <ControlledNumberInput
+                  id="bathroom_count"
+                  className={inputClassName}
+                  field={field}
+                  min={1}
+                  max={10}
+                  step={1}
+                />
+              )}
             />
           </fieldset>
           <fieldset>
@@ -228,7 +263,21 @@ export default function EditPropertyType({
           </fieldset>
           <fieldset>
             <FormInputLabel htmlFor="stock">Disponibles</FormInputLabel>
-            <input id="stock" {...register("stock")} required className={inputClassName} />
+            <Controller
+              name="stock"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <ControlledNumberInput
+                  id="stock"
+                  className={inputClassName}
+                  field={field}
+                  min={1}
+                  max={50}
+                  step={1}
+                />
+              )}
+            />
           </fieldset>
         </FormSection>
         <FormFooter>

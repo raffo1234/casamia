@@ -24,20 +24,14 @@ type Props = {
   }[];
 };
 
-const AdminPropertyItem = ({
-  id,
-  title,
-  state,
-  userId,
-  propertyImage,
-}: Props) => {
+const AdminPropertyItem = ({ id, title, state, userId, propertyImage }: Props) => {
   return (
     <article className="bg-white rounded-3xl overflow-hidden relative">
       <Link href={`/admin/property/edit/${id}/images`}>
         <FirstImage title={title} src={propertyImage?.at(0)?.image_url} />
       </Link>
       <div
-        className={`rounded-xl absolute right-3 top-3 text-sm py-1 px-2 
+        className={`rounded-bl-3xl absolute right-0 top-0 text-xs py-2 px-8 
             ${state === PropertyState.DRAFT ? "bg-gray-600 text-white" : ""}
             ${state === PropertyState.PENDING ? "bg-cyan-600 text-white" : ""}
             ${state === PropertyState.ACTIVE ? "bg-green-600 text-white" : ""}
@@ -45,7 +39,7 @@ const AdminPropertyItem = ({
       >
         {state}
       </div>
-      <div className="border-x px-4 border-b rounded-b-xl py-5 border-slate-100">
+      <div className="border px-4 border-b rounded-b-3xl py-5 border-slate-100">
         <h2 className="mb-5 text-xl line-clamp-1">{title}</h2>
         <div className="flex gap-2 justify-center">
           <EditLink href={`/admin/property/edit/${id}`} />
@@ -65,7 +59,7 @@ const fetcher = async (userId: string) => {
       title,
       state,
       property_image(image_url)
-    `
+    `,
     )
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
@@ -101,19 +95,13 @@ export default function AdminPropertiesList({
     <>
       <PropertiesAdminGrid>
         <Suspense>
-          <CheckPermission
-            userRoleId={userRoleId}
-            requiredPermission={Permissions.CREAR_INMUEBLE}
-          >
+          <CheckPermission userRoleId={userRoleId} requiredPermission={Permissions.CREAR_INMUEBLE}>
             <Link
               href="/admin/property/add"
               title="Agregar Inmueble"
               className="hover:bg-gray-200 min-h-30 transition-colors active:bg-gray-300 bg-gray-100 rounded-3xl flex justify-center items-center"
             >
-              <Icon
-                icon="material-symbols-light:add-2-rounded"
-                className="text-3xl"
-              />
+              <Icon icon="material-symbols-light:add-2-rounded" className="text-3xl" />
             </Link>
           </CheckPermission>
         </Suspense>

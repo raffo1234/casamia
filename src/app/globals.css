@@ -6,9 +6,9 @@
   --font-inter-tight: "Inter_Tight", sans-serif;
   --font-gilroy-bold: "Gilroy-Bold", sans-serif;
   --font-gilroy-medium: "Gilroy-Medium", sans-serif;
-  /* --color-slate-900: #1e0059;
+  /* --color-slate-900: #1e0059; */
   --color-slate-100: #f3f3f6;
-  --color-slate-50: #faf9fb; */
+  --color-slate-50: #faf9fb;
 }
 
 @layer base {
@@ -56,4 +56,11 @@
 
 .animate-fade-in {
   animation: fade-in 0.4s ease-in-out forwards;
+}
+
+/* rc-input-number */
+.rc-input-number-input {
+  outline: none;
+  width: 100%;
+  text-align: center;
 }

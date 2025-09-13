@@ -152,7 +152,7 @@ export default function SearchForm() {
         <div ref={dropdownRef} className="relative group">
           <button
             type="button"
-            className="h-[52px] pl-6 pr-3 bg-[#1e0059] text-white rounded-full flex items-center gap-1"
+            className="h-[52px] pl-6 pr-3 bg-slate-900 text-white rounded-full flex items-center gap-1"
             onClick={handleDropdownToggle}
           >
             <span>

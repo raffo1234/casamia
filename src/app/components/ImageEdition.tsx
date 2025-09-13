@@ -55,8 +55,8 @@ export default function ImageEdition({
           />
           {isCover ? (
             <span
-              className="absolute left-1/2 -translate-x-1/2 bottom-3 bg-cyan-100 backdrop-blur-sm
-      py-1 px-3 rounded-lg text-xs font-semibold uppercase
+              className="absolute left-0 top-0 bg-cyan-100 backdrop-blur-sm
+      py-1 px-10 rounded-br-3xl rounded-tl-3xl text-xs font-semibold uppercase
       shadow-sm"
             >
               Portada
