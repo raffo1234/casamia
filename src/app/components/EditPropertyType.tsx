@@ -1,5 +1,6 @@
 "use client";
 
+import InputNumber from "rc-input-number";
 import { useEffect, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { supabase } from "@/lib/supabase";
@@ -206,11 +207,24 @@ export default function EditPropertyType({
           </fieldset>
           <fieldset>
             <FormInputLabel htmlFor="bedroom_count">Dormitorios</FormInputLabel>
-            <input
-              id="bedroom_count"
-              {...register("bedroom_count")}
-              required
-              className={inputClassName}
+            <Controller
+              name="bedroom_count"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                <InputNumber
+                  id="bedroom_count"
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  name={name}
+                  ref={ref}
+                  className={inputClassName}
+                  min={1}
+                  max={10}
+                  step={1}
+                />
+              )}
             />
           </fieldset>
           <fieldset>
