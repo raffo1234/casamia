@@ -32,8 +32,9 @@ const fetchTypologies = async (propertyId: string, bedroomCount: number | null) 
 };
 
 export const useTypologies = (propertyId: string) => {
-  const { data: uniqueBedroomCounts = [] } = useSWR(`${propertyId}-uniqueBedroomCounts`, () =>
-    fetchUniqueBedroomCounts(propertyId),
+  const { data: uniqueBedroomCounts = [], isLoading: isLoadingCounts } = useSWR(
+    `${propertyId}-uniqueBedroomCounts`,
+    () => fetchUniqueBedroomCounts(propertyId),
   );
 
   const [selectedBedroomCount, setSelectedBedroomCount] = useState<number | null>(null);
@@ -54,6 +55,6 @@ export const useTypologies = (propertyId: string) => {
     uniqueBedroomCounts,
     selectedBedroomCount,
     setSelectedBedroomCount,
-    isLoading,
+    isLoading: isLoadingCounts || isLoading,
   };
 };

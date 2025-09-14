@@ -3,5 +3,5 @@ export default function PageContainer({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="py-[100px]">{children}</div>;
+  return <div className="py-[50px]">{children}</div>;
 }

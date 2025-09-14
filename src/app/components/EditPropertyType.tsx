@@ -84,23 +84,6 @@ export default function EditPropertyType({
     }
   };
 
-  const upHandler = (
-    <button
-      type="button"
-      className="p-3 bg-white rounded-r-xl hover:bg-slate-50 border-l border-slate-200 absolute right-0 top-0 h-full"
-    >
-      <Icon icon="iconoir:plus" />
-    </button>
-  );
-  const downHandler = (
-    <button
-      type="button"
-      className="p-3 bg-white rounded-l-xl hover:bg-slate-50 border-r border-slate-200 absolute left-0 top-0 h-full"
-    >
-      <Icon icon="iconoir:minus" />
-    </button>
-  );
-
   useEffect(() => {
     reset(typology);
   }, [typology, reset]);

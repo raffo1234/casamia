@@ -11,6 +11,7 @@ import HomePage from "@/components/HomePage";
 import NoItems from "@/components/NoItems";
 import { Session } from "next-auth";
 import PageContainer from "@/components/PageContainer";
+import ClientBg from "@/components/ClientBg";
 
 export default async function Index() {
   const [session, { data: properties }] = (await Promise.all([
@@ -25,20 +26,20 @@ export default async function Index() {
 
   const userEmail = session?.user?.email;
   const hasProperties = properties && properties.length > 0;
-  console.log({userEmail, properties});
+
   return (
     <PageContainer>
+      <ClientBg />
       <h1
         style={{
-          fontSize: "clamp(16px, 6vw + .5rem, 52px)",
+          fontSize: "clamp(16px, 6vw + .5rem, 56px)",
         }}
         className="text-slate-900 font-inter-tight tracking-tight font-semibold w-full leading-tight text-center"
       >
         Tu nuevo hogar te espera
       </h1>
-      <p className="text-[#1e0059] text-lg text-center font-inter-tight mt-5 mb-16 max-w-[620px] mx-auto">
-        Descubre esa propiedad perfecta que te está esperando, lista para que
-        escribas tu próxima historia
+      <p className="text-slate-500 text-xl text-center font-inter-tight mt-5 mb-16 max-w-[620px] mx-auto">
+        Encuentra la propiedad perfecta
       </p>
       <Suspense>
         <SearchForm />
