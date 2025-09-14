@@ -48,7 +48,7 @@ export default function AuthorCard({
   );
 
   return (
-    <div className="flex text-[#1e0059] gap-4 text-sm">
+    <div className="flex gap-4 text-sm">
       <Link href={href}>
         <Image
           src={authorImage || "/default-avatar.png"}

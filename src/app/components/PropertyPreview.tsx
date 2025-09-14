@@ -1,80 +1,20 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Property from "./Property";
-import useSWR from "swr";
-import { PropertyState } from "@/types/propertyState";
-import { supabase } from "@/lib/supabase";
-import { PropertyType } from "@/types/propertyType";
-import { useParams, useRouter } from "next/navigation";
-import RelatedProperties from "./RelatedProperties";
 import Main from "./Main";
+import { PropertyType } from "@/types/propertyType";
 
-const fetcher = async (propertySlug: string) => {
-  const { data } = (await supabase
-    .from("property")
-    .select(
-      `
-      id,
-      title,
-      slug,
-      description,
-      state,
-      user_id,
-      size,
-      delivery_at,
-      bathroom_count,
-      phase,
-      price,
-      currency,
-      location,
-      google_map,
-      bedroom_count,
-      company_id,
-      user!property_user_id_fkey (
-        id,
-        email,
-        first_name,
-        last_name,
-        slug,
-        image_url
-      ),
-      company!property_company_id_fkey (
-        id,
-        name,
-        slug,
-        logo_url
-      ),
-      typology (
-        id,
-        name,
-        description,
-        price,
-        size,
-        stock,
-        bathroom_count,
-        bedroom_count
-      )
-    `,
-    )
-    .eq("state", PropertyState.ACTIVE)
-    .eq("slug", propertySlug)
-    .order("created_at", { ascending: false })
-    .single()) as { data: PropertyType | null };
-
-  return data;
-};
-
-export default function PropertyPreview({ userEmail }: { userEmail: string | undefined | null }) {
-  const { slug } = useParams();
+export default function PropertyPreview({
+  property,
+  userEmail,
+}: {
+  property: PropertyType;
+  userEmail: string | undefined | null;
+}) {
   const router = useRouter();
-  const propertySlug = Array.isArray(slug) ? slug[0] : slug;
-
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const { data: property } = useSWR(propertySlug, () =>
-    propertySlug ? fetcher(propertySlug) : null,
-  );
 
   const handleOverlayClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
@@ -110,14 +50,7 @@ export default function PropertyPreview({ userEmail }: { userEmail: string | und
     >
       <div className="animate-fade-in pb-20 cursor-default mx-auto relative lg:rounded-xl bg-white min-h-lvh">
         <Main>
-          <Suspense>
-            <Property property={property} userEmail={userEmail} />
-          </Suspense>
-          {property?.id ? (
-            <Suspense>
-              <RelatedProperties propertyId={property.id} userEmail={userEmail} />
-            </Suspense>
-          ) : null}
+          <Property property={property} userEmail={userEmail} />
         </Main>
       </div>
       <button

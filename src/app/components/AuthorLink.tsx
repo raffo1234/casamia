@@ -23,7 +23,7 @@ export default function AuthorLink({
   const authorImage = isCompany ? company.image_url : user?.image_url;
 
   return (
-    <div className="flex text-[#1e0059] gap-3 items-center text-xs">
+    <div className="flex gap-3 items-center text-xs">
       <span>Por:</span>
       <a href={href} title={authorName} className="flex items-center gap-3">
         {authorImage ? (
