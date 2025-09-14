@@ -19,7 +19,6 @@ import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 import FormFooter from "./FormFooter";
 import { inputClassName } from "@/constants";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import ControlledNumberInput from "./ControlledNumberInput";
 
 type Inputs = {

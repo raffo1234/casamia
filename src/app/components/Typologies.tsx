@@ -34,15 +34,15 @@ export default function Typologies({ propertyId }: { propertyId: string }) {
 
   return (
     <div className={`${typologies.length > 0 ? "mt-20 md:mt-30" : ""}`}>
-      {isLoading ? <div></div> : <H3>Encuentra tu modelo ideal</H3>}
+      {typologies.length > 0 ? <H3>Encuentra tu modelo ideal</H3> : null}
       <nav className="my-6 flex gap-2 items-center flex-wrap">
         {uniqueBedroomCounts.map((count) => (
           <button
             key={count}
             onClick={() => setSelectedBedroomCount(count)}
             className={`${
-              selectedBedroomCount === count ? "bg-slate-200/50" : ""
-            } cursor-pointer px-5 rounded-full py-3 font-semibold text-sm`}
+              selectedBedroomCount === count ? "bg-slate-200/50" : "hover:bg-slate-50"
+            } cursor-pointer px-5 rounded-full py-3 font-semibold text-sm transition-colors duration-300`}
           >
             {count} {count === 1 ? "Dormitorio" : "Dormitorios"}
           </button>

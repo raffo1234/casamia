@@ -17,11 +17,11 @@ export default function TransactionTypes({
           type="button"
           onClick={() => onSelect(type)}
           className={`
-            px-4 py-2 rounded-full text-sm capitalize transition-colors duration-200
+            px-4 py-2 rounded-full bg-slate-50 hover:bg-slate-100 text-sm capitalize transition-colors duration-200
             ${
               selectedType === type
                 ? "bg-slate-100"
-                : "text-slate-900 hover:bg-slate-50"
+                : "text-slate-600 hover:bg-slate-50"
             }
           `}
         >
