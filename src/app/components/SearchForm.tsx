@@ -27,9 +27,7 @@ export default function SearchForm() {
   const [propertyType, setPropertyType] = useState<PropertyType>(() => {
     const categoryParam = (params.category as string)?.toLowerCase();
 
-    const mappedType = categoryParam
-      ? urlToPropertyTypeMap[categoryParam]
-      : undefined;
+    const mappedType = categoryParam ? urlToPropertyTypeMap[categoryParam] : undefined;
 
     if (mappedType) {
       return mappedType;
@@ -38,21 +36,18 @@ export default function SearchForm() {
     return PropertyType.APARTMENT;
   });
 
-  const [transactionType, setTransactionType] =
-    useState<TransactionType | null>(() => {
-      const transactionParam = (params.transaction as string)?.toLowerCase();
+  const [transactionType, setTransactionType] = useState<TransactionType | null>(() => {
+    const transactionParam = (params.transaction as string)?.toLowerCase();
 
-      if (
-        transactionParam &&
-        Object.values(TransactionType).includes(
-          transactionParam as TransactionType
-        )
-      ) {
-        return transactionParam as TransactionType;
-      }
+    if (
+      transactionParam &&
+      Object.values(TransactionType).includes(transactionParam as TransactionType)
+    ) {
+      return transactionParam as TransactionType;
+    }
 
-      return null;
-    });
+    return null;
+  });
 
   const decodedSearchWord = params.searchWord
     ? decodeURIComponent(params.searchWord as string)
@@ -69,9 +64,7 @@ export default function SearchForm() {
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async (formData) => {
-      const trimmedSearchWord = formData.keywords
-        ? formData.keywords.trim()
-        : formData.keywords;
+      const trimmedSearchWord = formData.keywords ? formData.keywords.trim() : formData.keywords;
 
       const property = propertyType.toLowerCase();
 
@@ -97,7 +90,7 @@ export default function SearchForm() {
 
       router.push(path);
     },
-    [propertyType, transactionType, router]
+    [propertyType, transactionType, router],
   );
 
   useEffect(() => {
@@ -122,10 +115,7 @@ export default function SearchForm() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -144,10 +134,7 @@ export default function SearchForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="mb-20 w-full max-w-[600px] mx-auto relative z-10"
     >
-      <TransactionTypes
-        selectedType={transactionType}
-        onSelect={handleTransactionSelect}
-      />
+      <TransactionTypes selectedType={transactionType} onSelect={handleTransactionSelect} />
       <div className="w-full hover:bg-white hover:border-yellow-400 focus-within:bg-white focus-within:border-yellow-300 border-2 transition-colors duration-500 border-slate-100 flex items-center bg-slate-50 rounded-full p-1 gap-3">
         <div ref={dropdownRef} className="relative group">
           <button
@@ -155,9 +142,7 @@ export default function SearchForm() {
             className="h-[52px] pl-6 pr-3 bg-slate-900 text-white rounded-full flex items-center gap-1"
             onClick={handleDropdownToggle}
           >
-            <span>
-              {propertyType === PropertyType.APARTMENT ? "Depas" : "Casas"}
-            </span>
+            <span>{propertyType === PropertyType.APARTMENT ? "Depas" : "Casas"}</span>
             <div className="w-6">
               <svg
                 className={`${
@@ -177,9 +162,7 @@ export default function SearchForm() {
           </button>
           <div
             className={`${
-              isOpen
-                ? "translate-y-0 visible opacity-100"
-                : "-translate-y-1 invisible opacity-0"
+              isOpen ? "translate-y-0 visible opacity-100" : "-translate-y-1 invisible opacity-0"
             } absolute transition-all duration-500 top-full left-0 w-[120px] py-3`}
           >
             <div className="bg-white shadow-md rounded-[30px] p-2 flex flex-col">
@@ -214,7 +197,7 @@ export default function SearchForm() {
         </div>
         <button
           type="submit"
-          className="h-[52px] aspect-square rounded-full bg-yellow-400 cursor-pointer hover:bg-yellow-500 transition duration-700 flex items-center justify-center"
+          className="h-[52px] aspect-square rounded-full bg-yellow-500 cursor-pointer hover:bg-yellow-600 transition duration-700 flex items-center justify-center"
         >
           <svg
             className="text-black text-2xl"
