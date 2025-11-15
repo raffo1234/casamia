@@ -40,10 +40,7 @@ export default async function ProfilePopover() {
 
   return session ? (
     <div className="flex items-center gap-4 relative group z-30 dropdown-parent">
-      <button
-        type="button"
-        className="relative w-12 h-12 bg-gray-100 rounded-full"
-      >
+      <button type="button" className="relative w-12 h-12 bg-gray-100 rounded-full">
         {session?.user?.image ? (
           <Image
             src={session.user.image}
@@ -73,9 +70,8 @@ export default async function ProfilePopover() {
               ) : null}
               <div className="w-3 h-3 absolute top-9 right-0 rounded-full bg-green-400 border-2 border-white" />
             </div>
-            <p className="text-center text-sm font-semibold w-full">
-              {session.user?.name}
-            </p>
+            <p className="text-center mb-1 text-sm font-semibold w-full">{session.user?.name}</p>
+            <p className="text-slate-400 text-xs">{userEmail}</p>
           </li>
           {menu.map(({ href, icon, label }) => {
             return (
@@ -99,11 +95,7 @@ export default async function ProfilePopover() {
               }}
             >
               <button className="hover:text-red-500 cursor-pointer w-full px-6 py-4 flex items-center gap-3.5 text-left transition-colors">
-                <Icon
-                  icon="solar:inbox-out-linear"
-                  className="-rotate-90"
-                  fontSize={20}
-                />
+                <Icon icon="solar:inbox-out-linear" className="-rotate-90" fontSize={20} />
                 <span>Salir</span>
               </button>
             </form>

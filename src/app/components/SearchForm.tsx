@@ -139,7 +139,7 @@ export default function SearchForm() {
         <div ref={dropdownRef} className="relative group">
           <button
             type="button"
-            className="h-[52px] pl-6 pr-3 bg-slate-900 text-white rounded-full flex items-center gap-1"
+            className="h-[52px] cursor-pointer pl-6 pr-3 bg-slate-900 text-white rounded-full flex items-center gap-1"
             onClick={handleDropdownToggle}
           >
             <span>{propertyType === PropertyType.APARTMENT ? "Depas" : "Casas"}</span>
@@ -169,14 +169,14 @@ export default function SearchForm() {
               <button
                 type="button"
                 onClick={() => handlePropertyTypeClick(PropertyType.APARTMENT)}
-                className="w-full text-left px-5 py-3 hover:bg-slate-100 rounded-full"
+                className="cursor-pointer w-full text-left px-5 py-3 hover:bg-slate-100 rounded-full"
               >
                 Depas
               </button>
               <button
                 onClick={() => handlePropertyTypeClick(PropertyType.HOUSE)}
                 type="button"
-                className="w-full text-left px-5 py-3 hover:bg-slate-100 rounded-full"
+                className="cursor-pointer w-full text-left px-5 py-3 hover:bg-slate-100 rounded-full"
               >
                 Casas
               </button>
