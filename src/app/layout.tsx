@@ -48,7 +48,24 @@ export default async function RootLayout({
   return (
     <html
       lang="es"
-      className={`${roboto.variable} ${interTight.variable} ${gilroyMedium.variable} ${gilroyBold.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal`}
+      className={`${roboto.variable} ${interTight.variable} ${gilroyMedium.variable} ${gilroyBold.variable} font-roboto text-[#222222] ${flaviotte.variable} font-normal min-h-lvh`}
+      style={{
+        background: `
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' fill='white' opacity='0.8'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 83.9779% 17.3014%, #fef8d7, transparent 49%),
+    radial-gradient(circle at 24.6547% 22.7421%, #fbe8c6, transparent 24%),
+    radial-gradient(circle at 79.1436% 74.3199%, #ffffff, transparent 55%),
+    radial-gradient(circle at 55.663% 26.333%, #feebff, transparent 60%),
+    radial-gradient(circle at 22.8591% 75.6257%, #ffffff, transparent 60%),
+    radial-gradient(circle at 52.6934% 76.2786%, #ffffff, transparent 60%),
+    radial-gradient(circle at 83.011% 5.5495%, #1fad36, transparent 22%),
+    radial-gradient(circle at 54.6271% 4.2437%, #e2ca50, transparent 100%),
+    radial-gradient(circle at 19.8204% 5.6583%, #fbc16a, transparent 100%),
+    linear-gradient(0deg, #fef8d7, #fbe8c6, #ffffff, #feebff, #ffffff, #ffffff, #1fad36, #e2ca50, #fbc16a)
+  `,
+        backgroundBlendMode:
+          "overlay, normal, normal, normal, normal, normal, normal, normal, normal, normal",
+      }}
     >
       <body id="app">
         <Toaster

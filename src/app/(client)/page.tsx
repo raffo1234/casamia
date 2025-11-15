@@ -29,7 +29,6 @@ export default async function Index() {
 
   return (
     <PageContainer>
-      <ClientBg />
       <h1
         style={{
           fontSize: "clamp(16px, 6vw + .5rem, 56px)",
