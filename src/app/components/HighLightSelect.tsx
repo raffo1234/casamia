@@ -5,7 +5,7 @@ export default function HightLightSelect() {
     <Link
       href="/favoritos"
       title="Favoritos"
-      className="text-sm py-2 group px-6 bg-slate-100 hover:bg-slate-200 inline-block rounded-full transition-colors"
+      className="text-sm py-2 group px-6 bg-white border border-rose-200 hover:bg-slate-50 inline-block rounded-full transition-colors"
     >
       <span className="flex items-center gap-2">
         <svg
